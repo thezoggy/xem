@@ -29,9 +29,22 @@ function drawCon(fname,fse,fep,tname,tse,tep,fake){
 	var fID = fname+'_'+fse+'_'+fep;
 	var tID = tname+'_'+tse+'_'+tep;
 	
+	
+	var fromDOM = $('#'+fID);
+	var toDOM = $('#'+tID);
+	
+	if(fromDOM.length == 0){
+		console.log('DOM episode missing '+fID+' which wanted to connect to '+tID);
+		return false;	
+	}
+	if(toDOM.length == 0 ){
+		console.log('DOM episode missing '+tID+' which wanted to connect to '+fID);
+		return false;
+	}
+	
 	width = width+backOffset;
-	var fp = $('#'+fID).position();
-	var tp = $('#'+tID).position();
+	var fp = fromDOM.position();
+	var tp = toDOM.position();
 	var f = fp.top+heightOffset;
 	var t = tp.top+heightOffset;
 	var fb = f+height;
@@ -1021,7 +1034,7 @@ function showHistory(data,params){
 	
 	jQuery.each(data,function(k,event){
 		var li = $('<li style="list-style: circle;margin-bottom: 10px;">');
-		li.append(event.time+" "+event.user+" createt revision "+event.revision+" for a(n) "+event.type+" by "+event.action);
+		li.append(event.time+" "+event.user+" "+event.action+" "+event.type);
 		var table = $('<table>');
 		table.append('<tr><th>name</th><th>old</th><th>new</th></tr>')
 		var curOld = JSON.parse(event.old);
