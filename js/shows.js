@@ -4,7 +4,7 @@ var conObjTo = {};
 var papers = {};
 /* demostuff */
 
-//passthruConObjs = JSON.parse('{"passthru_xmaster_scene":{"fid":"xmaster","tid":"scene"},"passthru_scene_xmaster":{"fid":"scene","tid":"xmaster"},"passthru_scene_anidb":{"fid":"scene","tid":"anidb"},"passthru_anidb_scene":{"fid":"anidb","tid":"scene"},"passthru_anidb_rage":{"fid":"anidb","tid":"rage"},"passthru_rage_anidb":{"fid":"rage","tid":"anidb"},"passthru_trakt_tvdb":{"fid":"trakt","tid":"tvdb"},"passthru_tvdb_trakt":{"fid":"tvdb","tid":"trakt"},"passthru_scene_rage":{"fid":"scene","tid":"rage"},"passthru_rage_scene":{"fid":"rage","tid":"scene"},"passthru_xmaster_rage":{"fid":"xmaster","tid":"rage"},"passthru_rage_xmaster":{"fid":"rage","tid":"xmaster"},"passthru_anidb_xmaster":{"fid":"anidb","tid":"xmaster"},"passthru_xmaster_anidb":{"fid":"xmaster","tid":"anidb"}}');
+// passthruConObjs = JSON.parse('{"passthru_xmaster_scene":{"fid":"xmaster","tid":"scene"},"passthru_scene_xmaster":{"fid":"scene","tid":"xmaster"},"passthru_scene_anidb":{"fid":"scene","tid":"anidb"},"passthru_anidb_scene":{"fid":"anidb","tid":"scene"},"passthru_anidb_rage":{"fid":"anidb","tid":"rage"},"passthru_rage_anidb":{"fid":"rage","tid":"anidb"},"passthru_trakt_tvdb":{"fid":"trakt","tid":"tvdb"},"passthru_tvdb_trakt":{"fid":"tvdb","tid":"trakt"},"passthru_scene_rage":{"fid":"scene","tid":"rage"},"passthru_rage_scene":{"fid":"rage","tid":"scene"},"passthru_xmaster_rage":{"fid":"xmaster","tid":"rage"},"passthru_rage_xmaster":{"fid":"rage","tid":"xmaster"},"passthru_anidb_xmaster":{"fid":"anidb","tid":"xmaster"},"passthru_xmaster_anidb":{"fid":"xmaster","tid":"anidb"}}');
 
 function getPaperID(fname,tname){
 	return 'paper_'+fname+'_'+tname;
@@ -56,14 +56,14 @@ function drawCon(fname,fse,fep,tname,tse,tep,fake){
 	newCon.attr("stroke-width", 1);
 	newCon.attr("stroke", "#fff");
 	newCon.attr("fill", '0-'+colors[fname]+'-'+colors[tname]);
-	//curPaper.renderfix();
+	// curPaper.renderfix();
 	if(fake){
 		newCon.attr("fill-opacity", 0.2);
 		newCon.attr("stroke", "#000");	
 	}else{
 		/* lets save this stuff */
 		
-		/* save svg element to the paper*/
+		/* save svg element to the paper */
 		if(typeof(conObjs[paperID]) == "undefined")
 			conObjs[paperID] = {};
 		conObjs[paperID][newCon.id] = {'id':newCon.id,'from':fID,'to':tID,fid:fname,fs:fse,fe:fep,tid:tname,ts:tse,te:tep};
@@ -263,7 +263,7 @@ function con_fail(data, params){
 }
 
 function disconnect(paperID, svgElement){
-	//console.log(conObjs[paperID][svgElement.id]);
+	// console.log(conObjs[paperID][svgElement.id]);
 	var con = conObjs[paperID][svgElement.id];
 
 	var params = new Params();
@@ -310,7 +310,7 @@ function setDefauldQtipForSeasonConnection(){
 	    },
 	    position: {
 	      my: 'bottom left',  // Position my top left...
-	      /*at: 'bottom right', // at the bottom right of...*/
+	      /* at: 'bottom right', // at the bottom right of... */
 	      target: 'mouse', // Position at the mouse...
 	      adjust: {
 	         x: -3,
@@ -442,9 +442,9 @@ function createPapers(){
 			
 			seasonConnectionDOM.attr('id',newID);
 			if(curLocName == 'master' || nextLocName == 'master'){
-				//curLoc.find('.entity').addClass('masterCon');
+				// curLoc.find('.entity').addClass('masterCon');
 				seasonConnectionDOM.addClass('masterCon');
-				//nextLoc.find('.entity').addClass('masterCon');
+				// nextLoc.find('.entity').addClass('masterCon');
 			}
 			curLoc.find('.entity').addClass((nextLoc.find('.entity').dataset('name'))+'Con')
 			nextLoc.find('.entity').addClass((curLoc.find('.entity').dataset('name'))+'Con')
@@ -631,12 +631,12 @@ function updatePassthruIcons(){
 		$(seasonConnection).append(passthruContainer);
 		var paper = Raphael(id, 40, 40);
 		
-		//var arrows = 'M8.982,7.107L0.322,15.77l8.661,8.662l3.15-3.15L6.621,15.77l5.511-5.511L8.982,7.107zM21.657,7.107l-3.148,3.151l5.511,5.511l-5.511,5.511l3.148,3.15l8.662-8.662L21.657,7.107z';
+		// var arrows = 'M8.982,7.107L0.322,15.77l8.661,8.662l3.15-3.15L6.621,15.77l5.511-5.511L8.982,7.107zM21.657,7.107l-3.148,3.151l5.511,5.511l-5.511,5.511l3.148,3.15l8.662-8.662L21.657,7.107z';
 		var chain = 'M15.667,4.601c-1.684,1.685-2.34,3.985-2.025,6.173l3.122-3.122c0.004-0.005,0.014-0.008,0.016-0.012c0.21-0.403,0.464-0.789,0.802-1.126c1.774-1.776,4.651-1.775,6.428,0c1.775,1.773,1.777,4.652,0.002,6.429c-0.34,0.34-0.727,0.593-1.131,0.804c-0.004,0.002-0.006,0.006-0.01,0.01l-3.123,3.123c2.188,0.316,4.492-0.34,6.176-2.023c2.832-2.832,2.83-7.423,0-10.255C23.09,1.77,18.499,1.77,15.667,4.601zM14.557,22.067c-0.209,0.405-0.462,0.791-0.801,1.131c-1.775,1.774-4.656,1.774-6.431,0c-1.775-1.774-1.775-4.653,0-6.43c0.339-0.338,0.725-0.591,1.128-0.8c0.004-0.006,0.005-0.012,0.011-0.016l3.121-3.123c-2.187-0.316-4.489,0.342-6.172,2.024c-2.831,2.831-2.83,7.423,0,10.255c2.833,2.831,7.424,2.831,10.257,0c1.684-1.684,2.342-3.986,2.023-6.175l-3.125,3.123C14.565,22.063,14.561,22.065,14.557,22.067zM9.441,18.885l2.197,2.197c0.537,0.537,1.417,0.537,1.953,0l8.302-8.302c0.539-0.536,0.539-1.417,0.002-1.952l-2.199-2.197c-0.536-0.539-1.416-0.539-1.952-0.002l-8.302,8.303C8.904,17.469,8.904,18.349,9.441,18.885z'
-		//var c = paper.circle(20,20,4);
+		// var c = paper.circle(20,20,4);
 		var a = paper.path(chain);
 		a.attr({"stroke":"none"});
-		//c.attr({fill: "#000"});	
+		// c.attr({fill: "#000"});
 		a.transform('T4,-1s0.87');
 		
 		var curPassthruObj = passthruConObjs['passthru_'+fName+'_'+tName];
@@ -661,17 +661,17 @@ function updatePassthruIcons(){
 		passthruContainer.dataset('tName',tName);
 		if(logedIn){
 			passthruContainer.hover(function(t){
-					//p.attr('fill','#83e700');
+					// p.attr('fill','#83e700');
 				},function(t){
-					//p.attr('fill','#000');
+					// p.attr('fill','#000');
 			});
 			passthruContainer.qtip({
 			   content: function(){
-			   		//console.log(fName,tName);
+			   		// console.log(fName,tName);
 			   		var curfName = passthruContainer.dataset('fName');
 			   		var curtName = passthruContainer.dataset('tName');
 			   		
-			   		//passthruContainer.addClass('userAction');
+			   		// passthruContainer.addClass('userAction');
 					var container = $('<div>');
 			   		var absoluteB = $('<input type="button" value="Absolute Passthru (Red)" class="fullWidthButton">')
 			   		absoluteB.click(function(){
@@ -777,7 +777,7 @@ function delPassthru(passthruConObj){
 }
 function pass_del_success(data, params){
 
-	//a.animate({'transform':'T5,4r90'},200);
+	// a.animate({'transform':'T5,4r90'},200);
 	delete passthruConObjs['passthru_'+fName+'_'+tName];
 	delete passthruConObjs['passthru_'+tName+'_'+fName];
 	updateAllConIcons();
@@ -899,8 +899,8 @@ function updateConIconsFor(entityName){
 	iconContainer.html('');
 	jQuery.each(connectedTo,function(k,v){
 			var curDesination = $('.entity.'+(v.name));
-			//console.log(curDesination);
-			//if(!curDesination.hasClass(entityName+'Con'))// ignore if we are next to it
+			// console.log(curDesination);
+			// if(!curDesination.hasClass(entityName+'Con'))// ignore if we are next to it
 			if(v.name != 'after')
 				appendConIcon(iconContainer,v.name,v.type)	
 	})
@@ -922,7 +922,7 @@ function resolvePassthrus(entityName){
 	var sxxexxConnectedTo = new Array();
 	
 	jQuery.each(passthruConObjs, function(k,v){
-		//"passthru_xmaster_scene":{"fid":"xmaster","tid":"scene"}
+		// "passthru_xmaster_scene":{"fid":"xmaster","tid":"scene"}
 		if(v.fid == entityName && $.inArray(v.tid,connectedToSimple) == -1){
 			connectedToSimple.push(v.tid);
 			if(v.type == "sxxexx")
@@ -940,7 +940,7 @@ function resolvePassthrus(entityName){
 		}
 	});
 	var final = absoluteConnectedTo.concat(sxxexxConnectedTo);
-	//console.log(entityName,connectedToSimple);
+	// console.log(entityName,connectedToSimple);
 	return final;
 }
 
@@ -953,7 +953,7 @@ function saveEntityOrder(){
 	var params = new Params();
 	params.element_id = parseInt($('#element').dataset('id'));
 	params.order = order.join(',');
-	//console.log(params.order);
+	// console.log(params.order);
     genericRequest("saveEntityOrder", params, fakeResHandler, fakeResHandler);
 }
 
@@ -1044,10 +1044,8 @@ function showHistory(data,params){
 		});
 		li.append(table);
 		/*
-		li.append("old: "+event.old);
-		li.append("<br/>");
-		li.append("new: "+event.new);
-		*/
+         * li.append("old: "+event.old); li.append("<br/>"); li.append("new: "+event.new);
+         */
 		ul.append(li);
 	})
 	$('#historyContainer').append(ul);
@@ -1138,7 +1136,7 @@ function showInit(){
 					content: function(api){
 						var delButton = $('<input type="button" value="Delete"/>');
 						delButton.bind('click', function(event){
-							//curFirerer.click();
+							// curFirerer.click();
 							$('.editConncetion').remove();
 							disconnect(id,el);
 						})
@@ -1215,19 +1213,19 @@ function showInit(){
 	}
 	
 	
-	//TODO: implement
+	// TODO: implement
 	$('.conInfo').click(function(){
 		var icon = $(this)
-		//alert('conection info for '+icon.dataset('entity')+' ('+icon.dataset('entityID')+')');
+		// alert('conection info for '+icon.dataset('entity')+' ('+icon.dataset('entityID')+')');
 		showConnectionOverview(icon.dataset('entity'), icon.dataset('entityID'));
 	});
 	
 	$( "#sortable" ).sortable({
 			placeholder: "seasonFake"
 		});
-	//$( "#sortable" ).disableSelection();
+	// $( "#sortable" ).disableSelection();
 	$( "#sortable" ).bind( "sortstop", function(event, ui) {	
-		//clearPapers();
+		// clearPapers();
 		createPapers();
 		redraw();
 		updatePassthruIcons();	
