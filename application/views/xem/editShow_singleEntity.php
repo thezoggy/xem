@@ -62,8 +62,8 @@
 			</div>
 			<ul>
 			<?$size = $curElementLocation->season_size;for($i = 0; $i < $size; $i++):?>
-				<li class="episode" id="<?=$curLocation->name?>_<?=$curElementLocation->season?>_<?=$i?>">
-					<?if($curElementLocation->season != 0):?><span class="absolute_number"><?echo zero_pad($absolute_number,3);$absolute_number++;?></span><?endif?><span class="episode_number">e<?$curEp = $i+$curElementLocation->episode_start; echo zero_pad($curEp,2)?></span>
+				<li class="episode" id="<?=$curLocation->name?>_<?=$curElementLocation->season?>_<?$curEp = $i+$curElementLocation->episode_start; echo $curEp;?>">
+					<?if($curElementLocation->season != 0):?><span class="absolute_number"><?echo zero_pad($absolute_number,3);$absolute_number++;?></span><?endif?><span class="episode_number">e<?echo zero_pad($curEp,2)?></span>
 				</li>
 			<?endfor?>
 			</ul>
