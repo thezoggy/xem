@@ -12,3 +12,8 @@
 	<input type="submit" value="Save New Password"/><br/>
 	<span style="font-size:80%;">Note: You will be logged out. Thats the sign of succes</span>
 </form>
+
+
+<p>
+you are level <?=$user_lvl?>
+<p>
