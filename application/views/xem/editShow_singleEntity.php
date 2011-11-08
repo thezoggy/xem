@@ -15,13 +15,13 @@
 		?>
 		<li>
 			<div class="seasonHeader" id="seasonHeader_<?=$curElementLocation->season?>_<?=$curLocation->name?>" data-season="<?=$curElementLocation->season?>" data-locationName="<?=$curLocation->name?>" data-locationID="<?=$curLocation->id?>">
-				<span>S<?if($curElementLocation->season == -1)echo 'All';else echo zero_pad($curElementLocation->season,2)?>
+				<span><?if($curElementLocation->season == -1) echo 'All';else echo 'S'.zero_pad($curElementLocation->season,2)?>
 				<?
 				if($curElementLocation->identifier){
 					$lastIdentifier = $curElementLocation->identifier;
 				}
 				if(isset($lastIdentifier))
-					echo '| '.anchorEncode($fullelement->getdirectLink($curLocation->id,$curElementLocation->season),$lastIdentifier,'target="_blank"');
+					echo '| '.anchor($fullelement->getdirectLink($curLocation->id,$curElementLocation->season),$lastIdentifier,'target="_blank"');
 				?>
 				<?/* if($nameCount = count($fullelement->namesForSeason($curElementLocation->season))) echo '| '.$nameCount.' Name'; if($nameCount>1) echo 's'; */?>
 				</span>
