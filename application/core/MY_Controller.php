@@ -6,10 +6,6 @@ class SuperController extends CI_Controller {
 		parent::__construct();
 		
 		// create a new user alpha beta testers
-		//$this->simpleloginsecure->create('lad1337','lad1337@gmail.com', 'xem.t0gepi175');
-		//$this->simpleloginsecure->create('zoggy','zoggy@something.com', 'badbadrubberpiggy');
-		//$this->simpleloginsecure->create('xelra','dominik.karadeniz@googlemail.com', 'tester');
-		//$this->simpleloginsecure->create('gleam','sb@debacle.org', 'tester2');
 
 	
 		$this->load->helper("url");
