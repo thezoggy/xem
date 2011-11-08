@@ -80,11 +80,11 @@ function imgLazy($arg,$bool=false){
 	$path = $arg;
 	if(is_array($arg))
 		$path = $arg['src'];
-	$fullpath = $_SERVER['DOCUMENT_ROOT'].$path;
+	$fullpath = $_SERVER['DOCUMENT_ROOT']."/".$path;
 	if(file_exists($fullpath))
 		return img($arg,$bool);
 	else
-		return "<!-- no image found at ".$path." -->";
+		return "<!-- no image found at ".$fullpath." -->";
 }
 function anchorEncode($url,$toLink=false,$attr=false){
 	return anchor(urlencode($url), $toLink, $attr);	
