@@ -54,6 +54,7 @@
 			</ul>
 			<div class="clear"></div>
 		</div>
+		<p><?=anchor('xem/changelog/'.$fullelement->id,'Changelog')?></p>
 		<?if($logedIn):?>
 		<p>
 			<input type="button" value="Save entity order" onClick="saveEntityOrder()"/><br/>
@@ -65,11 +66,6 @@
 			<input type="button" onClick="deleteMe()" value="Delete This Show"/>
 			<?endif?>
 		</p>
-		
-		<?if(grantAcces(3)):?>
-		<input type="button" value="Show History" id="history"/> <span style="font-size:80%;">Note: on a delete action all values are displayed</span>
-		<div id="historyContainer"></div>
-		<?endif?>
 		<?endif?>
 </div>
 <!-- show script and functions -->
