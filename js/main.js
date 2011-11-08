@@ -127,7 +127,7 @@ function mainInit(){
             $('#newElementName').focus();
         } else if($(this).val() != "choose"){
             $('#elementSelectorContainer').attr('class','normal');
-            document.location.assign("xem/show/"+$(this).val());
+            document.location.assign("/xem/show/"+$(this).val());
         }
     });
     $('#cancelNewElement').click(function(){
