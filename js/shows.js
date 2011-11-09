@@ -313,7 +313,7 @@ function setDefauldQtipForSeasonConnection(){
 	      /* at: 'bottom right', // at the bottom right of... */
 	      target: 'mouse', // Position at the mouse...
 	      adjust: {
-	         x: -3,
+	         x: -3
 	      }
 	   },
 	   hide: {
@@ -827,7 +827,7 @@ function showConnectionOverview(entity, entityID){
 				},
 				position: {
 				   my: 'bottom center',  // Position my top left...
-				   at: 'top center', // at the bottom right of...
+				   at: 'top center' // at the bottom right of...
 				},
 				show: {
 					ready: true,
@@ -1195,7 +1195,7 @@ function showInit(){
 		   }
 		});
 		
-		$('.names li').editable(function(value, settings) { 
+		$('.names li span.name').editable(function(value, settings) { 
 			var nameID = $(this).dataset('id')
 			
 			if(value == ""){
@@ -1209,8 +1209,24 @@ function showInit(){
 	      	style: "inline",
 	      	cssclass: "alternativeNamesInlineEdit"
 		 });
-		
-	}
+	};
+	
+	$('.names li span.flag').editable(function(value, settings) {
+	    nameID = $(this).dataset('id');
+        var params = new Params();
+        params.name_id = nameID;
+        params.language = value;
+
+        genericRequest("nameUpdate", params, fakeResHandler, genericResponseError);
+        $('#flag_'+nameID).attr('src','/images/flags/'+value+'.png');
+        
+        console.log(value,nameID);
+        return(value);
+    }, {
+        loadurl : '/api/getLanguagesForSelect', 
+        type    : 'select',
+        submit  : 'OK'
+    });
 	
 	
 	// TODO: implement

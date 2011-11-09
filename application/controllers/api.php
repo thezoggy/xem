@@ -266,7 +266,43 @@ class Api extends CI_Controller {
 		return;
 		
 	}
-		
+
+	function _buildSimpleLanguageArray(){
+	    $langs = $this->db->get('languages');
+	    $out = array();
+	    // i will let this crash when no languages are set a check does not make sence in running env
+	    foreach ($langs->result() as $curLang) {
+	        $out[$curLang->id] = $curLang->name;
+	    }
+	    return $out;
+    }
+    
+	function getLanguagesForSelect(){
+	   $out = $this->_buildSimpleLanguageArray();
+	   $out['selected'] = 'gb';
+	   $this->output->set_content_type('application/json')->set_output(json_encode($out)); 
+    }
+	
+	function getLanguages(){
+	    $langs = $this->db->get('languages');
+	    // i will let this crash when no languages are set a check does not make sence in running env
+	    $out = $langs->result_array();
+		$this->_fullOut('success',$out);
+    }
+	
+    function nameUpdate(){
+        $name = new Name($this->oh, $_POST['name_id']);
+        if(isset($_POST['name']))
+            $name->name = $_POST['name'];
+        if(isset($_POST['language']))
+            $name->language = $_POST['language'];
+        $name->save();
+        
+		$this->_fullOut('success',$_POST);
+            
+    }
+    
+    
     /*
     {RESULT_SUCCESS:"success",
         RESULT_FAILURE:"failure",
@@ -283,6 +319,8 @@ class Api extends CI_Controller {
 	}
 	
 	
+	
+	//old
 	function episodeAdress(){
 		$out = array();
 		

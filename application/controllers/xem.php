@@ -4,6 +4,7 @@ class Xem extends SuperController {
 
 	function __construct(){
 		parent::__construct();
+		$this->out['languages'] = $this->db->get('languages');
 	}
 
 	public function index(){	
@@ -45,6 +46,7 @@ class Xem extends SuperController {
 	function newAlternativeName(){
 		$name = new Name($this->oh);
 		$name->name = $_POST['name'];
+		$name->language = $_POST['language'];
 		$name->element_id = $_POST['element_id'];
 	
 		$season = $_POST['season'];
@@ -53,7 +55,7 @@ class Xem extends SuperController {
 		$name->season = $season;
 		$name->save();
 		
-		print_o($name);
+		
 		
 		redirect('xem/show/'.$_POST['element_id']);
 	}

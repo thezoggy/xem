@@ -8,7 +8,7 @@ colors.trakt = "#008FBB";
 colors.master = "#FF0000";
 
 function getApiUrl() {
-    return "http://thexem.de/api/";
+    return "/api/";
 }
 
 

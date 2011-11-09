@@ -20,7 +20,11 @@
 						<div>
 							<ul class="names">
 								<?foreach($names as $curName):?>
-								<li data-id="<?=$curName->id?>"><?=imgLazy('images/flags/'.$curName->language.'.png')?> <?=$curName->name?></li>
+								<li class="name">
+                                    <?=img(array('src'=>'images/flags/'.$curName->language.'.png','data-id'=>$curName->id,'id'=>'flag_'.$curName->id))?><span data-id="<?=$curName->id?>" style="margin-left: -17px;color: rgba(0,0,0,0); min-width:17px;" class="flag"><?=$curName->language?></span>
+                                    <span class="name" data-id="<?=$curName->id?>"><?=$curName->name?></span>
+                                    <div class="clear"></div>
+                                </li>
 								<?endforeach?>
 							</ul>
 						</div>
@@ -34,6 +38,13 @@
 			<?if($logedIn):?>			
 			<?=form_open("xem/newAlternativeName")?>
 					<?=form_hidden("element_id",$fullelement->id)?>
+                    
+                    <select name="language">
+                        <?foreach($languages->result() as $curLang):?>
+                        <option value="<?=$curLang->id?>" ><?=$curLang->name?></option>
+                        <?endforeach?>
+                    </select>
+                    
 					<label style="min-width:45px;">Season</label>
 					<input id="newNameSeason" style="width:50px;" name="season"/>
 					<label style="min-width:38px;">Name</label>

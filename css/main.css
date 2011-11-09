@@ -235,6 +235,15 @@ ul {
 	margin-left: -10px;
 }
 
+#alternativeNames li.name span,
+#alternativeNames li.name img{
+    float: left;
+}
+
+#alternativeNames li.name img{
+    margin-top: 3px;
+}
+
 .newSeason,
 .seasonHeader,
 .seasonHeaderInfo,
@@ -671,7 +680,10 @@ input.name{
 }
 .clear{
 	clear: both !important;
-	float: none !important;
+    float: none !important;
+    height: 0px !important;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
 /*footer inkl "add this"*/
