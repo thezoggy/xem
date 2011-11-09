@@ -19,7 +19,6 @@ class User extends SuperController {
 		
 		if(isset($_POST['user'])&&isset($_POST['pw'])){
 			if($this->simpleloginsecure->login($_POST['user'],$_POST['pw'])){
-				print "login successfull";
 				redirect($this->out['uri2']);
 			}else
 				print "login unsuccessfull!";
