@@ -247,6 +247,7 @@ function con_success(data, params){
 		$('#'+params.fromLiID).removeClass('selected full');
 		$('#'+params.toLiID).removeClass('selected full');		
 		checkConnectionValues();
+        updateAllConIcons();
 	},800);
 }
 
@@ -291,6 +292,7 @@ function del_success(data, params){
 		var el = paper.getById(params.conID);
 		ninjaSVGElement(params.paperID, el);
 		$('.seasonConnection.edit').removeClass('wait');
+        updateAllConIcons();
 	},800);
 }
 
@@ -889,12 +891,12 @@ function drawConnetionOverview(origin, destination, paper){
 
 function updateAllConIcons(){
 	$('.entity').each(function(k,v){
-		updateConIconsFor($(this).dataset('name'))
-	})
+		updateConIconsFor($(this).dataset('name'));
+	});
 }
 
 function updateConIconsFor(entityName){
-	var connectedTo = resolvePassthrus(entityName)	
+	var connectedTo = resolvePassthrus(entityName);
 	var iconContainer = $('.entity.'+entityName+' .seasonHeaderInfo');
 	iconContainer.html('');
 	jQuery.each(connectedTo,function(k,v){
@@ -902,8 +904,20 @@ function updateConIconsFor(entityName){
 			// console.log(curDesination);
 			// if(!curDesination.hasClass(entityName+'Con'))// ignore if we are next to it
 			if(v.name != 'after')
-				appendConIcon(iconContainer,v.name,v.type)	
-	})
+				appendConIcon(iconContainer,v.name,v.type);	
+	});
+	if(entityName != 'master'){
+	    var conCount = resolveConCount(entityName);
+	    if(conCount){
+	        var countSpan = $('<span style="color:red;vertical-align:top;">'+conCount+'</span>');
+	        countSpan.qtip({
+	            content: {
+	              text: 'This has  <span class="master">'+conCount+'</span> direct connections'
+	            }
+	        });
+	        iconContainer.append(countSpan);
+	    }
+	}
 }
 
 function appendConIcon(iconContainer,destination,type){
@@ -943,13 +957,22 @@ function resolvePassthrus(entityName){
 	// console.log(entityName,connectedToSimple);
 	return final;
 }
+function resolveConCount(entityName){
+    var counter = 0;    
 
+    jQuery.each(abstractConObjs, function(k,v){
+        if(v.tid == entityName)
+            counter++;
+        
+    });
+    return counter;
+}
 
 function saveEntityOrder(){
 	var order = new Array();
 	$('.entity').each(function(k,v){
-		order.push($(this).dataset('id'))	
-	})
+		order.push($(this).dataset('id'));
+	});
 	var params = new Params();
 	params.element_id = parseInt($('#element').dataset('id'));
 	params.order = order.join(',');
@@ -1253,6 +1276,7 @@ function showInit(){
 		resetAllClasses();
 		$('.passthru').remove();
 		$('.conIcon').remove();
+		$('.seasonHeaderInfo').html('');
 	});
 	$("#sortable").sortable("option", "cancel", ':input,button,a');
 	
@@ -1279,7 +1303,7 @@ function showInit(){
 		
 	});
 	
-	console.log('show init done')
+	console.log('show init done');
 	
 	
 }
