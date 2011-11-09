@@ -93,7 +93,7 @@ function anchorEncode($url,$toLink=false,$attr=false){
 }
 
 
-function zero_pad($input, $lenght){
+function zero_pad($input, $lenght=2){
 	return str_pad($input, $lenght , "0", STR_PAD_LEFT);
 }
 
@@ -126,5 +126,7 @@ function showSort($showA,$showB) {
 function seasonKeySort($sa,$sb){
 	return $sa > $sb;
 }
+
+
 
 ?>

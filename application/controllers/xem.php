@@ -164,6 +164,7 @@ class Xem extends SuperController {
 	}
 
 	function changelog(){
+
 		$out = array();
 
 		$obj_id = $this->uri->segment(3);
@@ -171,43 +172,11 @@ class Xem extends SuperController {
 			redirect('xem/shows/');
 		}
 
+		$changelog = new Changelog($this->oh, $obj_id);
 		$element = new Element($this->oh, $obj_id);
-		$result = $this->db->query("SELECT * FROM `history` WHERE `element_id` = '".$obj_id."' ORDER BY `time` DESC");
-		if(rows($result)){
-			foreach($result->result() as $curRevsion){
-				$newRaw = json_decode($curRevsion->new_data,true);
-				$oldRaw = json_decode($curRevsion->old_data,true);
-				$diff = array_diff($newRaw,$oldRaw);
-				$old = array();
-				$new = array();
-				if(count($diff))
-					foreach($diff as $changedKey=>$newValue){
-						$new[$changedKey] = $newRaw[$changedKey];
-						if(isset($oldRaw[$changedKey]))
-							$old[$changedKey] = $oldRaw[$changedKey];
-						else
-							$old[$changedKey] = "-";
-					}
-				else{
-					$old = $oldRaw;
-					$new = $newRaw;
-				}
 
-
-				$userName = userNameByID($this->db,$curRevsion->user_id); // this might make this very slow
-				$out[] = array("time"=>$curRevsion->time,
-								"revision"=>$curRevsion->revision,
-								"type"=>$curRevsion->obj_type,
-								"action"=>$curRevsion->action,
-								"user_nick"=>$userName,
-								"user_id"=>$curRevsion->user_id,
-								"diff"=>json_encode($diff),
-								"old"=>json_encode($old),
-								"new"=>json_encode($new));
-			}
-		}
 		$this->out['element'] = $element;
-		$this->out['changelog'] = $out;
+		$this->out['events'] = $changelog->events;
 		$this->_loadView('changelog');
 	}
 
