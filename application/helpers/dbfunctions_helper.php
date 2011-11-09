@@ -23,10 +23,12 @@ function getShows($db,$term=false){
 	$query = "SELECT `main_name`,`id` FROM `elements` WHERE `type` = 'show' AND `status` > 0 ORDER BY `main_name`";
 	if($term)
 		$query = "SELECT  e.id, e.main_name, n.name FROM `elements` AS e LEFT JOIN `names` AS n ON n.element_id = e.id WHERE (n.name LIKE '%".$term."%' OR e.main_name LIKE '%".$term."%' OR n.name SOUNDS LIKE '".$term."' OR e.main_name SOUNDS LIKE '".$term."' ) AND `status` > 0  GROUP BY e.main_name ORDER BY e.main_name";
-	
+
 	$shows = $db->query($query);
-	$shows = $shows->result();
-	return $shows;
+	if($shows = $shows->result())
+	    return $shows;
+	else
+	    return false;
 }
 
 function rows($db_result){
@@ -46,7 +48,7 @@ function buildLocations($oh){
 }
 function getFirst($row){
 	$row = $row->result_array();
-	return $row[0];	
+	return $row[0];
 }
 
 function print_o($obj){
@@ -87,7 +89,7 @@ function imgLazy($arg,$bool=false){
 		return "<!-- no image found at ".$fullpath." -->";
 }
 function anchorEncode($url,$toLink=false,$attr=false){
-	return anchor(urlencode($url), $toLink, $attr);	
+	return anchor(urlencode($url), $toLink, $attr);
 }
 
 
@@ -97,11 +99,11 @@ function zero_pad($input, $lenght){
 
 function curPageURL() {
 	$pageURL = 'http';
-	if (isset($_SERVER["HTTPS"])) 
+	if (isset($_SERVER["HTTPS"]))
 		if ($_SERVER["HTTPS"] == "on") {
 			$pageURL .= "s";
 		}
-		
+
 	$pageURL .= "://";
 	if ($_SERVER["SERVER_PORT"] != "80") {
 		$pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
