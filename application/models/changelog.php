@@ -103,9 +103,9 @@ class Changelog{
 	    $new = $event['new'];
 	    switch ($event['type']) {
 	        case 'Element':
-	            return 'renamed <strong>'.$old['main_name'].'</strong> to <strong>'.$new['main_name'];
+	            return 'renamed <strong>'.$old['main_name'].'</strong> to <strong>'.$new['main_name'].'</strong>';
 	        case 'Name':
-	            return 'changed alias name from <strong>'.$old['name'].'</strong> to <strong>'.$new['name'];
+	            return 'changed alias name from <strong>'.$old['name'].'</strong> to <strong>'.$new['name'].'</strong>';
 	        case 'Directrule':
 	            return 'i dont thing this can happen';
 	        case 'Passthru':
@@ -126,7 +126,7 @@ class Changelog{
 	        case 'Element':
                 return 'elements dont get deleted';
 	        case 'Name':
-	            return 'deleted the alias '.$new['name'];
+	            return 'deleted the alias <strong>'.$new['name'].'</strong>';
 	        case 'Directrule':
 	            $des = $this->locN($new['destination_id']);
                 $or = $this->locN($new['origin_id']);
