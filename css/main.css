@@ -243,6 +243,10 @@ ul {
 #alternativeNames li.name img{
     margin-top: 3px;
 }
+#alternativeNames li.name span{
+    padding-left: 2px;
+}
+
 
 .newSeason,
 .seasonHeader,
@@ -558,12 +562,14 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 	display: none;
 }
 /* changelog */
-#changelog tr:hover td{
+#changelog tr:hover{
     background: #525252;
     color: #fff;
 }
 
-
+#changelog span{
+    text-shadow: -1px 0 #000, 0 1px #000,1px 0 #000, 0 -1px #000;
+}
 /*entity colors*/
 
 span.entityname{
@@ -688,13 +694,12 @@ input.name{
 	clear: both !important;
     float: none !important;
     height: 0px !important;
-    margin: 0 !important;
     padding: 0 !important;
 }
 
 /*footer inkl "add this"*/
 #footer{
-	margin: 20px 0; 		
+	margin: 10px 0;
 }
 
 #footer div{
