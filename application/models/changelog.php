@@ -81,7 +81,7 @@ class Changelog{
 	    $new = $event['new'];
 	    switch ($event['type']) {
 	        case 'Element':
-                return 'created <strong>'.$new['name'].'</strong>';
+                return 'created <strong>'.$new['main_name'].'</strong>';
 	        case 'Name':
 	            return 'created a new alias <strong>'.$new['name'].'</strong> in language <strong>'.$new['language'].'</strong>';
 	        case 'Directrule':
