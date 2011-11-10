@@ -140,7 +140,7 @@ class Changelog{
 	            return 'removed the passthru <span class="'.$des.'">'.$des.'</span> and <span class="'.$or.'">'.$or.'</span>';
 	        case 'Season':
 	            $loc = $this->locN($new['location_id']);
-	            return 'deleted season '.$new['season'].' of <span class="'.$loc.'">'.$loc.'</span>';
+	            return 'deleted season <strong>'.$new['season'].'</strong> of <span class="'.$loc.'">'.$loc.'</span>';
 	    }
 	}
 
