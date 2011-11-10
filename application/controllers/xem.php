@@ -64,9 +64,6 @@ class Xem extends SuperController {
 		if(!$this->session->userdata('logged_in')) {
 			redirect('user/login');
 		}
-		print "<pre>";
-		print_r($_POST);
-		print "</pre>";
 		$newSeason = new Season($this->oh);
 		$newSeason->element_id = $_POST['element_id'];
 		$newSeason->location_id = $_POST['location_id'];
@@ -77,7 +74,6 @@ class Xem extends SuperController {
 		$newSeason->season_size = $_POST['season_size'];
 		$newSeason->identifier = $_POST['identifier'];
 		$newSeason->save();
-
 
 		redirect('xem/show/'.$newSeason->element_id);
 	}
@@ -144,8 +140,7 @@ class Xem extends SuperController {
 		$newName = $_POST['main_name'];
 		if($newName != ""){
 		    $show = getShows($this->db, $newName);
-
-		    if(count($show)){ // we allready have a show with that name
+		    if(count($show) > 0 && $show != false){ // we allready have a show with that name
 		        redirect('xem/show/'.$show[0]->id);
 		    }else{
 		        $element = new Element($this->oh);
@@ -181,20 +176,16 @@ class Xem extends SuperController {
 	}
 
 	//old
-	public function editElementProcces(){
+	public function _editElementProcces(){
 		if(!$this->session->userdata('logged_in')) {
 			redirect('user/login');
 		}
-		print "<pre>";
-		print_r($_POST);
-		print "</pre>";
 		$element_id = $_POST['element_id'];
 
 		// change main name
 		$element = new SimpleElement($this->oh,$element_id);
 		$element->main_name = $_POST['main_name'];
 		$element->save();
-		print_query($this->db);
 		unset($_POST['main_name']);
 
 		//new name and season
@@ -311,7 +302,7 @@ class Xem extends SuperController {
 		if(!isset($_POST['debug']))
 			redirect('xem/editElement/'.$element_id);
 	}
-	function addShowRule(){
+	function _addShowRule(){
 		$this->out['locations'] = $this->db->get('locations');
 		$this->out['shows'] = $this->db->get_where('elements',array('type'=>'show'));
 
@@ -321,7 +312,7 @@ class Xem extends SuperController {
 
 	}
 
-	function editShowrule(){
+	function _editShowrule(){
 		$rule_map = $this->db->get('maps');
 		$this->out['rule_maps'] = array();
 		foreach($rule_map->result() as $rule){
@@ -339,7 +330,7 @@ class Xem extends SuperController {
 		$this->load->view('bottom', $this->out);
 	}
 
-	function editShowRuleProcess(){
+	function _editShowRuleProcess(){
 		if(!$this->session->userdata('logged_in')) {
 			redirect('user/login');
 		}
