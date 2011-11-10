@@ -151,7 +151,7 @@ class Changelog{
 	    $out = array();
 	    foreach($diff as $key=>$value){
 	        if($old[$key] && $new[$key])
-	            $out[] = '<strong>'.$old[$key].'</strong> to <strong>'.$new[$key].'</strong>';
+	            $out[] = 'changed '.$key.' from <strong>'.$old[$key].'</strong> to <strong>'.$new[$key].'</strong>';
 	        elseif ($old[$key] && !$new[$key])
 	            $out[] = 'removed '.$key.' <strong>'.$old[$key].'</strong>';
 	        elseif (!$old[$key] && $new[$key])
