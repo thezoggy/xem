@@ -81,9 +81,9 @@ class Changelog{
 	    $new = $event['new'];
 	    switch ($event['type']) {
 	        case 'Element':
-                return 'created '.$new['name'];
+                return 'created <strong>'.$new['name'].'</strong>';
 	        case 'Name':
-	            return 'created a new alias '.$new['name'].' in language '.$new['language'];
+	            return 'created a new alias <strong>'.$new['name'].'</strong> in language <strong>'.$new['language'].'</strong>';
 	        case 'Directrule':
 	            $des = $this->locN($new['destination_id']);
                 $or = $this->locN($new['origin_id']);
@@ -94,7 +94,10 @@ class Changelog{
 	            return 'connected <span class="'.$des.'">'.$des.'</span> and <span class="'.$or.'">'.$or.'</span> with an '.$new['type'].' passthru';
 	        case 'Season':
 	            $loc = $this->locN($new['location_id']);
-	            return 'created season '.$new['season'].' for <span class="'.$loc.'">'.$loc.'</span> with '.$new['season_size'].' episodes';
+	            $out = 'created season <strong>'.$new['season'].'</strong> for <span class="'.$loc.'">'.$loc.'</span> with <strong>'.$new['season_size'].'</strong> episodes';
+	            if($new['identifier'] != "")
+	                $out.= ' and identifier <strong>'.$new['identifier'].'</strong>';
+	            return $out;
 	    }
 	}
 
