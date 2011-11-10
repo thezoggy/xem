@@ -1,7 +1,7 @@
 
-<h1>Changelog for <?=$element->main_name?></h1>
+<h1>Changelog for <?=anchor('xem/show/'.$element->id, $element->main_name)?></h1>
 
-<table>
+<table id="changelog">
 	<?foreach($events as $curEvent):?>
 	<tr>
 		<td style="padding-right:20px;" title="id: <?=$curEvent['id']?>"><?=$curEvent['time']?></td>

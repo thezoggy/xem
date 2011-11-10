@@ -557,6 +557,12 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 .seasonConnection.edit .editConIcon{
 	display: none;
 }
+/* changelog */
+#changelog tr:hover td{
+    background: #525252;
+    color: #fff;
+}
+
 
 /*entity colors*/
 
