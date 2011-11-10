@@ -572,7 +572,7 @@ span.scene,
 	background: #808080;
 }
 h3.scene,
-.ui-tooltip span.scene{
+span.scene{
 	color: #808080;
 	background: none;
 }
@@ -585,7 +585,7 @@ span.tvdb,
 	background: #B6D415;
 }
 h3.tvdb,
-.ui-tooltip span.tvdb{
+span.tvdb{
 	color: #B6D415;
 	background: none;
 }
@@ -598,7 +598,7 @@ span.anidb,
 	background: #8354ee;
 }
 h3.anidb,
-.ui-tooltip span.anidb{
+span.anidb{
 	color: #8354ee;
 	background: none;
 }
@@ -612,7 +612,7 @@ span.rage,
 }
 
 h3.rage,
-.ui-tooltip span.rage{
+span.rage{
 	color: #FFA500;
 	background: none;
 }
@@ -625,7 +625,7 @@ span.trakt,
 	background: #008FBB;
 }
 h3.trakt,
-.ui-tooltip span.trakt{
+span.trakt{
 	color: #008FBB;
 	background: none;
 }
@@ -638,7 +638,7 @@ span.master,
 	background: #FF0000;
 }
 h3.master,
-.ui-tooltip span.master{
+span.master{
 	color: #FF0000;
 	background: none;
 }

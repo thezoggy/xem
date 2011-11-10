@@ -80,15 +80,20 @@ class Changelog{
 	    $new = $event['new'];
 	    switch ($event['type']) {
 	        case 'Element':
-               return 'created '.$new['name'];
+                return 'created '.$new['name'];
 	        case 'Name':
-	           return 'created a new alias '.$new['name'].' in language '.$new['language'];
+	            return 'created a new alias '.$new['name'].' in language '.$new['language'];
 	        case 'Directrule':
-	           return 'connected s'.zero_pad($new['origin_season']).'e'.zero_pad($new['origin_episode']).' with s'.zero_pad($new['destination_season']).'e'.zero_pad($new['destination_episode']);
+	            $des = $this->locN($new['destination_id']);
+                $or = $this->locN($new['origin_id']);
+	            return 'connected s'.zero_pad($new['origin_season']).'e'.zero_pad($new['origin_episode']).' on <span class="'.$or.'">'.$or.'</span> with s'.zero_pad($new['destination_season']).'e'.zero_pad($new['destination_episode']).' on <span class="'.$des.'">'.$des.'</span>';
 	        case 'Passthru':
-	           return 'connected '.$this->locN($new['destination_id']).' and '.$this->locN($new['origin_id']).' with an '.$new['type'].' passthru';
+	            $des = $this->locN($new['destination_id']);
+                $or = $this->locN($new['origin_id']);
+	            return 'connected <span class="'.$des.'">'.$des.'</span> and <span class="'.$or.'">'.$or.'</span> with an '.$new['type'].' passthru';
 	        case 'Season':
-	            return 'created season '.$new['season'].' for '.$this->locN($new['location_id']).' with '.$new['season_size'].' episodes';
+	            $loc = $this->locN($new['location_id']);
+	            return 'created season '.$new['season'].' for <span class="'.$loc.'">'.$loc.'</span> with '.$new['season_size'].' episodes';
 	    }
 	}
 
@@ -97,15 +102,18 @@ class Changelog{
 	    $new = $event['new'];
 	    switch ($event['type']) {
 	        case 'Element':
-	           return 'renamed '.$old['main_name'].' to '.$new['main_name'];
+	            return 'renamed <strong>'.$old['main_name'].'</strong> to <strong>'.$new['main_name'];
 	        case 'Name':
-	           return 'changed alias name from '.$old['name'].' to '.$new['name'];
+	            return 'changed alias name from <strong>'.$old['name'].'</strong> to <strong>'.$new['name'];
 	        case 'Directrule':
-	           return 'i dont thing this can happen';
+	            return 'i dont thing this can happen';
 	        case 'Passthru':
-	           return 'changed the passtruhe '.$this->locN($new['destination_id']).' and '.$this->locN($new['origin_id']).' from '.$old['type'].' to '.$new['type'];
+	            $des = $this->locN($new['destination_id']);
+                $or = $this->locN($new['origin_id']);
+	            return 'changed the passtruhe between <span class="'.$des.'">'.$des.'</span> and <span class="'.$or.'">'.$or.'</span> from <strong>'.$old['type'].'</strong> to <strong>'.$new['type'].'</strong>';
 	        case 'Season':
-	            return 'updated season '.$new['season'].' of '.$this->locN($new['location_id']).' what happend will come later';
+	            $loc = $this->locN($new['location_id']);
+	            return 'updated season '.$new['season'].' of <span class="'.$loc.'">'.$loc.'</span> ... what happend will come later';
 	    }
 	}
 
@@ -114,15 +122,18 @@ class Changelog{
 	    $new = $event['new'];
 	    switch ($event['type']) {
 	        case 'Element':
-               return 'elements dont get deleted';
+                return 'elements dont get deleted';
 	        case 'Name':
-	           return 'deleted the alias '.$new['name'];
+	            return 'deleted the alias '.$new['name'];
 	        case 'Directrule':
-	           return 'disconected s'.zero_pad($new['origin_season']).'e'.zero_pad($new['origin_episode']).' from s'.zero_pad($new['destination_season']).'e'.zero_pad($new['destination_episode']);
+	            return 'disconected s'.zero_pad($new['origin_season']).'e'.zero_pad($new['origin_episode']).' from s'.zero_pad($new['destination_season']).'e'.zero_pad($new['destination_episode']);
 	        case 'Passthru':
-	           return 'removed the passthru '.$this->locN($new['destination_id']).' and '.$this->locN($new['origin_id']);
+	            $des = $this->locN($new['destination_id']);
+                $or = $this->locN($new['origin_id']);
+	            return 'removed the passthru <span class="'.$des.'">'.$des.'</span> and <span class="'.$or.'">'.$or.'</span>';
 	        case 'Season':
-	            return 'deleted season '.$new['season'].' of '.$this->locN($new['location_id']);
+	            $loc = $this->locN($new['location_id']);
+	            return 'deleted season '.$new['season'].' of <span class="'.$loc.'">'.$loc.'</span>';
 	    }
 	}
 
