@@ -32,19 +32,19 @@ class DBObject{
 			$this->load();
 		if($this->id){
 		    $valueArray = $this->buildNameValueArray($this->dataFields);
-		    $diff = array_diff($valueArray,$this->initialData);
+		    $diff = array_diff($valueArray,$this->initialData); // create diff to see if something realy changed
             if($diff){
     			$this->history->createEvent('update',$this);
     			//print "updating ".$this->className." ".$this->id."</br>";
     			$this->db->update($this->table, $valueArray, array("id"=>$this->id));
             }
 		}else{
-			$this->history->createEvent('insert',$this);
 			//print "inserting new ".$this->className."... ";
 			$this->db->insert($this->table, $this->buildNameValueArray($this->dataFields));
 			$this->id = $this->db->insert_id();
 			//print_query($this->db);
 			//print "new id: ".$this->id."<br>";
+			$this->history->createEvent('insert',$this);
 		}
 		return $this->id;
 	}
