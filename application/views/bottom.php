@@ -1,4 +1,5 @@
 
+</div><!-- end #content -->
 <div class="clear" id="footer">
 	<div><strong>{elapsed_time}</strong>s says <a href="http://codeigniter.com/">CodeIgniter</a></div>
 	<div><?=anchor('imprint','Imprint')?></div>
@@ -25,7 +26,6 @@
 	</div>
 	<div class="clear"></div>
 </div>
-</div><!-- end #content -->
 </div><!-- end #page -->
 
 <div id="overlay"></div>
