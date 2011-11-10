@@ -87,9 +87,11 @@ class Xem extends SuperController {
 		if(!$this->session->userdata('logged_in')) {
 			redirect('user/login');
 		}
+		/*
 		print "<pre>";
 		print_r($_POST);
 		print "</pre>";
+		*/
 		$season = new Season($this->oh, $_POST['season_id']);
 
 		if($_POST['delete'] != true){
@@ -105,12 +107,10 @@ class Xem extends SuperController {
 			$season->absolute_start = $absolute_start;
 			$season->episode_start = $_POST['episode_start'];
 			$season->save();
-			print "asd";
-
 		}else if($_POST['delete'] == true){
 			$season->delete();
 		}
-		print_o($season);
+		// print_o($season);
 		redirect('xem/show/'.$_POST['element_id']);
 	}
 
