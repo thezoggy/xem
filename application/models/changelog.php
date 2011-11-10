@@ -44,7 +44,8 @@ class Changelog{
 				$old = $oldRaw;
 				$new = $newRaw;
 				$userName = userNameByID($this->db,$curRevsion->user_id); // this might make this very slow
-				$event = array("time"=>$curRevsion->time,
+				$event = array("id"=>$curRevsion->id,
+								"time"=>$curRevsion->time,
 								"revision"=>$curRevsion->revision,
 								"type"=>$curRevsion->obj_type,
 								"action"=>$curRevsion->action,
@@ -86,7 +87,7 @@ class Changelog{
 	        case 'Directrule':
 	            $des = $this->locN($new['destination_id']);
                 $or = $this->locN($new['origin_id']);
-	            return 'connected s'.zero_pad($new['origin_season']).'e'.zero_pad($new['origin_episode']).' on <span class="'.$or.'">'.$or.'</span> with s'.zero_pad($new['destination_season']).'e'.zero_pad($new['destination_episode']).' on <span class="'.$des.'">'.$des.'</span>';
+	            return 'connected <span class="'.$or.'">'.$or.'\'s</span> s'.zero_pad($new['origin_season']).'e'.zero_pad($new['origin_episode']).' with <span class="'.$des.'">'.$des.'\'s</span> s'.zero_pad($new['destination_season']).'e'.zero_pad($new['destination_episode']);
 	        case 'Passthru':
 	            $des = $this->locN($new['destination_id']);
                 $or = $this->locN($new['origin_id']);
@@ -113,7 +114,8 @@ class Changelog{
 	            return 'changed the passtruhe between <span class="'.$des.'">'.$des.'</span> and <span class="'.$or.'">'.$or.'</span> from <strong>'.$old['type'].'</strong> to <strong>'.$new['type'].'</strong>';
 	        case 'Season':
 	            $loc = $this->locN($new['location_id']);
-	            return 'updated season '.$new['season'].' of <span class="'.$loc.'">'.$loc.'</span> ... what happend will come later';
+	            $diff = $event['diff'];
+	            return 'updated season '.$new['season'].' of <span class="'.$loc.'">'.$loc.'</span> ... '.$this->buildChange($old,$new,$diff);
 	    }
 	}
 
@@ -126,7 +128,9 @@ class Changelog{
 	        case 'Name':
 	            return 'deleted the alias '.$new['name'];
 	        case 'Directrule':
-	            return 'disconected s'.zero_pad($new['origin_season']).'e'.zero_pad($new['origin_episode']).' from s'.zero_pad($new['destination_season']).'e'.zero_pad($new['destination_episode']);
+	            $des = $this->locN($new['destination_id']);
+                $or = $this->locN($new['origin_id']);
+	            return 'disconected <span class="'.$or.'">'.$or.'\'s</span> s'.zero_pad($new['origin_season']).'e'.zero_pad($new['origin_episode']).' from <span class="'.$des.'">'.$des.'\'s</span> s'.zero_pad($new['destination_season']).'e'.zero_pad($new['destination_episode']);
 	        case 'Passthru':
 	            $des = $this->locN($new['destination_id']);
                 $or = $this->locN($new['origin_id']);
@@ -142,6 +146,22 @@ class Changelog{
 
 	}
 
+
+	private function buildChange($old,$new,$diff){
+	    $out = array();
+	    foreach($diff as $key=>$value){
+	        if($old[$key] && $new[$key])
+	            $out[] = '<strong>'.$old[$key].'</strong> to <strong>'.$new[$key].'</strong>';
+	        elseif ($old[$key] && !$new[$key])
+	            $out[] = 'removed '.$key.' <strong>'.$old[$key].'</strong>';
+	        elseif (!$old[$key] && $new[$key])
+	            $out[] = 'added '.$key.' <strong>'.$new[$key].'</strong>';
+	    }
+	    if($out)
+	        return join(', ', $out);
+	    else
+	        return 'nothing changed';
+	}
 }
 
 ?>
