@@ -91,7 +91,7 @@ class Changelog{
 	        case 'Passthru':
 	            $des = $this->locN($new['destination_id']);
                 $or = $this->locN($new['origin_id']);
-	            return 'connected <span class="'.$des.'">'.$des.'</span> and <span class="'.$or.'">'.$or.'</span> with an '.$new['type'].' passthru';
+	            return 'connected <span class="'.$des.'">'.$des.'</span> and <span class="'.$or.'">'.$or.'</span> with an <strong>'.$new['type'].'</strong> passthru';
 	        case 'Season':
 	            $loc = $this->locN($new['location_id']);
 	            $out = 'created season <strong>'.$new['season'].'</strong> for <span class="'.$loc.'">'.$loc.'</span> with <strong>'.$new['season_size'].'</strong> episodes';
