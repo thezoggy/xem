@@ -2,7 +2,7 @@
 <li style="float:left;" class="entityList" data-locationName="<?=$curLocation->name?>">
 <div style="float:left;position:relative;" class="entity <?=$curLocation->name?>" data-id="<?=$curLocation->id?>" data-name="<?=$curLocation->name?>">
 	<h3 class="<?=$curLocation->name?>">
-		<?=anchor($curLocation->url,imgLazy('images/entitys/icon_'.$curLocation->name.'.png'))?><span><?=$curLocation->name?></span><?=img(array('src'=>'images/info.png','data-entity'=>$curLocation->name,'data-entityID'=>$curLocation->id,'class'=>'conInfo','alt'=>'Info'))?>
+		<?=anchor($curLocation->url,imgLazy('images/entitys/icon_'.$curLocation->name.'.png'),'target="_blank"')?><span><?=$curLocation->name?></span><?/*=img(array('src'=>'images/info.png','data-entity'=>$curLocation->name,'data-entityID'=>$curLocation->id,'class'=>'conInfo','alt'=>'Info'))*/?>
 	</h3>
 	<ul>
 		<li>
