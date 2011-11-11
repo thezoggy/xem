@@ -103,7 +103,7 @@ function imgLazy($arg,$bool=false){
 		return "<!-- no image found at ".$fullpath." -->";
 }
 function anchorEncode($url,$toLink=false,$attr=false){
-	return anchor(urlencode($url), $toLink, $attr);
+	return anchor(htmlentities($url), $toLink, $attr);
 }
 
 

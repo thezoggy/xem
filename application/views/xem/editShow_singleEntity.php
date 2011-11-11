@@ -22,9 +22,8 @@
 					$lastIdentifier = $curElementLocation->identifier;
 				}
 				if(isset($lastIdentifier))
-					echo '| '.anchor($fullelement->getdirectLink($curLocation->id,$curElementLocation->season),$lastIdentifier,'target="_blank"');
+					echo '| '.anchorEncode($fullelement->getdirectLink($curLocation->id,$curElementLocation->season),$lastIdentifier,'target="_blank"');
 				?>
-				<?/* if($nameCount = count($fullelement->namesForSeason($curElementLocation->season))) echo '| '.$nameCount.' Name'; if($nameCount>1) echo 's'; */?>
 				</span>
 			</div>
 			<div id="seasonEdit_<?=$curElementLocation->season?>_<?=$curLocation->name?>" class="seasonEdit">
