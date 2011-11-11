@@ -57,7 +57,7 @@ class Xem extends SuperController {
     		$name->element_id = $_POST['element_id'];
 
     		$season = $_POST['season'];
-    		if($season == "all" || $season == "*" || $season == '')
+    		if($season == "all" || $season == "All" || $season == "*" || $season == '')
     			$season = -1;
     		$name->season = $season;
     		$name->save();

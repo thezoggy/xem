@@ -39,16 +39,15 @@
 			<?=form_open("xem/newAlternativeName")?>
 					<?=form_hidden("element_id",$fullelement->id)?>
 
+                    <label style="min-width:45px;">Season</label>
+                    <input id="newNameSeason" style="width:50px;" name="season" placeholder="All"/>
+
                     <select name="language">
                         <?foreach($languages->result() as $curLang):?>
                         <option value="<?=$curLang->id?>" <?if($curLang->id == 'us'){ echo 'selected="selected"';} ?>><?=$curLang->name?></option>
                         <?endforeach?>
                     </select>
-
-					<label style="min-width:45px;">Season</label>
-					<input id="newNameSeason" style="width:50px;" name="season"/>
-					<label style="min-width:38px;">Name</label>
-					<input id="newNameName" name="name"/>
+					<input id="newNameName" name="name" placeholder="Name"/>
 					<input type="submit" value="Add New Name"/>
 			</form>
 			<?endif?>
