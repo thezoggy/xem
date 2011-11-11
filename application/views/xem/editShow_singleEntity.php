@@ -16,7 +16,7 @@
 		?>
 		<li>
 			<div class="seasonHeader" id="seasonHeader_<?=$curElementLocation->season?>_<?=$curLocation->name?>" data-season="<?=$curElementLocation->season?>" data-locationName="<?=$curLocation->name?>" data-locationID="<?=$curLocation->id?>">
-				<span><?if($curElementLocation->season == -1) echo 'All';else echo 'S'.zero_pad($curElementLocation->season,2)?>
+				<span><?if($curElementLocation->season == -1) echo 'S*';else echo 'S'.zero_pad($curElementLocation->season,2)?>
 				<?
 				if($curElementLocation->identifier){
 					$lastIdentifier = $curElementLocation->identifier;
@@ -28,7 +28,7 @@
 				</span>
 			</div>
 			<div id="seasonEdit_<?=$curElementLocation->season?>_<?=$curLocation->name?>" class="seasonEdit">
-				
+
 				<?=form_open("xem/editSeason",array('id'=>'seasonEditForm_'.$curLocation->name.'_'.$curElementLocation->season))?>
 					<?=form_hidden("element_id",$fullelement->id)?>
 					<?=form_hidden("location_id",$curLocation->id)?>
@@ -57,7 +57,7 @@
 							<input class="fullWidthButton" type="button" value="Delete Season" onClick="markSeasonForDeleteAndSubmit('<?=$curLocation->name?>',<?=$curElementLocation->season?>);" <?=$disabled?>/>
 						</li>
 					</ul>
-				
+
 				</form>
 			</div>
 			<ul>
@@ -67,11 +67,11 @@
 				</li>
 			<?endfor?>
 			</ul>
-			
+
 		</li>
 		<?endforeach?>
 		<li>
-			
+
 			<?if($logedIn):?>
 			<div class="newSeason">
 				<?=form_open("xem/newSeason")?>
@@ -84,13 +84,13 @@
 						<li><input class="fullWidthButton" type="submit" value="Add New Season" <?=$disabled?>/></li>
 					</ul>
 				</form>
-				
+
 				<div style="heigth:20px;"></div>
 			</div>
 			<?else:?>
 			<?if(count($fullelement->seasonForLocationId($curLocation->id))==0):?>
 				<div class="seasonHeaderFake">No Unique Data</div>
-			<?else:?>		
+			<?else:?>
 				<div class="newSeason"></div>
 			<?endif?>
 			<?endif?>
@@ -98,7 +98,7 @@
 	</ul>
 </div>
 <div class="seasonConnection" id="con_after_<?=$curLocation->name?>" data-locationName="<?=$curLocation->name?>">
-	
+
 	<div class="editConIcon" id="editConIcon_<?=$curLocation->name?>">
 	</div>
 </div>
