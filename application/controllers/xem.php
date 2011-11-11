@@ -49,17 +49,18 @@ class Xem extends SuperController {
 		if(!$this->session->userdata('logged_in')) {
 			redirect('user/login');
 		}
-		$name = new Name($this->oh);
-		$name->name = $_POST['name'];
-		$name->language = $_POST['language'];
-		$name->element_id = $_POST['element_id'];
+		if($_POST['name']){
+    		$name = new Name($this->oh);
+    		$name->name = $_POST['name'];
+    		$name->language = $_POST['language'];
+    		$name->element_id = $_POST['element_id'];
 
-		$season = $_POST['season'];
-		if($season == "all" || $season == "*" )
-			$season = -1;
-		$name->season = $season;
-		$name->save();
-
+    		$season = $_POST['season'];
+    		if($season == "all" || $season == "*" || $season == '')
+    			$season = -1;
+    		$name->season = $season;
+    		$name->save();
+		}
 
 
 		redirect('xem/show/'.$_POST['element_id']);

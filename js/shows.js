@@ -1232,7 +1232,12 @@ function showInit(){
 			
 			if(value == ""){
 				deleteAltenativeName(nameID);
-				$(this).remove();
+				var otherli = $(this).parent().parent().find('li'); // get other name li's
+				console.log(otherli);
+				if(otherli.length == 1){// this was the last/only name for this season
+				    $(this).parents('tr').remove(); // remove parent tr
+				}else
+				    $(this).parent().remove(); // remove only cur li
 			}else
 			    saveAltenativeName(nameID,value);
 		    return(value);
@@ -1276,11 +1281,13 @@ function showInit(){
 
 	
 	// TODO: implement
+	/*
 	$('.conInfo').click(function(){
 		var icon = $(this)
 		// alert('conection info for '+icon.dataset('entity')+' ('+icon.dataset('entityID')+')');
 		showConnectionOverview(icon.dataset('entity'), icon.dataset('entityID'));
 	});
+	*/
 	
 	$( "#sortable" ).sortable({
 			placeholder: "seasonFake"
