@@ -907,12 +907,15 @@ function updateConIconsFor(entityName){
 	var connectedTo = resolvePassthrus(entityName);
 	var iconContainer = $('.entity.'+entityName+' .seasonHeaderInfo');
 	iconContainer.html('');
+	var hasCon = false;
 	jQuery.each(connectedTo,function(k,v){
 			var curDesination = $('.entity.'+(v.name));
 			//console.log("--"+v.name);
 			// if(!curDesination.hasClass(entityName+'Con'))// ignore if we are next to it
-			if(v.name != 'after')
-				appendConIcon(iconContainer,v.name,v.type);	
+			if(v.name != 'after'){
+				appendConIcon(iconContainer,v.name,v.type);
+				hasCon = true;
+			}
 	});
 	if(entityName != 'master'){
 	    var conCount = resolveConCount(entityName);
@@ -924,8 +927,13 @@ function updateConIconsFor(entityName){
 	            }
 	        });
 	        iconContainer.append(countSpan);
+            hasCon = true;
 	    }
 	}
+	if(!hasCon){
+	    iconContainer.text("No Connection");
+	}
+	
 }
 
 function appendConIcon(iconContainer,destination,type){
