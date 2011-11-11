@@ -41,7 +41,7 @@
 
                     <select name="language">
                         <?foreach($languages->result() as $curLang):?>
-                        <option value="<?=$curLang->id?>" ><?=$curLang->name?></option>
+                        <option value="<?=$curLang->id?>" <?if($curLang->id == 'us'){ echo 'selected="selected"';} ?>><?=$curLang->name?></option>
                         <?endforeach?>
                     </select>
 

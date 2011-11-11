@@ -4,6 +4,7 @@ class Xem extends SuperController {
 
 	function __construct(){
 		parent::__construct();
+		$this->db->order_by("name", "asc");
 		$this->out['languages'] = $this->db->get('languages');
 
 		$this->out['languagesJS'] = json_encode(buildSimpleLanguageArray($this->out['languages']));
