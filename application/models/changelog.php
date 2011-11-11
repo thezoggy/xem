@@ -13,7 +13,6 @@ class Changelog{
 		$this->locations = buildLocations($this->oh);
 
 		$this->init();
-		//print count($this->events);
 	}
 
 	private function init(){
@@ -25,21 +24,6 @@ class Changelog{
 				$oldRaw = json_decode($curRevsion->old_data,true);
 
 				$diff = array_diff($newRaw,$oldRaw);
-				$old = array();
-				$new = array();
-				/*
-				if(count($diff))
-					foreach($diff as $changedKey=>$newValue){
-						$new[$changedKey] = $newRaw[$changedKey];
-						if(isset($oldRaw[$changedKey]))
-							$old[$changedKey] = $oldRaw[$changedKey];
-						else
-							$old[$changedKey] = "-";
-					}
-				else{
-					$old = $oldRaw;
-					$new = $newRaw;
-				}*/
 
 				$old = $oldRaw;
 				$new = $newRaw;
@@ -71,7 +55,7 @@ class Changelog{
 	        case 'delete':
 	            return $this->createHumanformDelete($event);
 	        default:
-	            return '??';
+	            return '?unknown event?';
     	        break;
 	    }
 	}
@@ -91,7 +75,7 @@ class Changelog{
 	        case 'Passthru':
 	            $des = $this->locN($new['destination_id']);
                 $or = $this->locN($new['origin_id']);
-	            return 'connected <span class="'.$des.'">'.$des.'</span> and <span class="'.$or.'">'.$or.'</span> with an <b>'.$new['type'].'</b> passthru';
+	            return 'connected <span class="'.$des.'">'.$des.'</span> to <span class="'.$or.'">'.$or.'</span> with an <b>'.$new['type'].'</b> passthru';
 	        case 'Season':
 	            $loc = $this->locN($new['location_id']);
     			$seasonNumber = $new['season'];
