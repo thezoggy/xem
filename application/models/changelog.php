@@ -55,7 +55,7 @@ class Changelog{
 	        case 'delete':
 	            return $this->createHumanformDelete($event);
 	        default:
-	            return '?unknown event?';
+	            return 'unknown event db entry broken';
     	        break;
 	    }
 	}
