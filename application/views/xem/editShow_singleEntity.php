@@ -1,4 +1,7 @@
-<? $lastIdentifier = null; ?>
+<?
+$lastIdentifier = null;
+$curElementLocation = null;
+?>
 <li style="float:left;" class="entityList" data-locationName="<?=$curLocation->name?>">
 <div style="float:left;position:relative;" class="entity <?=$curLocation->name?>" data-id="<?=$curLocation->id?>" data-name="<?=$curLocation->name?>">
 	<h3 class="<?=$curLocation->name?>">
