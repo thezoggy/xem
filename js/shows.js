@@ -756,17 +756,24 @@ function conPassthru(passthruConObj,curtype){
     params.id = passthruConObj.id;
     if(typeof(passthruConObj.id) == "undefined")
 	    params.id = 0;
-    
+
+    console.log('----conPassthru');
     genericRequest("savePassthru", params, pass_con_success, pass_con_fail);
 }
 function pass_con_success(data, params){
-	passthruConObjs['passthru_'+fName+'_'+tName] = {'fid':fName,'tid':tName};
-	passthruConObjs['passthru_'+tName+'_'+fName] = {'fid':tName,'tid':fName};
+    console.log('pass_con_success',params);
+	//passthruConObjs['passthru_'+params.origin+'_'+params.destinatio] = {'fid':params.origin,'tid':params.destinatio,'type':params.curtype};
+	//passthruConObjs['passthru_'+params.destination+'_'+params.origin] = {'fid':params.destinatio,'tid':params.origin,'type':params.curtype};
 	
 	updateAllConIcons();
 }
 
-function pass_con_fail(data, params){}
+function pass_con_fail(data, params){
+    delete passthruConObjs['passthru_'+params.origin+'_'+params.destination];
+    delete passthruConObjs['passthru_'+params.destination+'_'+params.origin];
+    
+    updateAllConIcons();
+}
 
 function delPassthru(passthruConObj){
 	var params = new Params();    
@@ -780,8 +787,8 @@ function delPassthru(passthruConObj){
 function pass_del_success(data, params){
 
 	// a.animate({'transform':'T5,4r90'},200);
-	delete passthruConObjs['passthru_'+fName+'_'+tName];
-	delete passthruConObjs['passthru_'+tName+'_'+fName];
+	delete passthruConObjs['passthru_'+params.origin+'_'+params.destination];
+	delete passthruConObjs['passthru_'+params.destination+'_'+params.origin];
 	updateAllConIcons();
 }
 
@@ -891,6 +898,7 @@ function drawConnetionOverview(origin, destination, paper){
 
 function updateAllConIcons(){
 	$('.entity').each(function(k,v){
+	    //console.log($(this).dataset('name'));
 		updateConIconsFor($(this).dataset('name'));
 	});
 }
@@ -901,7 +909,7 @@ function updateConIconsFor(entityName){
 	iconContainer.html('');
 	jQuery.each(connectedTo,function(k,v){
 			var curDesination = $('.entity.'+(v.name));
-			// console.log(curDesination);
+			//console.log("--"+v.name);
 			// if(!curDesination.hasClass(entityName+'Con'))// ignore if we are next to it
 			if(v.name != 'after')
 				appendConIcon(iconContainer,v.name,v.type);	
@@ -934,9 +942,10 @@ function resolvePassthrus(entityName){
 	var connectedToSimple = new Array();
 	var absoluteConnectedTo = new Array();
 	var sxxexxConnectedTo = new Array();
-	
+	//console.log('##################');
 	jQuery.each(passthruConObjs, function(k,v){
 		// "passthru_xmaster_scene":{"fid":"xmaster","tid":"scene"}
+	    //console.log(this);
 		if(v.fid == entityName && $.inArray(v.tid,connectedToSimple) == -1){
 			connectedToSimple.push(v.tid);
 			if(v.type == "sxxexx")
@@ -954,7 +963,7 @@ function resolvePassthrus(entityName){
 		}
 	});
 	var final = absoluteConnectedTo.concat(sxxexxConnectedTo);
-	// console.log(entityName,connectedToSimple);
+	//console.log("cur entity "+entityName+" is connected to ",connectedToSimple);
 	return final;
 }
 function resolveConCount(entityName){
