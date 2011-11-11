@@ -43,9 +43,11 @@ $curElementLocation = null;
 						<li>
 							<label>Size</label><input class="season" name="size" value="<?if($curElementLocation->season_size == -1)echo 'infinite';else echo $curElementLocation->season_size?>" <?=$disabled?>/>
 						</li>
+                        <?if($curLocation->name != 'master'):?>
 						<li>
 							<label>Identifier</label><input class="season" name="identifier" value="<?=$curElementLocation->identifier?>" <?=$disabled?>/>
 						</li>
+                        <?endif?>
 						<li>
 							<label>Ab. Start</label><input class="season" name="absolute_start" value="<?if($curElementLocation->absolute_start == 0)echo 'auto';else echo $curElementLocation->absolute_start?>" <?=$disabled?>/>
 						</li>
@@ -82,7 +84,9 @@ $curElementLocation = null;
 					<ul>
 						<li><label>Season</label><input class="season" name="season" value="<? if(isset($curElementLocation->season)) echo $curElementLocation->season+1?>" <?=$disabled?>/></li>
 						<li><label>Size</label><input class="season" name="season_size" value="" <?=$disabled?>/></li>
+                        <?if($curLocation->name != 'master'):?>
 						<li><label>Identifier</label><input class="season" name="identifier" <?=$disabled?>/></li>
+                        <?endif?>
 						<li><input class="fullWidthButton" type="submit" value="Add New Season" <?=$disabled?>/></li>
 					</ul>
 				</form>
