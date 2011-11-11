@@ -5,6 +5,8 @@ class Xem extends SuperController {
 	function __construct(){
 		parent::__construct();
 		$this->out['languages'] = $this->db->get('languages');
+
+		$this->out['languagesJS'] = json_encode(buildSimpleLanguageArray($this->out['languages']));
 	}
 
 	public function index(){
@@ -44,13 +46,16 @@ class Xem extends SuperController {
 	}
 
 	function newAlternativeName(){
+		if(!$this->session->userdata('logged_in')) {
+			redirect('user/login');
+		}
 		$name = new Name($this->oh);
 		$name->name = $_POST['name'];
 		$name->language = $_POST['language'];
 		$name->element_id = $_POST['element_id'];
 
 		$season = $_POST['season'];
-		if($season == "global" || $season == "" )
+		if($season == "all" || $season == "*" )
 			$season = -1;
 		$name->season = $season;
 		$name->save();
@@ -92,7 +97,7 @@ class Xem extends SuperController {
 
 		if($_POST['delete'] != true){
 			$seasonNumber = $_POST['season'];
-			if($seasonNumber == "all")
+			if($seasonNumber == "all" || $seasonNumber == "*")
 				$seasonNumber = -1;
 			$season->season = $seasonNumber;
 			$season->season_size = $_POST['size'];

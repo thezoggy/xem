@@ -267,18 +267,8 @@ class Api extends CI_Controller {
 
 	}
 
-	function _buildSimpleLanguageArray(){
-	    $langs = $this->db->get('languages');
-	    $out = array();
-	    // i will let this crash when no languages are set a check does not make sence in running env
-	    foreach ($langs->result() as $curLang) {
-	        $out[$curLang->id] = $curLang->name;
-	    }
-	    return $out;
-    }
-
 	function getLanguagesForSelect(){
-	   $out = $this->_buildSimpleLanguageArray();
+	   $out = buildSimpleLanguageArray();
 	   $out['selected'] = 'gb';
 	   $this->output->set_content_type('application/json')->set_output(json_encode($out));
     }
@@ -291,6 +281,9 @@ class Api extends CI_Controller {
     }
 
     function nameUpdate(){
+		if(!$this->session->userdata('logged_in')) {
+			redirect('user/login');
+		}
         $name = new Name($this->oh, $_POST['name_id']);
         if(isset($_POST['name']))
             $name->name = $_POST['name'];

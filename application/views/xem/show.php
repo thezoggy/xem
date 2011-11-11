@@ -21,7 +21,7 @@
 							<ul class="names">
 								<?foreach($names as $curName):?>
 								<li class="name">
-                                    <?=img(array('src'=>'images/flags/'.$curName->language.'.png','data-id'=>$curName->id,'id'=>'flag_'.$curName->id))?><span data-id="<?=$curName->id?>" style="margin-left: -17px;color: rgba(0,0,0,0); min-width:17px;" class="flag"><?=$curName->language?></span>
+                                    <?=img(array('src'=>'images/flags/'.$curName->language.'.png','data-id'=>$curName->id,'data-lang'=>$curName->language,'id'=>'flag_'.$curName->id,'width'=>17))?></span>
                                     <span class="name" data-id="<?=$curName->id?>"><?=$curName->name?></span>
                                     <div class="clear"></div>
                                 </li>
@@ -35,16 +35,16 @@
 		</div>
 		<?endif?>
 		<div id="newAlternativeName">
-			<?if($logedIn):?>			
+			<?if($logedIn):?>
 			<?=form_open("xem/newAlternativeName")?>
 					<?=form_hidden("element_id",$fullelement->id)?>
-                    
+
                     <select name="language">
                         <?foreach($languages->result() as $curLang):?>
                         <option value="<?=$curLang->id?>" ><?=$curLang->name?></option>
                         <?endforeach?>
                     </select>
-                    
+
 					<label style="min-width:45px;">Season</label>
 					<input id="newNameSeason" style="width:50px;" name="season"/>
 					<label style="min-width:38px;">Name</label>
@@ -69,7 +69,7 @@
 		<?if($logedIn):?>
 		<p>
 			<input type="button" value="Save entity order" onClick="saveEntityOrder()"/><br/>
-			
+
 			<?=form_open("xem/deleteShow",array('id'=>'deleteShowForm'))?>
 				<?=form_hidden("element_id",$fullelement->id)?>
 			</form>
@@ -84,6 +84,7 @@
 var logedIn = <?=$logedInJS?>;
 var abstractConObjs = <?=$fullelement->getJSONDirectrules()?>;
 var passthruConObjs = <?=$fullelement->getJSONPassthrus()?>;
+var languages = <?=$languagesJS?>;
 </script>
 <script src="/js/shows.js"></script>
 <?else:?>

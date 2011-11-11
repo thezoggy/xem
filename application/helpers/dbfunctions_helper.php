@@ -46,6 +46,20 @@ function buildLocations($oh){
 		}
 	return $locationsArray;
 }
+
+
+function buildSimpleLanguageArray($langs){
+    $out = array();
+    // i will let this crash when no languages are set a check does not make sence in running env
+    foreach ($langs->result() as $curLang) {
+        $out[$curLang->id] = $curLang->name;
+    }
+    return $out;
+}
+
+
+
+
 function getFirst($row){
 	$row = $row->result_array();
 	return $row[0];

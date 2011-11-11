@@ -1232,25 +1232,39 @@ function showInit(){
 	      	style: "inline",
 	      	cssclass: "alternativeNamesInlineEdit"
 		 });
-	};
-	
-	$('.names li span.flag').editable(function(value, settings) {
-	    nameID = $(this).dataset('id');
-        var params = new Params();
-        params.name_id = nameID;
-        params.language = value;
 
-        genericRequest("nameUpdate", params, fakeResHandler, genericResponseError);
-        $('#flag_'+nameID).attr('src','/images/flags/'+value+'.png');
-        
-        console.log(value,nameID);
-        return(value);
-    }, {
-        loadurl : '/api/getLanguagesForSelect', 
-        type    : 'select',
-        submit  : 'OK'
-    });
-	
+       $('.names li img').qtip({
+           content: function(api){
+             var curImg = $(api.currentTarget);
+             var nameID = curImg.dataset('id');
+             var curLang = curImg.dataset('lang');
+             var con = $('<ul>');
+             jQuery.each(languages,function(langID,human){
+                 var li = $('<li style="cursor: pointer;"><img width=17 src="/images/flags/'+langID+'.png" style="margin-top:2px;"/> '+human+'</li>');
+                 li.click(function(){
+
+                     var params = new Params();
+                     params.name_id = nameID;
+                     params.language = langID;
+                     genericRequest("nameUpdate", params, fakeResHandler, genericResponseError);
+                     $('#flag_'+nameID).attr('src','/images/flags/'+langID+'.png');
+                 })
+                 
+                 con.append(li);
+             });
+             return con;
+          },
+          show: {
+             event: 'click'
+          },
+          hide: {
+              event: 'click mouseleave',
+              fixed: true,
+              delay: 200
+           }
+       });
+	};
+
 	
 	// TODO: implement
 	$('.conInfo').click(function(){
