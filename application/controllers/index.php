@@ -6,21 +6,25 @@ class Index extends SuperController {
 		parent::__construct();
 	}
 
-	public function index(){	
+	public function index(){
 		$this->out['locations'] = $this->db->get('locations');
 		$this->_loadView('index');
+
+		//$p = new Postman($this->oh,'79151','tvdb');
+		//$p->resolveAddress(null,null,30);
+
 	}
-	
+
 	public function search(){
 		$this->out['title'] = 'Search';
-		
+
 		$id = false;
 		if($this->uri->segment(2))
 			$id = $this->uri->segment(2);
 		if(isset($_GET['q']))
-			$id = $_GET['q']; 
-		
-		
+			$id = $_GET['q'];
+
+
 		if($id){
 			if(is_numeric($id)){
 				redirect('xem/show/'.$id);
@@ -38,11 +42,11 @@ class Index extends SuperController {
 		}else{
 			redirect('xem/shows/');
 		}
-		
+
 		//$this->load->view('top', $this->out);
 		//$this->load->view('bottom', $this->out);
 	}
-	
+
 	function imprint(){
 		$this->out['title'] = 'Imprint / Impressum';
 		$this->_loadView('imprint');
@@ -56,6 +60,6 @@ class Index extends SuperController {
 		$this->out['title'] = '404 | Nope nothing here';
 		$this->_loadView('404');
 	}
-	
+
 }
 ?>
