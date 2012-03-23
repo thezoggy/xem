@@ -2,6 +2,7 @@
 </div><!-- end #content -->
 <div class="clear" id="footer">
 	<div><strong>{elapsed_time}</strong>s says <a href="http://codeigniter.com/">CodeIgniter</a></div>
+    <div><?=anchor('https://github.com/lad1337/xem','GitHub')?></div>
 	<div><?=anchor('imprint','Imprint')?></div>
 	<div><?=anchor('contact','Contact')?></div>
 	<div>
