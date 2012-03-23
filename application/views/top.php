@@ -1,9 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="http://www.facebook.com/2008/fbml">
 <head>
 	<!-- meta tags -->
 	<meta charset="utf-8">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
+    <!-- Facebook Meta Data -->
+    <meta property="og:image" content="http://thexem.de/images/xem_logo.png"/>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="xem the Xross Entity Map for TV shows"/>
+    <meta property="og:description" content="xem helps you keep an overview of your shows on different websites.Many websites use different numberings, names and season titles for the same show.xem lets you create a map for an easy overview of all the different counting and naming systems."/>
+    <meta property="og:url" content="http://thexem.de/"/>
+    <meta property="og:site_name" content="thexem"/>
 	<!-- favicon and title -->
 	<link rel="icon" href="http://thexem.de/images/entitys/icon_master.png" type="image/pn">
 	<title><?=$title?> | Xem</title>
