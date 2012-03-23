@@ -35,7 +35,7 @@
 		</div>
 		<?endif?>
 		<div id="newAlternativeName">
-			<?if($logedIn):?>
+			<?if($editRight):?>
 			<?=form_open("xem/newAlternativeName")?>
 					<?=form_hidden("element_id",$fullelement->id)?>
 
@@ -64,23 +64,53 @@
 			</ul>
 			<div class="clear"></div>
 		</div>
-		<p><?=anchor('xem/changelog/'.$fullelement->id,'Changelog')?></p>
-		<?if($logedIn):?>
+		<?if($editRight):?>
 		<p>
 			<input type="button" value="Save entity order" onClick="saveEntityOrder()"/><br/>
 
-			<?=form_open("xem/deleteShow",array('id'=>'deleteShowForm'))?>
-				<?=form_hidden("element_id",$fullelement->id)?>
-			</form>
-			<?if(grantAcces(4)):?>
-			<input type="button" onClick="deleteMe()" value="Delete This Show"/>
-			<?endif?>
+            <ul>
+                <li><strong><?=$fullelement->main_name?></strong> has a lvl of <strong><?=$fullelement->status?></strong></li>
+                <?if(grantAcces(4)):?>
+                <li>
+        			<?=form_open("xem/deleteShow",array('id'=>'deleteShowForm'))?>
+        				<?=form_hidden("element_id",$fullelement->id)?>
+        			</form>
+        			Delete <input type="button" onClick="deleteMe()" value="Delete This Show"/>
+                </li>
+    			<?endif?>
+                <?if(grantAcces(3)):?>
+                <li>
+                    <?=form_open("xem/setLockLevel",array('id'=>'deleteShowForm'))?>
+                        <?=form_hidden("element_id",$fullelement->id)?>
+
+                        Lock Level
+                        <select name="lvl">
+                            <?for($i = 1; $i <= 3; $i++):?>
+                            <option value="<?=$i?>" <?if($fullelement->status == $i){ echo 'selected="selected"';} ?>><?=$i?></option>
+                            <?endfor?>
+                        </select>
+                        <input type="submit" value="Set"/>
+                    </form>
+                </li>
+                <li>
+              	    <?=form_open("xem/clearCache",array('id'=>'deleteShowForm'))?>
+                        <?=form_hidden("element_id",$fullelement->id)?>
+
+                        Clear all cached data (<?=$fullelement->cacheSize?>)
+                        <input type="submit" value="clear"/>
+                    </form>
+                </li>
+                <?endif?>
+            </ul>
 		</p>
 		<?endif?>
+
+        <p><?=anchor('xem/changelog/'.$fullelement->id,'Changelog')?></p>
 </div>
 <!-- show script and functions -->
 <script type="text/javascript">
-var logedIn = <?=$logedInJS?>;
+var logedIn = <?=json_encode($logedIn)?>;
+var editRight = <?=json_encode($editRight)?>;
 var abstractConObjs = <?=$fullelement->getJSONDirectrules()?>;
 var passthruConObjs = <?=$fullelement->getJSONPassthrus()?>;
 var languages = <?=$languagesJS?>;
@@ -89,6 +119,7 @@ var languages = <?=$languagesJS?>;
 <?else:?>
 <h2><?=$fullelement->main_name?></h2>
 <p>This show was deleted!!</p>
+<p><?=anchor('xem/changelog/'.$fullelement->id,'Changelog')?></p>
 <?if(grantAcces(4)):?>
 <?=form_open("xem/unDeleteShow")?>
 	<?=form_hidden("element_id",$fullelement->id)?>

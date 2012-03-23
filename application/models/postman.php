@@ -12,6 +12,8 @@ class Postman{
     public $origin;
     public $destinations = array();
 
+    public $locations = array();
+
 	function __construct($oh, $identifier, $originName, $destinationNames=false){
 		$this->db = $oh->db;
 		$this->oh = $oh;
@@ -20,11 +22,17 @@ class Postman{
 
 		$this->identifier = $identifier;
 		$this->originName = $originName;
-        if($destinationNames)
-            $this->destinationNames = $destinationNames;
+        if($destinationNames){
+            if(is_array($destinationNames))
+                $this->destinationNames = $destinationNames;
+            else {
+                $this->destinationNames = array();
+                $this->destinationNames[] = $destinationNames;
+            }
+        }
         $this->buildObejcs();
-
-        print $this->element->main_name.'<br/>';
+        log_message('debug', "new Postman(oh,$identifier,$originName,".implode('|', justNames($this->destinations)).")");
+        //print $this->element->main_name.'<br/>';
 	}
 
 	private function buildObejcs(){
@@ -42,7 +50,7 @@ class Postman{
     	            if($curName == $curLocation->name && $curLocation->name != 'master'){
     	                unset($this->destinationNames[$key]);
     	                $this->destinationNames[$locID] = $curLocation->name;
-    	                $this->destination[$locID] = $curLocation;
+    	                $this->destinations[$locID] = $curLocation;
     	                continue 2;
     	            }
     	        }
@@ -55,32 +63,152 @@ class Postman{
 	    }
 	    if($tmpDestinationNames)
 	        $this->destinationNames = $tmpDestinationNames;
-
-	    $seasons = $this->db->get_where('seasons',array('location_id'=>$this->origin->id,'identifier'=>$this->identifier));
-	    if(rows($seasons) >= 1){
-	        $season = getFirst($seasons);
-	        $this->element = new Element($this->oh, $season['element_id']);
-	    }
+        if(!startswith($this->identifier, 'xem_')){
+    	    $seasons = $this->db->get_where('seasons',array('location_id'=>$this->origin->id,'identifier'=>$this->identifier));
+    	    //print_query($this->db);
+    	    if(rows($seasons) >= 1){
+    	        $season = getFirst($seasons);
+    	        $e = new Element($this->oh, $season['element_id']);
+    	        if($e->status > 0)
+        	        $this->element = $e;
+    	    }
+        }else{
+            $i = explode('_', $this->identifier);
+	        $this->element = new Element($this->oh, $i[1]);
+        }
 
 	}
 
 	function resolveAddress($season=null, $episode=null, $absolute=null){
-
+	    log_message('debug', "running resolveAddress for ".$season."x".$episode."a".$absolute);
 	    if($season == null && $episode == null && $absolute == null){
 	        return false;
 	    }
 
 	    if($season == null && $episode == null){
 	        $seasonEpisode = $this->getSeasonAndEpisode($this->origin, $absolute);
-	        if(!$seasonEpisode)// absolute out of range
-	            return false;
-	        $season = $seasonEpisode[0];
-	        $episode = $seasonEpisode[1];
+	        if(!$seasonEpisode){ // absolute out of range
+	            $conTypes = $this->getAllConTypesFor($this->origin);
+	            foreach ($conTypes as $destinationKey=>$contype) {
+	                if($contype['passthru'] == 'full' OR $contype['passthru'] == 'absolute'){
+	                    $resolved = $this->passthruResolver($this->origin, $this->destinations[$destinationKey], $contype['passthru'], null, null, $absolute);
+	                    if ($resolved) {
+                	        $season = $resolved['season'];
+                	        $episode = $resolved['episode'];
+                	        break;
+	                    }
+	                }
+	            }
+	            if(!$resolved)
+	                return false;
+	        }else{
+    	        $season = $seasonEpisode[0];
+    	        $episode = $seasonEpisode[1];
+	        }
 	    }
-	    print($season."x".$episode."a".$absolute);
-
+	    log_message('debug', "getting new address for ".$season."x".$episode."a".$absolute);
+        //print_r($this->destinations);
+        $out = false;
 	    foreach ($this->destinations as $curDestination){
-	        print "<br>".$curDestination->name.": ";
+            log_message('debug', 'resolving address on '.$curDestination->name);
+	        $route = $this->getRoute($this->origin, $curDestination);
+
+            if(!$route)
+                continue;
+
+	        log_message('debug', "final route from ".$this->originName." to ".$curDestination->name." is: ".$this->originName."->".implode("->", justNames($route)));
+
+
+
+	        $newSeason = array();
+	        $newEpisode = array();
+	        $newAbsolute = array();
+
+	        $newSeason[1] = $season;
+	        $newEpsiode[1] = $episode;
+	        $newAbsolute[1] = $absolute;
+
+	        $lastWaypoint = $this->origin;
+
+            log_message('debug', "start: ".$this->origin->name.": ".$newSeason[1]."x".$newEpsiode[1]."a".$newAbsolute[1]);
+
+            foreach ($route as $curWaypoint) {
+                for($i = 1; $i <= count($newSeason); $i++){
+                    //log_message('debug', 'current index '.$i);
+
+                    $beforeSeason = $newSeason[$i];
+                    $beforeEpisode = $newEpsiode[$i];
+                    $beforeAbsolute = $newAbsolute[$i];
+
+                    $directMaster = false;
+                    if ($curWaypoint->name == 'master') {
+    	                $directMaster = $this->getDirectConObj($lastWaypoint, $this->master, $newSeason[$i], $newEpsiode[$i]);
+                    }elseif ($lastWaypoint->name == 'master'){
+    	                $directMaster = $this->getDirectConObj($this->master, $curWaypoint, $newSeason[$i], $newEpsiode[$i]);
+                    }
+
+                    $createdNewIndex = false;
+                    if($directMaster){
+                        $first = true;
+                        log_message('debug', 'found '.count($directMaster).' direct conection(s)');
+                        $first = true;
+                        foreach ($directMaster as $curDirectMaster) {
+
+                            if($first)
+                                $n = $i;
+                            else{
+                                $n++;
+                                log_message('debug', 'creating new address index '.$n);
+    	                        $createdNewIndex = true;
+                            }
+            	            $newSeason[$n] = (int)$curDirectMaster['destination_season'];
+            	            $newEpsiode[$n] = (int)$curDirectMaster['destination_episode'];
+        	                $newAbsolute[$n] = (int)$this->getAbsolute($curWaypoint, $newSeason[$n], $newEpsiode[$n]);
+        	                /*log_message('debug', print_r($newSeason,true));
+        	                log_message('debug', print_r($newEpsiode,true));
+        	                log_message('debug', print_r($newAbsolute,true));*/
+        	                $first = false;
+                        }
+                    }else{
+        	            $passthru = $this->getPassthruType($lastWaypoint, $curWaypoint);
+
+    	                //$newAbsolute = (int)$this->getAbsolute($curWaypoint, $newSeason, $newEpsiode);
+        	            $finals = $this->passthruResolver($lastWaypoint, $curWaypoint, $passthru, $newSeason[$i], $newEpsiode[$i], $newAbsolute[$i]);
+                        $newSeason[$i] = $finals['season'];
+                        $newEpsiode[$i] = $finals['episode'];
+                        $newAbsolute[$i] = $finals['absolute'];
+                    }
+
+                    log_message('debug', "waypoint: ".$curWaypoint->name."[".$i."] lastAdress(".$beforeSeason."x".$beforeEpisode."a".$beforeAbsolute.") now: ".$newSeason[$i]."x".$newEpsiode[$i]."a".$newAbsolute[$i]);
+                    //log_message('debug', 'count season: '.count($newSeason));
+                    /*log_message('debug', 'season: '.print_r($newSeason,true));
+	                log_message('debug', 'episode: '.print_r($newEpsiode,true));
+	                log_message('debug', 'absolute: '.print_r($newAbsolute,true));*/
+                    if($createdNewIndex)
+                        break;
+
+                }
+
+                log_message('debug', 'next waypoint...');
+                $lastWaypoint = $curWaypoint;
+            }
+            for($i = 1; $i <= count($newSeason); $i++){
+
+                $final = $this->buildFinals($newSeason[$i], $newEpsiode[$i], $newAbsolute[$i]);
+                if($i > 1)
+                    $out[$curDestination->name.'_'.$i] = $final;
+                else
+                    $out[$curDestination->name] = $final;
+            }
+
+            //log_message('debug', "address at ".$curDestination->name.": ".$newSeason."x".$newEpsiode."a".$newAbsolute);
+            continue;
+
+
+
+/*
+
+	        //print "<br>".$curDestination->name.": ";
 	        $toMaster = $this->getDirectConObj($this->origin,$this->master,$season,$episode);
 	        if($toMaster){ // direct con to master
 	            // now get master values
@@ -93,8 +221,7 @@ class Postman{
 	                $finalSeason = $fromMaster['destination_season'];
 	                $finalEpisode = $fromMaster['destination_episode'];
 	                $finalAbsolute = $this->getAbsolute($curDestination, $finalSeason, $finalEpisode);
-	                //TODO: collect in out array and not print -.-
-	                print_r($this->buildFinals($finalSeason,$finalEpisode,$finalAbsolute));
+	                $out[$curDestination->name] = $this->buildFinals($finalSeason, $finalEpisode, $finalAbsolute);
                     continue;
 	            }
 	            // if we are here this means there was no direct con from the master to the destination
@@ -103,8 +230,7 @@ class Postman{
 	            if($passthru){
 	                $mAbsolute = (int)$this->getAbsolute($this->master, $mSeason, $mEpisode);
     	            $finals = $this->passthruResolver($this->master, $curDestination, $passthru, $mSeason, $mEpisode, $mAbsolute);
-	                //TODO: collect in out array and not print -.-
-                    print_r($finals);
+                    $out[$curDestination->name] = $finals;
                     continue;
 	            }
 	            // if we are here there was no connection to the destination
@@ -120,8 +246,7 @@ class Postman{
 	                $finalSeason = $fromMaster['destination_season'];
 	                $finalEpisode = $fromMaster['destination_episode'];
 	                $finalAbsolute = $this->getAbsolute($curDestination, $finalSeason, $finalEpisode);
-	                //TODO: collect in out array and not print -.-
-	                print_r($this->buildFinals($finalSeason,$finalEpisode,$finalAbsolute));
+	                $out[$curDestination->name] = $this->buildFinals($finalSeason,$finalEpisode,$finalAbsolute);
                     continue;
 	            }
 	            // if we are here this means there was no direct con from the master to the destination
@@ -130,8 +255,7 @@ class Postman{
 	            if($passthru){
 	                $mAbsolute = (int)$this->getAbsolute($this->master, $season, $episode);
     	            $finals = $this->passthruResolver($this->master, $curDestination, $passthru, $season, $episode, $mAbsolute);
-	                //TODO: collect in out array and not print -.-
-                    print_r($finals);
+                    $out[$curDestination->name] = $finals ;
                     continue;
 	            }
 	            // if we are here there was no connection to the destination
@@ -143,12 +267,11 @@ class Postman{
                 if($absolute == null)
                     $absolute = (int)$this->getAbsolute($this->origin, $season, $episode);
 	            $finals = $this->passthruResolver($this->origin, $curDestination, $passthru, $season, $episode, $absolute);
-                //TODO: collect in out array and not print -.-
-                print_r($finals);
+                $out[$curDestination->name] = $finals;
                 continue;
             }
 
-
+*/
 
             /*
 
@@ -195,10 +318,59 @@ class Postman{
 	        }
 			*/
 
-            print "no con !";
-
 	    }
+        /*
+        if (count($this->destinations) == 1) {
+            $out = $out[$this->destinations[0]->name];
+        }
+        */
+        return $out;
 	}
+
+	public function getSeasons() {
+	    log_message('debug','searching for seasons');
+	    $s = $this->dbSeason($this->origin);
+	    if($s){
+            log_message('debug', 'useing seasons from '.$this->originName);
+            foreach ($s as $value) {
+                print $value->season;
+            }
+	        return $s;
+	    }
+	    $cons = $this->getAllConTypesFor($this->origin);
+        foreach($cons as $destinationKey=>$contype) {
+            if($contype['passthru'] == 'full'){
+                $curLocation = $this->locations[$destinationKey];
+                $s = $this->dbSeason($curLocation);
+                if($s){
+                    log_message('debug', 'useing seasons from '.$curLocation->name);
+                    return $s;
+                }
+            }
+        }
+        return false;
+	}
+
+    private function dbSeason($location) {
+        $fullElement = new FullElement($this->oh, $this->element->id);
+	    $allZero = true;
+
+	    $locationSeasons = array();
+	    if($fullElement->seasons){
+	        foreach ($fullElement->seasons as $curSeason) {
+	            if($curSeason->season_size > 0 AND $curSeason->location_id == $location->id){
+	                $allZero = false;
+	            }
+	            if($curSeason->location_id == $location->id){
+    	            $locationSeasons[$curSeason->id] = $curSeason;
+	            }
+	        }
+	    }
+	    if(!$allZero)
+	        return $locationSeasons;
+	    else
+            false;
+    }
 
 	private function getDirectConObj($oringin, $destination, $season, $episode){
 	    // array('origin_id','destination_id', 'element_id', 'name_id', 'origin_season', 'origin_episode', 'destination_season',	'destination_episode');
@@ -210,36 +382,62 @@ class Postman{
         $params['origin_season'] = $season;
         $params['origin_episode'] = $episode;
         $directConnections = $this->db->get_where('directrules',$params);
+        //log_message('debug', 'direct con sql: '.$this->db->last_query());
 	    if(rows($directConnections)){
-	        $directConnection = getFirst($directConnections);
-	        return $directConnection;
+	        //$directConnection = getFirst($directConnections); //TODO: handle multiple adresses
+	        $directConnections = $directConnections->result_array();
+	        return $directConnections;
 	    }else{
 	        return false;
 	    }
 	}
+    private function getDirectConCount($oringin) {
+        $params = array();
+        $params['origin_id'] = $oringin->id;
+        $params['destination_id'] = $this->master->id;
+        $params['element_id'] = $this->element->id;
+        $directConnections = $this->db->get_where('directrules',$params);
+        return rows($directConnections);
+    }
 
     private function getSeasonAndEpisode($location,$absolute) {
 		$this->db->order_by("season", "asc");
         $seasons = $this->db->get_where('seasons',array('location_id'=>$location->id, 'element_id'=>$this->element->id));
+        //print_query($this->db);
         foreach($seasons->result() as $curSeason){
             if($curSeason->season_size >= $absolute){
                 return array($curSeason->season, $absolute);
             }else{
-                $absolute = $absolute - $curSeason->season_size;
+                if($curSeason->season >= 1)
+                    $absolute = $absolute - $curSeason->season_size;
             }
         }
     }
 
     private function getAbsolute($location, $season, $episode) {
+        //log_message('debug', 'getAbsolute('.$location->name.', '.$season.', '.$episode.')');
         $absolute = 0;
+        if($season == 0)
+            return 0;
+
 		$this->db->order_by("season", "asc");
         $seasons = $this->db->get_where('seasons',array('location_id'=>$location->id, 'element_id'=>$this->element->id));
+        //log_message('debug', $this->db->last_query());
         foreach($seasons->result() as $curSeason){
-            if($curSeason->season = $season){
-                return $absolute + $episode;
-            }else{
-                $absolute = $absolute + $curSeason->season_size;
+
+            if ($curSeason->season > 0 AND $curSeason->absolute_start > 0){
+                $absolute = ($curSeason->absolute_start -1);
+                //log_message('debug', 'absolute_start '.$absolute);
             }
+
+            if((int)$curSeason->season == (int)$season){
+                $final = (int)$absolute + (int)$episode;
+                //log_message('debug', 'absolute return '.$final);
+                return $final;
+            }
+            if($curSeason->season > 0)
+                $absolute = $absolute + $curSeason->season_size;
+
         }
     }
 
@@ -247,7 +445,7 @@ class Postman{
         //array("origin_id","destination_id","element_id","type");
 
         $passthru = $this->db->get_where('passthrus',array('origin_id'=>$origin->id, 'destination_id'=>$destination->id, 'element_id'=>$this->element->id));
-        if(rows($passthru)==1){
+        if(rows($passthru) == 1){
             $passthru = getFirst($passthru);
             return $passthru['type'];
         }else{
@@ -255,39 +453,121 @@ class Postman{
         }
     }
 
+    private function getAllConTypesFor($origin) {
+
+        $conections = array();
+        foreach ($this->locations as $key=>$curDestination) {
+            $conections[$key] = array();
+            $passthru = $this->getPassthruType($origin, $curDestination);
+            $conections[$key]['passthru'] = $passthru;
+            $directConCount = $this->getDirectConCount($origin);
+            $conections[$key]['direct'] = $directConCount;
+        }
+        return $conections;
+    }
+
+    private function areConnected($origin, $destination){
+        $passthru = $this->getPassthruType($origin, $destination);
+        if($passthru)
+            return true;
+
+        $directConCount = 0;
+        if($destination->name == 'master'){
+            $directConCount = $this->getDirectConCount($origin);
+        }elseif($origin->name == 'master'){
+            $directConCount = $this->getDirectConCount($destination);
+        }
+
+        if($directConCount){
+            return true;
+        }
+
+        return false;
+    }
+
     private function passthruResolver($from, $to, $type, $season, $episode, $absolute){
+        log_message('debug',"passthruResolver called with: ".$from->name.", ".$to->name.", ".$type.", ".$season.", ".$episode.", ".(string)$absolute);
         if($type == 'sxxexx'){
             $dAbsolute = $this->getAbsolute($to, $season, $episode);
+            log_message('debug',$to->name."-".$dAbsolute);
             return $this->buildFinals($season, $episode, $dAbsolute);
-        }else{
-            if($absolute == null)
-	            $asolute = $this->getAbsolute($from, $season, $episode);
-	        $seasonEpisode = $this->getSeasonAndEpisode($from, $absolute);
+        }else if($type == 'absolute'){
+            if($absolute == null){
+	            //log_message('debug','absolute passthru. calculating absolute ');
+	            $absolute = $this->getAbsolute($from, $season, $episode);
+            }
+	        $seasonEpisode = $this->getSeasonAndEpisode($to, $absolute);
 	        if(!$seasonEpisode)// absolute out of range
 	            return false;
 	        $dSeason = $seasonEpisode[0];
 	        $dEpisode = $seasonEpisode[1];
             return $this->buildFinals($dSeason, $dEpisode, $absolute);
-        };
-    }
+        }else if($type == 'full'){ //full
 
-    // TODO: implement
-    private function recursivePassthru($origin, $destination, $finalDestination){
-         if($pType = getPassthruType($origin, $destination)){
-            if($finalDestination.name == $destination.name){
-                return true;
-            }else{
-
-
+            if($season == null && $episode == null){
+	            $seasonEpisode = $this->getSeasonAndEpisode($from, $absolute);
+    	        if(!$seasonEpisode)// absolute out of range
+    	            return false;
+	            $season = $seasonEpisode[0];
+	            $episode = $seasonEpisode[1];
             }
 
-         }
-         return false;
+            if($absolute == null){
+	            $absolute = $this->getAbsolute($from, $season, $episode);
+	            //print_query($this->db);
+            }
+            return $this->buildFinals($season, $episode, $absolute);
+        }else{
+            return false;
+        }
+
     }
 
 
+    private function getRoute($curOrigin, $finalDestination, $toCheck=null) {
+        if($this->areConnected($curOrigin, $finalDestination)){
+            //print "".$curOrigin->name." and ".$finalDestination->name." are connected<br>";
+            return array($finalDestination);
+        }else{
+            if ($toCheck == null) {
+                $toCheck = $this->locations;
+            }
+
+            unset($toCheck[$curOrigin->id]);
+            unset($toCheck[$finalDestination->id]);
+            /*print "<br>checking: ";
+            foreach ($toCheck as $key => $value) {
+
+                print $value->name."(".$key."), ";
+            }
+            print "<br>";
+            */
+            foreach ($toCheck as $key => $curDestination) {
+                //print "checking if it is worth from ".$curOrigin->name." to ".$curDestination->name."<br>";
+                if(!$this->areConnected($curOrigin, $curDestination))
+                    continue;
+
+               // print "calling: getRoute(".$curDestination->name.", ".$finalDestination->name.")<br>";
+                $route = $this->getRoute($curDestination, $finalDestination, $toCheck);
+                if($route){
+					/*
+                    print implode("->", $route);
+                    print "<br>";
+                    */
+                    $combinedArray = array();
+                    $combinedArray[] = $curDestination;
+                    foreach ($route as $curWaypoint){
+                        $combinedArray[] = $curWaypoint;
+                    }
+                    return $combinedArray;
+                }
+            }
+        }
+        return false;
+    }
+
     private function buildFinals($finalSeason,$finalEpisode,$finalAbsolute){
-        return array('season'=>$finalSeason,'episode'=>$finalEpisode,'absolute'=>$finalAbsolute);
+        return array('season'=>(int)$finalSeason,'episode'=>(int)$finalEpisode,'absolute'=>(int)$finalAbsolute);
     }
 
 }

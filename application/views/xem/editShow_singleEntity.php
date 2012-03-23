@@ -66,7 +66,7 @@ $curElementLocation = null;
 			</div>
 			<ul>
 			<?$size = $curElementLocation->season_size;for($i = 0; $i < $size; $i++):?>
-				<li class="episode" id="<?=$curLocation->name?>_<?=$curElementLocation->season?>_<?$curEp = $i+$curElementLocation->episode_start; echo $curEp;?>">
+				<li class="episode" id="<?=$curLocation->name?>_<?=$curElementLocation->season?>_<?$curEp = $i+$curElementLocation->episode_start; echo $curEp;?>" data-entity="<?=$curLocation->name?>" data-season="<?=$curElementLocation->season?>" data-episode="<?=$curEp?>" data-absolute="<?=$absolute_number?>">
 					<?if($curElementLocation->season != 0):?><span class="absolute_number"><?echo zero_pad($absolute_number,3);$absolute_number++;?></span><?endif?><span class="episode_number">e<?echo zero_pad($curEp,2)?></span>
 				</li>
 			<?endfor?>
@@ -76,7 +76,7 @@ $curElementLocation = null;
 		<?endforeach?>
 		<li>
 
-			<?if($logedIn):?>
+			<?if($editRight):?>
 			<div class="newSeason">
 				<?=form_open("xem/newSeason")?>
 					<?=form_hidden("element_id",$fullelement->id)?>
@@ -84,7 +84,7 @@ $curElementLocation = null;
 					<ul>
 						<li><label>Season</label><input class="season" name="season" value="<? if(isset($curElementLocation->season)) echo $curElementLocation->season+1?>" <?=$disabled?>/></li>
 						<li><label>Size</label><input class="season" name="season_size" value="" <?=$disabled?>/></li>
-                        <?if($curLocation->name != 'master'):?>
+                        <?if($curLocation->name != 'master' || $curLocation->name != 'scene'):?>
 						<li><label>Identifier</label><input class="season" name="identifier" <?=$disabled?>/></li>
                         <?endif?>
 						<li><input class="fullWidthButton" type="submit" value="Add New Season" <?=$disabled?>/></li>

@@ -10,9 +10,9 @@ class Index extends SuperController {
 		$this->out['locations'] = $this->db->get('locations');
 		$this->_loadView('index');
 
-		//$p = new Postman($this->oh,'79151','tvdb');
-		//$p->resolveAddress(null,null,30);
-
+		//$p = new Postman($this->oh,'110381','tvdb');
+		//$p->resolveAddress(null,null,7);
+        //$p->resolveAddress(2,13,null);
 	}
 
 	public function search(){
@@ -31,9 +31,9 @@ class Index extends SuperController {
 				return;
 			}else{
 				$shows = getShows($this->db,$id);
-				if(count($shows) == 1)
+				if(count($shows) == 1){
 					redirect('xem/show/'.$shows[0]->id);
-				else{
+				}else{
 					//print_query($this->db);
 					$this->out['curShows'] = $shows;
 					$this->_loadView('showList',false);
@@ -54,6 +54,10 @@ class Index extends SuperController {
 	function faq(){
 		$this->out['title'] = 'Frequently Asked Quesions';
 		$this->_loadView('faq');
+	}
+	function doc(){
+		$this->out['title'] = 'Documentation';
+		$this->_loadView('doc');
 	}
 	function Error_Four_ohh_Four(){
 		header("HTTP/1.1 404 Not Found");

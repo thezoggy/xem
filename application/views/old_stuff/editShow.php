@@ -56,7 +56,7 @@
 </div>
 <!-- show script and functions -->
 <script type="text/javascript">
-var logedIn = <?=$logedInJS?>;
+var logedIn = <?=json_encode($logedIn)?>;
 var abstractConObjs = <?=$fullelement->getJSONDirectrules()?>;
 var passthruConObjs = <?=$fullelement->getJSONPassthrus()?>;
 </script>

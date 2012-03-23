@@ -8,6 +8,10 @@ class Xem extends SuperController {
 		$this->out['languages'] = $this->db->get('languages');
 
 		$this->out['languagesJS'] = json_encode(buildSimpleLanguageArray($this->out['languages']));
+
+		//email stuff
+	    $this->load->library('email');
+        $this->email->from('info@thexem.de', 'XEM');
 	}
 
 	public function index(){
@@ -34,6 +38,8 @@ class Xem extends SuperController {
 			return false;
 		}else{
 			$this->out['fullelement'] = $fullElement;
+
+    		$this->out['editRight'] = ($this->session->userdata('logged_in') && ($this->user_lvl >=  $fullElement->status));
 		}
 
 		$this->out['title'] = $fullElement->main_name.' | Maping';
@@ -103,7 +109,8 @@ class Xem extends SuperController {
 				$seasonNumber = -1;
 			$season->season = $seasonNumber;
 			$season->season_size = $_POST['size'];
-			$season->identifier = $_POST['identifier'];
+			if(isset($_POST['identifier'])) // is not set on master
+    			$season->identifier = $_POST['identifier'];
 			$absolute_start = $_POST['absolute_start'];
 			if($absolute_start == "auto")
 				$absolute_start = 0;
@@ -140,6 +147,28 @@ class Xem extends SuperController {
 		redirect('xem/show/'.$_POST['element_id']);
 	}
 
+    function setLockLevel() {
+		if(!grantAcces(3)) {
+			redirect('');
+		}
+
+		$element = new Element($this->oh, $_POST['element_id']);
+		$element->status = (int)$_POST['lvl'];
+		$element->save();
+
+		redirect('xem/show/'.$_POST['element_id']);
+    }
+
+    function clearCache() {
+        if(!grantAcces(3)) {
+			redirect('');
+		}
+
+		$this->oh->dbcache->clearNamespace($_POST['element_id']);
+
+		redirect('xem/show/'.$_POST['element_id']);
+    }
+
 	function addShow(){
 		if(!$this->session->userdata('logged_in')) {
 			redirect('user/login');
@@ -154,6 +183,13 @@ class Xem extends SuperController {
     			$element->status = 1;
     			$element->main_name = $newName;
     			$element->save();
+
+                // info mail
+                $this->email->to('info@thexem.de');
+                $this->email->subject('New Show | '.$element->main_name);
+                $emailBody = $this->load->view('email/show_new', array('show'=>$element,'user_nick'=>$this->out['user_nick']), true);
+                $this->email->message($emailBody);
+                $this->email->send();
 
     			redirect('xem/show/'.$element->id);
     			return true;

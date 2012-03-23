@@ -25,17 +25,18 @@ function getShows($db,$term=false){
 		$query = "SELECT  e.id, e.main_name, n.name FROM `elements` AS e LEFT JOIN `names` AS n ON n.element_id = e.id WHERE (n.name LIKE '%".$term."%' OR e.main_name LIKE '%".$term."%' OR n.name SOUNDS LIKE '".$term."' OR e.main_name SOUNDS LIKE '".$term."' ) AND `status` > 0  GROUP BY e.main_name ORDER BY e.main_name";
 
 	$shows = $db->query($query);
-	if($shows = $shows->result())
+	$shows = $shows->result();
+	if($shows)
 	    return $shows;
 	else
-	    return false;
+	    return array();
 }
 
 function rows($db_result){
 	if($db_result)
 		if($db_result->num_rows())
 			return $db_result->num_rows();
-	return false;
+	return 0;
 }
 function buildLocations($oh){
 	$locations = $oh->db->get("locations");
@@ -141,6 +142,21 @@ function seasonKeySort($sa,$sb){
 	return $sa > $sb;
 }
 
+function hasEditRight($oh, $element_id){
 
+    $CI =& get_instance();
+    if (!$CI->session->userdata('logged_in')) {
+        return false;
+    }
+    $e = new FullElement($oh, $element_id);
+    return  ($CI->session->userdata('user_lvl') >= $e->status && $e->status > 0);
+}
+
+function justNames($objs) {
+    $out = array();
+    foreach ($objs as $obj)
+        $out[] = $obj->name;
+   return $out;
+}
 
 ?>

@@ -24,7 +24,7 @@ class SuperController extends CI_Controller {
 
 		if($this->session->userdata('logged_in')){
 			$this->out['disabled'] = "";
-			$this->out['logedInJS'] = "true";
+			$this->out['logedIn'] = true;
 			$this->user_nick = $this->session->userdata('user_nick');
 			$this->user_email = $this->session->userdata('user_email');
 			$this->user_lvl = $this->session->userdata('user_lvl');
@@ -34,13 +34,15 @@ class SuperController extends CI_Controller {
 			$this->out['user_lvl'] = $this->user_lvl;
 		}else{
 			$this->out['disabled'] = 'disabled="disabled"';
-			$this->out['logedInJS'] = "false";
+			$this->out['logedIn'] = false;
+			$this->out['user_lvl'] = $this->user_lvl;
 		}
 
 		$this->out['title'] = 'Xross Entity Map';
 		$this->load->model('dbobjectcache');
 		$this->history = new History($this->db,$this->session);
-		$this->oh = new Objectholder($this->db,$this->dbobjectcache,$this->history);
+		$this->dbcache = new DBCache($this->db);
+		$this->oh = new Objectholder($this->db, $this->dbobjectcache, $this->history, $this->dbcache);
 
 	}
 

@@ -33,6 +33,22 @@ function genericRequest(curFunction, params, succes_callback, error_callback) {
     		}
     });
 }
+// TODO: refactor !!!
+function genericMapRequest(curFunction, params, succes_callback, error_callback) {
+
+    var apiUrl = '/map/'+curFunction;
+    $.ajax( { type : "POST",
+            url : apiUrl,
+            data : params,
+            dataType : 'json',
+            success : function(data) {
+                checkForError(data, params, succes_callback, error_callback);
+            }, error : function(data) {
+                genricRequestError(data, params);
+            }
+    });
+}
+
 
 /**
  * checks id data has the attr "error" if not noErrorCallback is called with data and paramString as arguments
@@ -140,13 +156,10 @@ function mainInit(){
 			var params = new Params();
 			params.term = request.term;
 			genericRequest("autocomplete", params, response, response);
-			
-			
 		},
 		select: function( event, ui ) {
-			console.log( ui.item ?
-				"Selected: " + ui.item.value + " aka " + ui.item.id :
-				"Nothing selected, input was " + this.value );
+			//console.log( ui.item ? "Selected: " + ui.item.value + " aka " + ui.item.id : "Nothing selected, input was " + this.value );
+			$('#searchForm').submit();
 		},
 		open: function(event, ui) {
 			$('#header').addClass('autocomplete');
@@ -159,17 +172,17 @@ function mainInit(){
 	});
 	
 	$("#logout").mouseup(function(){
-		clearTimeout(pressTimerText)
-		clearTimeout(pressTimerLogout)
-		$(this).text('Profile')
+		clearTimeout(pressTimerText);
+		clearTimeout(pressTimerLogout);
+		$(this).text('Profile');
 		// Clear timeout
 		document.location.href='/user';
 		return false;
 	}).mousedown(function(){
 		// Set timeout
 		var link = $(this)
-		pressTimerText = window.setTimeout(function() { link.text('Logout')}, 100);
-		pressTimerLogout = window.setTimeout(function() {document.location.href=link.attr('href');},1200)
+		pressTimerText = window.setTimeout(function() { link.text('Logout'); }, 100);
+		pressTimerLogout = window.setTimeout(function() {document.location.href=link.attr('href');},1200);
 		return false; 
 	});  
 	$(document).ready(function() {

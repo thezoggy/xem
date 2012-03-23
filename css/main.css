@@ -19,9 +19,6 @@ a:hover{
 	text-decoration: underline;
 }
 
-ul li{
-	list-style-type: none;
-}
 /*
 img { vertical-align: middle; }
 */
@@ -180,12 +177,20 @@ label{
 	width: 100%;
 	margin-top:3px;
 }
-
-
-ul {
+.ui-tooltip-content ul,
+#header ul,
+#element ul,
+ul.no {
 	list-style: none;
 	padding: 0;
 	margin: 0;
+}
+
+.ui-tooltip-content ul,
+#header ul li,
+#element ul li,
+ul.no{
+    list-style-type: none;
 }
 
 #element h1{
@@ -264,6 +269,22 @@ ul {
 	height: 18px;
 	line-height: 21px;
 }
+.newSeason form{
+    height: 0;
+    overflow: hidden;
+    -moz-transition-property: height;
+    -moz-transition-duration: 0.5s;
+    -o-transition-property: height;
+    -o-transition-duration: 0.5s;
+    -webkit-transition-property: height;
+    -webkit-transition-duration: 0.5s;
+    transition-property: height;
+    transition-duration: 0.5s;
+}
+.newSeason:hover form{
+    height: 86px;
+}
+
 .seasonHeader.edit{
 	background: #aaa;
 	color: black;
@@ -307,13 +328,19 @@ ul {
 	border-color: #f7ff29;
 }
 .seasonHeaderInfo img.absolute{
-	border-color: #ff0000;
+    border-color: #ff0000;
+}
+.seasonHeaderInfo img.full{
+    border-color: #00ff00;
 }
 span.sxxexx{
 	color: #f7ff29;
 }
 span.absolute{
-	color: #ff0000;
+    color: #ff0000;
+}
+span.full{
+    color: #00ff00;
 }
 
 
@@ -533,15 +560,11 @@ li.episode .episode_number {
 	width: 142px;
 	margin-right: 44px;
 	float: left;
-	
-background: #ffffff; /* Old browsers */
-background: -moz-linear-gradient(top, #ffffff 0%, #cecece 49%, #ffffff 100%); /* FF3.6+ */
-background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(49%,#cecece), color-stop(100%,#ffffff)); /* Chrome,Safari4+ */
-background: -webkit-linear-gradient(top, #ffffff 0%,#cecece 49%,#ffffff 100%); /* Chrome10+,Safari5.1+ */
-background: -o-linear-gradient(top, #ffffff 0%,#cecece 49%,#ffffff 100%); /* Opera 11.10+ */
-background: -ms-linear-gradient(top, #ffffff 0%,#cecece 49%,#ffffff 100%); /* IE10+ */
-background: linear-gradient(top, #ffffff 0%,#cecece 49%,#ffffff 100%); /* W3C */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
+    background: #AAA;
+    
+    -webkit-border-radius: 10px; 
+    -moz-border-radius: 10px; 
+         border-radius: 10px;
 }
 
 
@@ -567,7 +590,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
     color: #fff;
 }
 
-#changelog span{
+#changelog span,
+.shadow{
     text-shadow: -1px 0 #000, 0 1px #000,1px 0 #000, 0 -1px #000;
 }
 /*entity colors*/
@@ -765,12 +789,17 @@ input.name{
 }
 
 .ui-autocomplete .ui-menu-item:last-child a{
-	-webkit-border-bottom-right-radius: 10px;
-	-webkit-border-bottom-left-radius: 10px;
-	-moz-border-radius-bottomright: 10px;
-	-moz-border-radius-bottomleft: 10px;
-	border-bottom-right-radius: 10px;
-	border-bottom-left-radius: 10px;	
+	-webkit-border-bottom-right-radius: 8px;
+	-webkit-border-bottom-left-radius: 8px;
+	-moz-border-radius-bottomright: 8px;
+	-moz-border-radius-bottomleft: 8px;
+	border-bottom-right-radius: 8px;
+	border-bottom-left-radius: 8px;	
 }
 
+.address span{
+    display: block;
+    text-align: center;
+    font-size: 16px;
+}
 

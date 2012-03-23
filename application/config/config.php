@@ -180,7 +180,7 @@ $config['directory_trigger']	= 'd'; // experimental not currently in use
 | your log files will fill up very fast.
 |
 */
-$config['log_threshold'] = 0;
+$config['log_threshold'] = 4;
 
 /*
 |--------------------------------------------------------------------------
@@ -362,10 +362,18 @@ $config['proxy_ips'] = '';
 /* Location: ./application/config/config.php */
 
 function __autoload($class) {
-	if(strpos($class, 'CI_') !== 0)
+	if(strpos($class, 'CI_') !== 0){
+        //print $class;
 		if (file_exists(APPPATH."models/".strtolower($class).EXT)) {
+			//print " ...1";
 			include_once(APPPATH."models/".strtolower($class).EXT);
+			//print " ok<br>";
+		}elseif (file_exists(APPPATH."models/proxy/".strtolower($class).EXT)) {
+			//print " ...2";
+			include_once(APPPATH."models/proxy/".strtolower($class).EXT);
+			//print " ok<br>";
 		}
+	}
 }
 
 

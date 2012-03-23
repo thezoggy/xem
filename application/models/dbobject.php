@@ -32,9 +32,12 @@ class DBObject{
 			$this->load();
 		if($this->id){
 		    $valueArray = $this->buildNameValueArray($this->dataFields);
-		    $diff = array_diff($valueArray,$this->initialData); // create diff to see if something realy changed
+		    log_message('debug', 'valueArray while saving '.print_r($valueArray,true));
+		    $diff = array_diff_assoc($valueArray, $this->initialData); // create diff to see if something realy changed
+		    log_message('debug', 'array_diff while saving '.print_r($diff,true));
             if($diff){
     			$this->history->createEvent('update',$this);
+    			$this->clearNamespace();
     			//print "updating ".$this->className." ".$this->id."</br>";
     			$this->db->update($this->table, $valueArray, array("id"=>$this->id));
             }
@@ -45,6 +48,7 @@ class DBObject{
 			//print_query($this->db);
 			//print "new id: ".$this->id."<br>";
 			$this->history->createEvent('insert',$this);
+			$this->clearNamespace();
 		}
 		return $this->id;
 	}
@@ -65,7 +69,7 @@ class DBObject{
 
 				//print "loading a ".$this->className." from cache with id: ".$this->id."<br>";
 				$this->setAtributes($cachedObj->buildNameValueArray());
-				return;
+
 			}else{
 
 				//print "loading a ".$this->className." with id: ".$this->id."<br>";
@@ -92,7 +96,10 @@ class DBObject{
 
 	private function setAtributes($array){
 		foreach($array as $name=>$value){
-			$this->$name = $value;
+		    if(is_numeric($value))
+    			$this->$name = (int)$value;
+    	    else
+    			$this->$name = $value;
 
 			if(endswith($name, "_id")){
 				$name = explode("_",$name);
@@ -125,7 +132,13 @@ class DBObject{
         return str_replace("Array",$this->className."(".$this->id.")",print_r($out, true));
     }
 
-
+    protected function clearNamespace() {
+        //print "clear namespace for ".$this->className;
+        if($this->className == 'plement')
+			$this->oh->dbcache->clearNamespace($this->id);
+	    elseif ($this->className == 'season' OR $this->className == 'name' OR $this->className == 'directrule' OR $this->className == 'passthru')
+			$this->oh->dbcache->clearNamespace($this->element_id);
+    }
 
     function delete(){
     	if(!$this->id){
@@ -133,6 +146,7 @@ class DBObject{
     	}
 		if($this->id){
 			$this->history->createEvent('delete',$this);
+			$this->clearNamespace();
 			$this->db->delete($this->table,array("id"=>$this->id));
 			$this->id = 0;
 			return true;

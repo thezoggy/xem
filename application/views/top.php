@@ -74,7 +74,7 @@
 			    </form>
 			</div>
 			<div id="searchContainer">
-				<?=form_open("search/",array('method'=>'get'))?>
+				<?=form_open("search/",array('method'=>'get','id'=>'searchForm'))?>
 					<input id="search" name="q"/>
 				</form>
 			</div>

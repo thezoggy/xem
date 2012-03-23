@@ -23,7 +23,7 @@ class Changelog{
 				$newRaw = json_decode($curRevsion->new_data,true);
 				$oldRaw = json_decode($curRevsion->old_data,true);
 
-				$diff = array_diff($newRaw,$oldRaw);
+				$diff = array_diff_assoc($newRaw,$oldRaw);
 
 				$old = $oldRaw;
 				$new = $newRaw;
@@ -55,7 +55,7 @@ class Changelog{
 	        case 'delete':
 	            return $this->createHumanformDelete($event);
 	        default:
-	            return 'unknown event db entry broken';
+	            return 'unknown event db entry broken/old';
     	        break;
 	    }
 	}
@@ -75,7 +75,7 @@ class Changelog{
 	        case 'Passthru':
 	            $des = $this->locN($new['destination_id']);
                 $or = $this->locN($new['origin_id']);
-	            return 'connected <span class="'.$des.'">'.$des.'</span> to <span class="'.$or.'">'.$or.'</span> with an <b>'.$new['type'].'</b> passthru';
+	            return 'connected <span class="'.$des.'">'.$des.'</span> to <span class="'.$or.'">'.$or.'</span> with an <span class="'.$new['type'].'">'.$new['type'].'</span> passthru';
 	        case 'Season':
 	            $loc = $this->locN($new['location_id']);
     			$seasonNumber = $new['season'];
@@ -93,7 +93,16 @@ class Changelog{
 	    $new = $event['new'];
 	    switch ($event['type']) {
 	        case 'Element':
-	            return 'renamed <b>'.$old['main_name'].'</b> to <b>'.$new['main_name'].'</b>';
+	            if($old['main_name'] != $new['main_name'])
+	                return 'renamed <b>'.$old['main_name'].'</b> to <b>'.$new['main_name'].'</b>';
+	            elseif((int)$old['status'] != (int)$new['status'] && (int)$old['status'] > 0 && (int)$new['status'] > 0 )
+	                return 'changed the level from <b>'.$old['status'].'</b> to <b>'.$new['status'].'</b>';
+	            elseif((int)$old['status'] != (int)$new['status'] && (int)$old['status'] > 0 && (int)$new['status'] == 0 )
+	                return 'deleted the show <b>'.$new['main_name'].'</b> which had a level of <b>'.$old['status'].'</b>';
+	            elseif((int)$old['status'] != (int)$new['status'] && (int)$old['status'] == 0 && (int)$new['status'] > 0 )
+	                return 'undeleted the show <b>'.$new['main_name'].'</b>';
+	            else
+	                return "I don't know what happend. A save without data change."; //.print_r($old, true).' vs '.print_r($old, true);
 	        case 'Name':
 	            if($old['name'] != $new['name'])
 	                return 'changed alias name from <b>'.$old['name'].'</b> to <b>'.$new['name'].'</b>';
@@ -104,7 +113,7 @@ class Changelog{
 	        case 'Passthru':
 	            $des = $this->locN($new['destination_id']);
                 $or = $this->locN($new['origin_id']);
-	            return 'changed the passtruhe between <span class="'.$des.'">'.$des.'</span> and <span class="'.$or.'">'.$or.'</span> from <b>'.$old['type'].'</b> to <b>'.$new['type'].'</b>';
+	            return 'changed the passtruhe between <span class="'.$des.'">'.$des.'</span> and <span class="'.$or.'">'.$or.'</span> from <span class="'.$old['type'].'">'.$old['type'].'</span> to <span class="'.$new['type'].'">'.$new['type'].'</span>';
 	        case 'Season':
 	            $loc = $this->locN($new['location_id']);
 	            $diff = $event['diff'];

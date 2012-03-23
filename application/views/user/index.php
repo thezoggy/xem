@@ -10,7 +10,7 @@
 		<li><label style="width: 160px;" >New Password Again</label><input name="new_pw_check" type="password"/></li>
 	</ul>
 	<input type="submit" value="Save New Password"/><br/>
-	<span style="font-size:80%;">Note: You will be logged out. Thats the sign of succes</span>
+	<span style="font-size:80%;">Note: Upon changing your password, you must log back in</span>
 </form>
 
 

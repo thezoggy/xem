@@ -9,7 +9,8 @@ class Api extends CI_Controller {
 		$this->load->helper("url");
 		$this->load->model('dbobjectcache');
 		$this->history = new History($this->db,$this->session);
-		$this->oh = new Objectholder($this->db,$this->dbobjectcache,$this->history);
+		$this->dbcache = new DBCache($this->db);
+		$this->oh = new Objectholder($this->db, $this->dbobjectcache, $this->history, $this->dbcache);
 	}
 
 	public function index(){
@@ -18,8 +19,8 @@ class Api extends CI_Controller {
 
 
 	public function saveCon(){
-		if(!$this->session->userdata('logged_in')) {
-			$this->_fullOut('failure',array(),"not loged in");
+		if(!hasEditRight($this->oh, $_POST['elementID'])) {
+			$this->_fullOut('failure',array(),"not enough rights");
 			return false;
 		}
 
@@ -54,8 +55,8 @@ class Api extends CI_Controller {
 
 	}
 	public function deleteCon(){
-		if(!$this->session->userdata('logged_in')) {
-			$this->_fullOut('failure',array(),"not loged in");
+		if(!hasEditRight($this->oh, $_POST['elementID'])) {
+			$this->_fullOut('failure',array(),"not enough rights");
 			return false;
 		}
 		$directrule = new Directrule($this->oh);
@@ -81,8 +82,8 @@ class Api extends CI_Controller {
 	}
 
 	public function savePassthru(){
-		if(!$this->session->userdata('logged_in')) {
-			$this->_fullOut('failure',array(),"not loged in");
+		if(!hasEditRight($this->oh, $_POST['element_id'])) {
+			$this->_fullOut('failure',array(),"not enough rights");
 			return false;
 		}
 		$orign = new Location($this->oh);
@@ -116,7 +117,7 @@ class Api extends CI_Controller {
 
 	public function deletePassthru(){
 		if(!$this->session->userdata('logged_in')) {
-			$this->_fullOut('failure',array(),"not loged in");
+			$this->_fullOut('failure',array(),"not enough rights");
 			return false;
 		}
 
@@ -146,11 +147,11 @@ class Api extends CI_Controller {
 
 		}
 
-		json_encode($this->_fullOut('failure',$_POST));
+		$this->_fullOut('failure',$_POST);
 	}
 	function saveEntityOrder(){
-		if(!$this->session->userdata('logged_in')) {
-			$this->_fullOut('failure',array(),"not loged in");
+		if(!hasEditRight($this->oh, $_POST['element_id'])) {
+			$this->_fullOut('failure',array(),"not enough rights");
 			return false;
 		}
 		$element = new Element($this->oh, $_POST['element_id']);
@@ -162,8 +163,8 @@ class Api extends CI_Controller {
 	}
 
 	function saveNewName(){
-		if(!$this->session->userdata('logged_in')) {
-			$this->_fullOut('failure',array(),"not loged in");
+		if(!hasEditRight($this->oh, $_POST['element_id'])) {
+			$this->_fullOut('failure',array(),"not enough rights");
 			return false;
 		}
 		$element = new Element($this->oh, $_POST['element_id']);
@@ -174,8 +175,8 @@ class Api extends CI_Controller {
 	}
 
 	function saveAltenativeName(){
-		if(!$this->session->userdata('logged_in')) {
-			$this->_fullOut('failure',array(),"not loged in");
+		if(!hasEditRight($this->oh, $_POST['element_id'])) {
+			$this->_fullOut('failure',array(),"not enough rights");
 			return false;
 		}
 		$name = new Name($this->oh, $_POST['name_id']);
@@ -186,8 +187,8 @@ class Api extends CI_Controller {
 	}
 
 	function deleteAltenativeName(){
-		if(!$this->session->userdata('logged_in')) {
-			$this->_fullOut('failure',array(),"not loged in");
+		if(!hasEditRight($this->oh, $_POST['element_id'])) {
+			$this->_fullOut('failure',array(),"not enough rights");
 			return false;
 		}
 		$name = new Name($this->oh, $_POST['name_id']);
@@ -197,8 +198,8 @@ class Api extends CI_Controller {
 	}
 
 	function showRevision(){
-		if(!$this->session->userdata('logged_in')) {
-			$this->_fullOut('failure',array(),"not loged in");
+		if(!hasEditRight($this->oh, $_POST['element_id'])) {
+			$this->_fullOut('failure',array(),"not enough rights");
 			return false;
 		}
 		$out = array();
@@ -227,7 +228,7 @@ class Api extends CI_Controller {
 				}
 
 
-				$userName = userNameByID($this->db,$curRevsion->user_id); // this might make ist very slow
+				$userName = userNameByID($this->db,$curRevsion->user_id); // this might make it very slow
 				$out[] = array("time"=>$curRevsion->time,
 								"revision"=>$curRevsion->revision,
 								"type"=>$curRevsion->obj_type,

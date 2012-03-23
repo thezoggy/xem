@@ -492,7 +492,7 @@ function createEditIcon(seasonConnectionDOM){
 	
 	c.attr({fill: "#000"});
 	i.attr({fill: "#fff", stroke: "none"});
-	if(logedIn){
+	if(editRight){
 		clicker.hover(function(t){
 				i.attr('fill','#83e700');
 			},function(t){
@@ -647,21 +647,27 @@ function updatePassthruIcons(){
 	        	passthruContainer.addClass(curPassthruObj.type);
 			if(curPassthruObj.type == "absolute"){
 				a.attr('fill','#ff0000');
-			}if(curPassthruObj.type == "sxxexx"){
-				a.attr('fill','#f7ff29');
 			}
+            if(curPassthruObj.type == "sxxexx"){
+                a.attr('fill','#f7ff29');
+            }
+            if(curPassthruObj.type == "full"){
+                a.attr('fill','#00ff00');
+            }
+            console.log(fName, tName, '-'+curPassthruObj.type);
 		}else{
 			a.attr('fill','#fff');	
 		}
 		
-		var absoluteText = '<span class="absolute">Absolute</span> passthru:<br>The two entitiy have there episodes link by the absolute numbers';
-		var sxxexxText = '<span class="sxxexx">SxxExx</span> passthru:<br>The two entitiy have there episodes link by the season-episode numbers';
+		var absoluteText = '<span class="absolute">Absolute</span> passthru:<br>The two entities have there episodes linked by the absolute numbers. Season and Episode are calculated individualy.';
+        var sxxexxText = '<span class="sxxexx">SxxExx</span> passthru:<br>The two entities have there episodes linked by the season-episode numbers. Absolute numbers are calculated individualy.';
+        var fullText = '<span class="full">Full</span> passthru:<br>The two entities share the season, episode and absolute numbers.';
 		
 		
 		
 		passthruContainer.dataset('fName',fName);
 		passthruContainer.dataset('tName',tName);
-		if(logedIn){
+		if(editRight){
 			passthruContainer.hover(function(t){
 					// p.attr('fill','#83e700');
 				},function(t){
@@ -683,14 +689,22 @@ function updatePassthruIcons(){
 						passthruConObjs['passthru_'+curtName+'_'+curfName] = {'fid':curtName,'tid':curfName, 'type':'absolute'};
 						conPassthru(passthruConObjs['passthru_'+curfName+'_'+curtName],'absolute');
 			   		});
-			   		var seasonepisodeB = $('<input type="button" value="SxxExx Passthru (Yellow)" class="fullWidthButton">')
-			   		seasonepisodeB.click(function(){
-			        	 passthruContainer.addClass('active sxxexx');
-			   			a.animate({'fill':'#f7ff29'},200);
-						passthruConObjs['passthru_'+curfName+'_'+curtName] = {'fid':curfName,'tid':curtName, 'type':'sxxexx'};
-						passthruConObjs['passthru_'+curtName+'_'+curfName] = {'fid':curtName,'tid':curfName, 'type':'sxxexx'};
-						conPassthru(passthruConObjs['passthru_'+curfName+'_'+curtName],'sxxexx');
-			   		});
+                    var seasonepisodeB = $('<input type="button" value="SxxExx Passthru (Yellow)" class="fullWidthButton">')
+                    seasonepisodeB.click(function(){
+                         passthruContainer.addClass('active sxxexx');
+                        a.animate({'fill':'#f7ff29'},200);
+                        passthruConObjs['passthru_'+curfName+'_'+curtName] = {'fid':curfName,'tid':curtName, 'type':'sxxexx'};
+                        passthruConObjs['passthru_'+curtName+'_'+curfName] = {'fid':curtName,'tid':curfName, 'type':'sxxexx'};
+                        conPassthru(passthruConObjs['passthru_'+curfName+'_'+curtName],'sxxexx');
+                    });
+                    var fulleB = $('<input type="button" value="Full Passthru (Green)" class="fullWidthButton">')
+                    fulleB.click(function(){
+                         passthruContainer.addClass('active full');
+                        a.animate({'fill':'#00ff00'},200);
+                        passthruConObjs['passthru_'+curfName+'_'+curtName] = {'fid':curfName,'tid':curtName, 'type':'full'};
+                        passthruConObjs['passthru_'+curtName+'_'+curfName] = {'fid':curtName,'tid':curfName, 'type':'full'};
+                        conPassthru(passthruConObjs['passthru_'+curfName+'_'+curtName],'full');
+                    });
 			   		var deleteB = $('<input type="button" value="No Passthru" class="fullWidthButton">')
 			   		deleteB.click(function(){
 						a.animate({'fill':'#fff'},200);
@@ -704,9 +718,12 @@ function updatePassthruIcons(){
 			   		});
 			   		container.append('<p style="width:170px;">'+absoluteText+'<p>');
 			   		container.append(absoluteB);
-			   		container.append('<br/>');
-			   		container.append('<p style="width:170px;">'+sxxexxText+'</p>');
-			   		container.append(seasonepisodeB);
+                    container.append('<br/>');
+                    container.append('<p style="width:170px;">'+sxxexxText+'</p>');
+                    container.append(seasonepisodeB);
+                    container.append('<br/>');
+                    container.append('<p style="width:170px;">'+fullText+'</p>');
+                    container.append(fulleB);
 			   		container.append('<br/>');
 			   		container.append('<br/>');
 			   		container.append(deleteB);	
@@ -728,18 +745,23 @@ function updatePassthruIcons(){
 			      }
 			   }
 			});
-		}else{		// end if logedIn
+		}else{		// end if editRight
 			$('.passthru:not(.active)').remove();
 			$('.passthru.absolute').qtip({
 				content:{
 					text: absoluteText
 				}	
 			})
-			$('.passthru.sxxexx').qtip({
-				content:{
-					text: sxxexxText
-				}	
-			})
+            $('.passthru.sxxexx').qtip({
+                content:{
+                    text: sxxexxText
+                }   
+            })
+            $('.passthru.full').qtip({
+                content:{
+                    text: fullText
+                }   
+            })
 		}
 		
 		
@@ -799,8 +821,8 @@ function fakeResHandler(){}
 function showConnectionOverview(entity, entityID){
 	var order = new Array();
 	$('.entity').each(function(k,v){
-		order.push($(this).dataset('name'))	
-	})
+		order.push($(this).dataset('name'));
+	});
 	
 	var orderString = order.join(',');
 	var before = orderString.split(entity)[0].split(',').reverse();
@@ -852,9 +874,9 @@ function showConnectionOverview(entity, entityID){
 	$('#overlay').show();
 	$('#overlay').click(function(){
 		$('#overlay').html('').hide();	
-		$('.entity h3').css('visibility','visible')
+		$('.entity h3').css('visibility','visible');
 	});
-	$('.entity h3').css('visibility','hidden')
+	$('.entity h3').css('visibility','hidden');
 };
 
 function getConnectionOverview(entityName){
@@ -917,19 +939,19 @@ function updateConIconsFor(entityName){
 				hasCon = true;
 			}
 	});
-	if(entityName != 'master'){
-	    var conCount = resolveConCount(entityName);
-	    if(conCount){
-	        var countSpan = $('<span style="color:red;vertical-align:top;">'+conCount+'</span>');
-	        countSpan.qtip({
-	            content: {
-	              text: 'This has  <span class="master">'+conCount+'</span> direct connections'
-	            }
-	        });
-	        iconContainer.append(countSpan);
-            hasCon = true;
-	    }
-	}
+	
+    var conCount = resolveConCount(entityName);
+    if(conCount){
+        var countSpan = $('<span style="color:red;vertical-align:top;">'+conCount+'</span>');
+        countSpan.qtip({
+            content: {
+              text: 'This has  <span class="master">'+conCount+'</span> direct connections'
+            }
+        });
+        iconContainer.append(countSpan);
+        hasCon = true;
+    }
+
 	if(!hasCon){
 	    iconContainer.text("No Connection");
 	}
@@ -949,7 +971,8 @@ function appendConIcon(iconContainer,destination,type){
 function resolvePassthrus(entityName){
 	var connectedToSimple = new Array();
 	var absoluteConnectedTo = new Array();
-	var sxxexxConnectedTo = new Array();
+    var sxxexxConnectedTo = new Array();
+    var fullConnectedTo = new Array();
 	//console.log('##################');
 	jQuery.each(passthruConObjs, function(k,v){
 		// "passthru_xmaster_scene":{"fid":"xmaster","tid":"scene"}
@@ -958,21 +981,26 @@ function resolvePassthrus(entityName){
 			connectedToSimple.push(v.tid);
 			if(v.type == "sxxexx")
 				sxxexxConnectedTo.push({'name':v.tid,'type':v.type});
+			else if(v.type == "absolute")
+                absoluteConnectedTo.push({'name':v.tid,'type':v.type});
 			else
-				absoluteConnectedTo.push({'name':v.tid,'type':v.type});
+			    fullConnectedTo.push({'name':v.tid,'type':v.type});
 				
 		}
 		if(v.tid == entityName && $.inArray(v.fid,connectedToSimple) == -1){
 			connectedToSimple.push(v.fid);
 			if(v.type == "sxxexx")
 				sxxexxConnectedTo.push({'name':v.fid,'type':v.type});
-			else
+			else if(v.type == "absolute")
 				absoluteConnectedTo.push({'name':v.fid,'type':v.type});
+            else
+                fullConnectedTo.push({'name':v.fid,'type':v.type});
 		}
 	});
-	var final = absoluteConnectedTo.concat(sxxexxConnectedTo);
+	var finalCon = absoluteConnectedTo.concat(sxxexxConnectedTo);
+	finalCon = finalCon.concat(fullConnectedTo);
 	//console.log("cur entity "+entityName+" is connected to ",connectedToSimple);
-	return final;
+	return finalCon;
 }
 function resolveConCount(entityName){
     var counter = 0;    
@@ -1009,13 +1037,17 @@ function saveNewName(newName){
 }
 
 function saveAltenativeName(nameID,newName){
+    var element_id = parseInt($('#element').dataset('id'));
 	var params = new Params();    
+    params.element_id = element_id;   
     params.name_id = nameID;
     params.name = newName;
     genericRequest("saveAltenativeName", params, fakeResHandler, genericResponseError);
 }
 function deleteAltenativeName(nameID){
-	var params = new Params();    
+    var element_id = parseInt($('#element').dataset('id'));
+	var params = new Params();
+    params.element_id = element_id;   
     params.name_id = nameID;
     genericRequest("deleteAltenativeName", params, fakeResHandler, genericResponseError);
 }
@@ -1036,21 +1068,24 @@ function deleteMe(){
 	   id: "deleteShowModal",
 	   content: function() {
 	   		var container = $('<div>');
-	   		var cancel = $('<input type="button" value="Cancel">')
-	   		cancel.click(function(){$('.ui-tooltip-red,#qtip-overlay').remove()})
-	   		var del = $('<input type="button" value="DELETE">')
-	   		del.click(function(){$('#deleteShowForm').submit()})
+	   		var cancel = $('<input type="button" value="Cancel">');
+	   		cancel.click(function(){$('.ui-tooltip-red,#qtip-overlay').remove();});
+	   		var del = $('<input type="button" value="DELETE">');
+	   		del.click(function(){$('#deleteShowForm').submit();});
 	   	
-		   	container.append('Sure ?<br/>');
+		   	container.append('Delete this show?<br/>(this can be undone)<br/><br/>');
 	   		container.append(cancel);
-	   		container.append('<br/>');
+	   		container.append('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
 	   		container.append(del);
 	      return container;
 	   },
 	   position: {
 	      my: 'center',
-	      at: 'center',
-	      target: $(document.body)
+	      at: 'top center',
+	      target: $(document.body),
+          adjust: {
+              y: $(window).scrollTop()+300
+           }
 	   },
 	   show: {
 	      modal: true, // Omit the object and set ti to true as short-hand
@@ -1091,6 +1126,98 @@ function showHistory(data,params){
 	$('#historyContainer').append(ul);
 }
 
+function getAdresses(origin, season, episode){
+    var element_id = parseInt($('#element').dataset('id'));
+    var params = new Params();
+    params.id = 'xem_'+element_id;   
+    params.origin = origin;   
+    params.season = season;   
+    params.episode = episode;
+    genericMapRequest("single", params, showAdresses, genericResponseError);
+    
+}
+
+function showAdresses(data, params){
+    $('.address').remove();
+    var offset = $(window).scrollTop()+10;
+    $.each(data,function(entityName,entity){
+        var entityNumber = false;
+        if(entityName.split('_')){
+            var entityNameOrg = entityName;
+            entityNumber = entityNameOrg.split('_')[1];
+            entityName = entityNameOrg.split('_')[0];
+        }
+        var id = entityName+'_'+entity.season+'_'+entity.episode;
+        var ep = $('#'+id);
+        if(ep.length > 0){
+            markHover(id);
+            ep.addClass('hover');
+        }else{
+
+            console.log('#'+id, ep)
+            var ep = $('#ep_qtip_'+entityName);
+            if(ep.length == 0){
+                adressAnchor = $('#infoHeader'+entityName);
+                adressAnchor.qtip({
+                    content: {
+                        text: '<span class="'+entityName+'">'+entityName+'</span><ul id="ep_qtip_'+entityName+'"><li><label>Season:</label>'+entity.season+'</li><li><label>Episode:</label>'+entity.episode+'</li><li><label>Absolute:</label>'+entity.absolute+'</li></ul>'
+                    },
+                    hide: {
+                        fixed: true,
+                        delay: 500
+                    },
+                    show: {
+                        delay: 0,
+                        solo: false,
+                        ready: true
+                    },
+                    style: {
+                        classes: 'ui-tooltip-shadow ui-tooltip-tipsy address'
+                    },
+                    position: {
+                        my: 'top center',
+                        adjust: {
+                           y: offset
+                        }
+                     }
+                 });
+            }else{
+                ep.append('<li>-</li><li><label>Season:</label>'+entity.season+'</li><li><label>Episode:</label>'+entity.episode+'</li><li><label>Absolute:</label>'+entity.absolute+'</li>');
+            }
+            
+        }
+    });
+}
+
+function markHover(id, unmark){
+    var li = id;
+    var fids = conObjFrom[li];
+    var tids = conObjTo[li];
+    
+    if(unmark){
+        unmarkAllSVGElements();
+        $('div li.episode').removeClass('hover');
+        $('.address').remove();
+    }
+    jQuery.each( [fids,tids], function(paperID,fORtIDs){
+        if(typeof(fORtIDs) != "undefined"){
+            jQuery.each( fORtIDs, function(paperID,curIDs){
+                jQuery.each(curIDs, function(k,svgID){
+                    var svgObj = papers[paperID].getById(svgID);
+                    svgObj.attr("stroke", "#000");
+                    svgObj.attr("stroke-width", 2);
+                    svgObj.toFront();
+                    var curConObj = conObjs[paperID][svgID];
+                    $('#'+curConObj['from']).addClass('hover');
+                    $('#'+curConObj['to']).addClass('hover');
+                    
+                    
+                });
+            });
+        }
+    });
+}
+
 
 function showInit(){
 	$.fn.qtip.defaults.style.classes = 'ui-tooltip-shadow ui-tooltip-tipsy';
@@ -1102,31 +1229,18 @@ function showInit(){
 	})
 	
 	
-	$('.entity li.episode').live('hover', function(){
+	$('.entity li.episode').on('hover', function(){
 		var li = $(this).attr('id');
-		var fids = conObjFrom[li];
-		var tids = conObjTo[li];
-		
-		unmarkAllSVGElements()
-		$('div li.episode').removeClass('hover');
-		jQuery.each( [fids,tids], function(paperID,fORtIDs){
-			if(typeof(fORtIDs) != "undefined"){
-				jQuery.each( fORtIDs, function(paperID,curIDs){
-					jQuery.each(curIDs, function(k,svgID){
-						var svgObj = papers[paperID].getById(svgID);
-						svgObj.attr("stroke", "#000");
-						svgObj.attr("stroke-width", 2);
-						svgObj.toFront();
-						var curConObj = conObjs[paperID][svgID];
-						$('#'+curConObj['from']).addClass('hover');
-						$('#'+curConObj['to']).addClass('hover');
-					});
-				});
-			}
-		});		
+		markHover(li, true);
+	});
+	$('.entity li.episode').on('click', function(){
+	    console.log(this);
+	    var ep = $(this);
+	    if(!$('.entity.'+ep.dataset('entity')).hasClass('edit'))
+	        getAdresses(ep.dataset('entity'), ep.dataset('season'), ep.dataset('episode'));
 	});
 	
-	if(logedIn){
+	if(editRight){
 		$('.entity.edit.masterCon li.episode, .entity.edit.master li.episode').live('click', function(){
 			if($(this).hasClass('selected'))
 				$(this).removeClass('selected');
@@ -1136,7 +1250,7 @@ function showInit(){
 				$('div.'+className+' li.episode.selected').removeClass('selected');
 				$(this).addClass('selected');
 			}
-			checkConnectionValues()
+			checkConnectionValues();
 		});
 		$('.seasonHeader').qtip({
 			content: function(api) {
@@ -1163,10 +1277,10 @@ function showInit(){
 		      },
 		      hide:  function(event, api) {
 		      	 $('.seasonHeader').removeClass('edit');
-		      },
+		      }
 		   }
 		});	
-		$('div.seasonConnection').live('click',function(event){
+		$('div.seasonConnection').on('click',function(event){
 			var curFirerer = $(this);
 			var id = curFirerer.attr('id');
 			var el = getSVGElementByCurPos(event.pageX, event.pageY);
@@ -1218,7 +1332,7 @@ function showInit(){
 	      	 cssclass: "mainNameInlineEdit"
 		 });
 		// main name autogrow
-		$('.mainNameInlineEdit input').live('focus',function(){
+		$('.mainNameInlineEdit input').on('focus',function(){
 			var curHalfWidth = parseInt($('#content').css('width'))/2;
 			$(this).autoGrowInput({
 		    	comfortZone: 30,
@@ -1250,7 +1364,7 @@ function showInit(){
 			    saveAltenativeName(nameID,value);
 		    return(value);
 		  }, {
-		    submit  : 'Chane Name',
+		    submit  : 'Change Name',
 	      	style: "inline",
 	      	cssclass: "alternativeNamesInlineEdit"
 		 });
@@ -1327,10 +1441,10 @@ function showInit(){
 	updatePassthruIcons();
 	updateAllConIcons();
 	
-	if(!logedIn){
+	if(!editRight){
 		$('.clicker').remove();
 	}
-	
+	/*
 	$('#history').click(function(){
 		
 		var elementID = parseInt($('#element').dataset('id'));
@@ -1340,7 +1454,7 @@ function showInit(){
 	    genericRequest("showRevision", params, showHistory, fakeResHandler);
 		
 	});
-	
+	*/
 	console.log('show init done');
 	
 	
