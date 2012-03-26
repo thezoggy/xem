@@ -1,4 +1,3 @@
-
 <h1>Imprint</h1>
 
 <ul>
@@ -9,6 +8,5 @@
 
 <h2>Special thanks to:</h2>
 <p>
-fluffy, zoggy and taki
+zoggy, taki, fluffy
 </p>
-

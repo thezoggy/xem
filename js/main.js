@@ -49,6 +49,7 @@ function genericMapRequest(curFunction, params, succes_callback, error_callback)
     });
 }
 
+function fakeResHandler(){}
 
 /**
  * checks id data has the attr "error" if not noErrorCallback is called with data and paramString as arguments
@@ -190,7 +191,7 @@ function mainInit(){
 	        var curLabel = $(this);
 	        var curInput = curLabel.next('input');
 	        // check for the for attr to not beeing invasive
-	        if(typeof(curLabel.attr('for')) == "undefined"){
+	        if(typeof(curLabel.attr('for')) == "undefined" && curInput.length){
 	            var id = curInput.attr('id');
 	            if(!id){
 	                // remove "0." from the random to get ids without a dot

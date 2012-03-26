@@ -1,5 +1,6 @@
 
 </div><!-- end #content -->
+<?if(isset($cmse))echo $cmse; ?>
 <div class="clear" id="footer">
 	<div><strong>{elapsed_time}</strong>s says <a href="http://codeigniter.com/">CodeIgniter</a></div>
     <div><?=anchor('https://github.com/lad1337/xem','GitHub')?></div>

@@ -53,9 +53,16 @@ class SuperController extends CI_Controller {
 			$prefix = strtolower(get_class($this)).'/';
 		if($center=="")
 			$center = "index";
+        $viewFile = $prefix.$center;
+
+		$c = new Content($this->oh, $viewFile);
+		$this->out['cmsc'] = 'Empty';
+		if(isset($c->content))
+		    $this->out['cmsc'] = $c->content;
+		$this->out['cmse'] = $c->getEdit();
 
 		$this->load->view('top', $this->out);
-		$this->load->view($prefix.$center, $this->out);
+		$this->load->view($viewFile, $this->out);
 		$this->load->view('bottom', $this->out);
 	}
 }

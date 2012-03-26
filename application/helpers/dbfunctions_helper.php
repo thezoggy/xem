@@ -97,7 +97,7 @@ function imgLazy($arg,$bool=false){
 	$path = $arg;
 	if(is_array($arg))
 		$path = $arg['src'];
-	$fullpath = $_SERVER['DOCUMENT_ROOT']."/".$path;
+	$fullpath = substr(BASEPATH, 0, strlen(BASEPATH)-strlen('system/'))."/".$path;
 	if(file_exists($fullpath))
 		return img($arg,$bool);
 	else
@@ -143,13 +143,16 @@ function seasonKeySort($sa,$sb){
 }
 
 function hasEditRight($oh, $element_id){
+    $e = new FullElement($oh, $element_id);
+    return  userHasLvl($e->status);
+}
 
+function userHasLvl($level){
     $CI =& get_instance();
     if (!$CI->session->userdata('logged_in')) {
         return false;
     }
-    $e = new FullElement($oh, $element_id);
-    return  ($CI->session->userdata('user_lvl') >= $e->status && $e->status > 0);
+    return  ($CI->session->userdata('user_lvl') >= $level && $level > 0);
 }
 
 function justNames($objs) {

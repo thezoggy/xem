@@ -17,6 +17,9 @@ $curElementLocation = null;
 		<?if($curElementLocation->absolute_start > 0)
 			$absolute_number = $curElementLocation->absolute_start;
 		?>
+        <?if($curElementLocation->episode_start > 0)
+            $absolute_number = $absolute_number + $curElementLocation->episode_start -1;
+        ?>
 		<li>
 			<div class="seasonHeader" id="seasonHeader_<?=$curElementLocation->season?>_<?=$curLocation->name?>" data-season="<?=$curElementLocation->season?>" data-locationName="<?=$curLocation->name?>" data-locationID="<?=$curLocation->id?>">
 				<span><?if($curElementLocation->season == -1) echo 'S*';else echo 'S'.zero_pad($curElementLocation->season,2)?>
@@ -43,7 +46,7 @@ $curElementLocation = null;
 						<li>
 							<label>Size</label><input class="season" name="size" value="<?if($curElementLocation->season_size == -1)echo 'infinite';else echo $curElementLocation->season_size?>" <?=$disabled?>/>
 						</li>
-                        <?if($curLocation->name != 'master'):?>
+                        <?if(!($curLocation->name == 'master' || $curLocation->name == 'scene')):?>
 						<li>
 							<label>Identifier</label><input class="season" name="identifier" value="<?=$curElementLocation->identifier?>" <?=$disabled?>/>
 						</li>
@@ -84,9 +87,7 @@ $curElementLocation = null;
 					<ul>
 						<li><label>Season</label><input class="season" name="season" value="<? if(isset($curElementLocation->season)) echo $curElementLocation->season+1?>" <?=$disabled?>/></li>
 						<li><label>Size</label><input class="season" name="season_size" value="" <?=$disabled?>/></li>
-                        <?if($curLocation->name != 'master' || $curLocation->name != 'scene'):?>
-						<li><label>Identifier</label><input class="season" name="identifier" <?=$disabled?>/></li>
-                        <?endif?>
+						<li><label>Identifier</label><input class="season" name="identifier" <?if($curLocation->name == 'master' || $curLocation->name == 'scene'):?>disabled="disabled"<?endif?>/></li>
 						<li><input class="fullWidthButton" type="submit" value="Add New Season" <?=$disabled?>/></li>
 					</ul>
 				</form>

@@ -281,7 +281,8 @@ ul.no{
     transition-property: height;
     transition-duration: 0.5s;
 }
-.newSeason:hover form{
+.newSeason:hover form,
+.newSeason.inEdit form{
     height: 86px;
 }
 
@@ -713,6 +714,10 @@ input.season{
 
 input.name{
 	width: 300px;
+}
+
+input[disabled='disabled'] {
+    opacity: 0.8;
 }
 .clear{
 	clear: both !important;

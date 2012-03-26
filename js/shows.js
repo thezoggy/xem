@@ -816,8 +816,6 @@ function pass_del_success(data, params){
 
 function pass_del_fail(data, params){}
 
-function fakeResHandler(){}
-
 function showConnectionOverview(entity, entityID){
 	var order = new Array();
 	$('.entity').each(function(k,v){
@@ -1233,12 +1231,17 @@ function showInit(){
 		var li = $(this).attr('id');
 		markHover(li, true);
 	});
-	$('.entity li.episode').on('click', function(){
-	    console.log(this);
-	    var ep = $(this);
-	    if(!$('.entity.'+ep.dataset('entity')).hasClass('edit'))
-	        getAdresses(ep.dataset('entity'), ep.dataset('season'), ep.dataset('episode'));
-	});
+    $('.entity li.episode').on('click', function(){
+        var ep = $(this);
+        if(!$('.entity.'+ep.dataset('entity')).hasClass('edit'))
+            getAdresses(ep.dataset('entity'), ep.dataset('season'), ep.dataset('episode'));
+    });
+    $('.newSeason input').focus(function(){
+        $(this).closest('.newSeason').addClass('inEdit');
+    });
+    $('.newSeason input').blur(function(){
+        $(this).closest('.newSeason').removeClass('inEdit');
+    });
 	
 	if(editRight){
 		$('.entity.edit.masterCon li.episode, .entity.edit.master li.episode').live('click', function(){

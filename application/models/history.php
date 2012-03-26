@@ -19,7 +19,7 @@ class History{
 				if($obj->element_id)
 					$data['element_id'] = $obj->element_id;
 		}else{
-			$data['element_id'] = $obj->id;
+		    $this->db->set('element_id', 'NULL', FALSE);
 		}
 
 		$data['old_data'] = json_encode($obj->initialData);
@@ -28,7 +28,7 @@ class History{
 		$data['action'] = $action;
 		$this->db->set('time', 'NOW()', FALSE); // the special "NOW()" value has to be set like this blame codeignigter
 		$this->db->insert('history',$data);
-		//print_query($this->db);
+		log_message('debug',$this->db->last_query());
 		//print $user_id.'-'.json_encode($obj->buildNameValueArray());
 		//id, user_id, user_lvl, obj_id, obj_type, action, time, revision, old_data, new_data
 

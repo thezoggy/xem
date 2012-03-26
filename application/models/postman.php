@@ -108,6 +108,11 @@ class Postman{
 	    }
 	    log_message('debug', "getting new address for ".$season."x".$episode."a".$absolute);
         //print_r($this->destinations);
+        
+        
+        if(!$this->isThereInfoForSeason($season))
+            return false;
+        
         $out = false;
 	    foreach ($this->destinations as $curDestination){
             log_message('debug', 'resolving address on '.$curDestination->name);
@@ -115,7 +120,6 @@ class Postman{
 
             if(!$route)
                 continue;
-
 	        log_message('debug', "final route from ".$this->originName." to ".$curDestination->name." is: ".$this->originName."->".implode("->", justNames($route)));
 
 
@@ -399,19 +403,26 @@ class Postman{
         $directConnections = $this->db->get_where('directrules',$params);
         return rows($directConnections);
     }
-
+    
+    private function isThereInfoForSeason($season){
+        $seasons = $this->db->get_where('seasons',array('location_id'=>$this->origin->id, 'element_id'=>$this->element->id, 'season'=>$season));
+        return rows($seasons) > 0;
+    }
+    
     private function getSeasonAndEpisode($location,$absolute) {
 		$this->db->order_by("season", "asc");
         $seasons = $this->db->get_where('seasons',array('location_id'=>$location->id, 'element_id'=>$this->element->id));
         //print_query($this->db);
         foreach($seasons->result() as $curSeason){
-            if($curSeason->season_size >= $absolute){
-                return array($curSeason->season, $absolute);
+            log_message('debug',$curSeason->absolute_start);
+            if($curSeason->season_size + $curSeason->absolute_start >= $absolute && $curSeason->absolute_start <= $absolute){
+                return array($curSeason->season, $absolute-$curSeason->absolute_start+1);
             }else{
                 if($curSeason->season >= 1)
                     $absolute = $absolute - $curSeason->season_size;
             }
         }
+        return false;
     }
 
     private function getAbsolute($location, $season, $episode) {
@@ -498,7 +509,7 @@ class Postman{
             }
 	        $seasonEpisode = $this->getSeasonAndEpisode($to, $absolute);
 	        if(!$seasonEpisode)// absolute out of range
-	            return false;
+	            $seasonEpisode = $this->getSeasonAndEpisode($from, $absolute);
 	        $dSeason = $seasonEpisode[0];
 	        $dEpisode = $seasonEpisode[1];
             return $this->buildFinals($dSeason, $dEpisode, $absolute);

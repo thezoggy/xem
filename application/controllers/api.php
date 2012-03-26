@@ -295,7 +295,20 @@ class Api extends CI_Controller {
 		$this->_fullOut('success',$_POST);
 
     }
+    function savePage() {
+        if(!userHasLvl(4)) {
+			$this->_fullOut('failure',array(),"not enough rights");
+			return false;
+		};
 
+		$page = $_POST['page'];
+		$content = $_POST['content'];
+        $c = new Content($this->oh, $page);
+        $c->content = $content;
+        $c->save();
+
+		$this->_fullOut('success',$_POST);
+    }
 
     /*
     {RESULT_SUCCESS:"success",

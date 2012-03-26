@@ -1,18 +1,19 @@
 <?
 class DBObject{
-	private $oh;
-	private $db;
 	private $cache;
-	private $table = "";
 	private $dataFields = array();
 	private $className;
 	private $objs = array();
+
+	protected $oh;
+	protected $db;
+	protected $table = "";
 
 	public $id = 0;
 	public $initialData = array();
 
 	function __construct($oh, $dataFields, $id){
-		//print get_class($this)."<br>";
+		log_message('debug','New '.get_class($this));
 		$this->oh = $oh;
 		$this->db = $oh->db;
 		$this->cache = $oh->cache;
@@ -30,7 +31,10 @@ class DBObject{
 	public function save(){
 		if(!$this->id)
 			$this->load();
-		if($this->id){
+	    $updateted = false;
+	    $dbEntry = $this->db->get_where($this->table, array('id'=>$this->id));
+		log_message('debug',$this->db->last_query());
+		if(rows($dbEntry)){
 		    $valueArray = $this->buildNameValueArray($this->dataFields);
 		    log_message('debug', 'valueArray while saving '.print_r($valueArray,true));
 		    $diff = array_diff_assoc($valueArray, $this->initialData); // create diff to see if something realy changed
@@ -38,15 +42,18 @@ class DBObject{
             if($diff){
     			$this->history->createEvent('update',$this);
     			$this->clearNamespace();
-    			//print "updating ".$this->className." ".$this->id."</br>";
+    			log_message('debug',"updating a ".$this->className." id:".$this->id);
     			$this->db->update($this->table, $valueArray, array("id"=>$this->id));
+		        log_message('debug',$this->db->last_query());
             }
+            $updateted = true;
 		}else{
-			//print "inserting new ".$this->className."... ";
-			$this->db->insert($this->table, $this->buildNameValueArray($this->dataFields));
-			$this->id = $this->db->insert_id();
-			//print_query($this->db);
-			//print "new id: ".$this->id."<br>";
+			log_message('debug',"inserting new ".$this->className."... ");
+			$this->db->insert($this->table, $this->buildNameValueArray($this->dataFields, $this->id));
+		    log_message('debug',$this->db->last_query());
+		    if(!$this->id)
+			    $this->id = $this->db->insert_id();
+			log_message('debug',"new id: ".$this->id);
 			$this->history->createEvent('insert',$this);
 			$this->clearNamespace();
 		}
@@ -55,7 +62,7 @@ class DBObject{
 
 	public function load(){
 		if(!$this->id){
-			//print "loading a ".$this->className." without id<br>";
+			log_message('debug',"loading a ".$this->className." without id");
 			$testRes = $this->db->get_where($this->table, $this->buildNameValueArray($this->dataFields));
 			//print_query($this->db);
 			if(rows($testRes)){
@@ -67,12 +74,12 @@ class DBObject{
 		}else{
 			if($cachedObj = $this->cache->hasCache(get_class($this),$this->id)){
 
-				//print "loading a ".$this->className." from cache with id: ".$this->id."<br>";
+				log_message('debug',"loading a ".$this->className." from cache with id: ".$this->id);
 				$this->setAtributes($cachedObj->buildNameValueArray());
 
 			}else{
 
-				//print "loading a ".$this->className." with id: ".$this->id."<br>";
+				log_message('debug',"loading a ".$this->className." with id: ".$this->id);
 				$testRes = $this->db->get_where($this->table, array("id"=>$this->id));
 				if(rows($testRes)){
 					$this->setAtributes($testRes->row_array());
@@ -83,7 +90,7 @@ class DBObject{
 		}
 	}
 
-	public function buildNameValueArray($sourceArray=false){
+	public function buildNameValueArray($sourceArray=false, $includeID=false){
 		if(!$sourceArray)
 			$sourceArray = $this->dataFields;
 		$result = array();
@@ -91,6 +98,10 @@ class DBObject{
 			if(isset($this->$name))
 				$result[$name] = $this->$name;
 		}
+		if ($includeID) {
+		    $result['id'] = $this->id;
+		}
+
 		return $result;
 	}
 
