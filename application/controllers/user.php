@@ -60,7 +60,7 @@ class User extends SuperController {
 		$this->form_validation->set_rules('recaptcha_response_field', 'lang:recaptcha_field_name', 'required|callback_check_captcha');
 
 
-	    if ($this->form_validation->run()){
+	    if ($this->form_validation->run() && false){
 	    //if (isset($_POST['user']) && isset($_POST['email']) && isset($_POST['pw'])){
     	    if(valid_email($_POST['email'])){
     	        $userdata = $this->simpleloginsecure->create($_POST['user'], $_POST['email'], $_POST['pw']);
@@ -87,7 +87,8 @@ class User extends SuperController {
 	        $this->out['reson'] = 'Wrong Capcha';
 	        //echo validation_errors();
 	    }
-
+        $this->out['register_unsuccessfull'] = true;
+        $this->out['reson'] = 'Registration closed!!';
 	    $this->out['recaptcha'] = $this->recaptcha->get_html();
 		$this->_loadView('register');
     }
