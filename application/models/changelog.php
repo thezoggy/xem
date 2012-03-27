@@ -82,7 +82,7 @@ class Changelog{
     			if($seasonNumber == -1)
     				$seasonNumber = "*";
 	            $out = 'created season <b>'.$seasonNumber.'</b> for <span class="'.$loc.'">'.$loc.'</span> with <b>'.$new['season_size'].'</b> episodes';
-	            if($new['identifier'] != "")
+	            if(isset($new['identifier']) && $new['identifier'] != '')
 	                $out.= ' and identifier <b>'.$new['identifier'].'</b>';
 	            return $out;
 	    }
@@ -102,7 +102,7 @@ class Changelog{
 	            elseif((int)$old['status'] != (int)$new['status'] && (int)$old['status'] == 0 && (int)$new['status'] > 0 )
 	                return 'undeleted the show <b>'.$new['main_name'].'</b>';
 	            else
-	                return "I don't know what happend. A save without data change."; //.print_r($old, true).' vs '.print_r($old, true);
+	                return "i don't know what happend. A save without data change."; //.print_r($old, true).' vs '.print_r($old, true);
 	        case 'Name':
 	            if($old['name'] != $new['name'])
 	                return 'changed alias name from <b>'.$old['name'].'</b> to <b>'.$new['name'].'</b>';
