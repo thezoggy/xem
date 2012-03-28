@@ -2,15 +2,13 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL';
 
-CREATE SCHEMA IF NOT EXISTS `u2361_xem` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
-USE `u2361_xem` ;
 
 -- -----------------------------------------------------
--- Table `u2361_xem`.`locations`
+-- Table `xem`.`locations`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `u2361_xem`.`locations` ;
+DROP TABLE IF EXISTS `xem`.`locations` ;
 
-CREATE  TABLE IF NOT EXISTS `u2361_xem`.`locations` (
+CREATE  TABLE IF NOT EXISTS `xem`.`locations` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(16) NULL COMMENT 'the short name' ,
   `description` VARCHAR(256) NULL ,
@@ -23,11 +21,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `u2361_xem`.`elements`
+-- Table `xem`.`elements`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `u2361_xem`.`elements` ;
+DROP TABLE IF EXISTS `xem`.`elements` ;
 
-CREATE  TABLE IF NOT EXISTS `u2361_xem`.`elements` (
+CREATE  TABLE IF NOT EXISTS `xem`.`elements` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `type` ENUM('show','movie','episode') NOT NULL DEFAULT 'show' ,
   `main_name` VARCHAR(45) NOT NULL ,
@@ -41,11 +39,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `u2361_xem`.`seasons`
+-- Table `xem`.`seasons`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `u2361_xem`.`seasons` ;
+DROP TABLE IF EXISTS `xem`.`seasons` ;
 
-CREATE  TABLE IF NOT EXISTS `u2361_xem`.`seasons` (
+CREATE  TABLE IF NOT EXISTS `xem`.`seasons` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `location_id` INT NOT NULL ,
   `element_id` INT NOT NULL ,
@@ -60,23 +58,23 @@ CREATE  TABLE IF NOT EXISTS `u2361_xem`.`seasons` (
   INDEX `fk_elementLocations_elements1` (`element_id` ASC) ,
   CONSTRAINT `location`
     FOREIGN KEY (`location_id` )
-    REFERENCES `u2361_xem`.`locations` (`id` )
+    REFERENCES `xem`.`locations` (`id` )
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_elementLocations_elements1`
     FOREIGN KEY (`element_id` )
-    REFERENCES `u2361_xem`.`elements` (`id` )
+    REFERENCES `xem`.`elements` (`id` )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `u2361_xem`.`languages`
+-- Table `xem`.`languages`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `u2361_xem`.`languages` ;
+DROP TABLE IF EXISTS `xem`.`languages` ;
 
-CREATE  TABLE IF NOT EXISTS `u2361_xem`.`languages` (
+CREATE  TABLE IF NOT EXISTS `xem`.`languages` (
   `id` VARCHAR(2) NOT NULL COMMENT 'the iso ISO3166-1 alpha-2 name' ,
   `name` VARCHAR(45) NULL COMMENT 'human name' ,
   PRIMARY KEY (`id`) )
@@ -84,13 +82,14 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `u2361_xem`.`names`
+-- Table `xem`.`names`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `u2361_xem`.`names` ;
+DROP TABLE IF EXISTS `xem`.`names` ;
 
-CREATE  TABLE IF NOT EXISTS `u2361_xem`.`names` (
+CREATE  TABLE IF NOT EXISTS `xem`.`names` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `element_id` INT NOT NULL ,
+  `episode_id` INT NULL DEFAULT NULL ,
   `season` INT NOT NULL DEFAULT -1 COMMENT '-1 = for all seasons' ,
   `name` VARCHAR(128) NULL ,
   `language` VARCHAR(2) NULL ,
@@ -98,25 +97,31 @@ CREATE  TABLE IF NOT EXISTS `u2361_xem`.`names` (
   PRIMARY KEY (`id`) ,
   INDEX `fk_names_elements1` (`element_id` ASC) ,
   INDEX `fk_names_languages1` (`language` ASC) ,
+  INDEX `fk_names_episodes1` (`episode_id` ASC) ,
   CONSTRAINT `fk_names_elements1`
     FOREIGN KEY (`element_id` )
-    REFERENCES `u2361_xem`.`elements` (`id` )
+    REFERENCES `xem`.`elements` (`id` )
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_names_languages1`
     FOREIGN KEY (`language` )
-    REFERENCES `u2361_xem`.`languages` (`id` )
+    REFERENCES `xem`.`languages` (`id` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_names_episodes1`
+    FOREIGN KEY (`episode_id` )
+    REFERENCES `xem`.`episodes` (`id` )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `u2361_xem`.`directrules`
+-- Table `xem`.`directrules`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `u2361_xem`.`directrules` ;
+DROP TABLE IF EXISTS `xem`.`directrules` ;
 
-CREATE  TABLE IF NOT EXISTS `u2361_xem`.`directrules` (
+CREATE  TABLE IF NOT EXISTS `xem`.`directrules` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `origin_id` INT NOT NULL ,
   `destination_id` INT NOT NULL ,
@@ -133,33 +138,33 @@ CREATE  TABLE IF NOT EXISTS `u2361_xem`.`directrules` (
   INDEX `fk_directrules_elements1` (`element_id` ASC) ,
   CONSTRAINT `fk_maps_locations1`
     FOREIGN KEY (`origin_id` )
-    REFERENCES `u2361_xem`.`locations` (`id` )
+    REFERENCES `xem`.`locations` (`id` )
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_maps_locations2`
     FOREIGN KEY (`destination_id` )
-    REFERENCES `u2361_xem`.`locations` (`id` )
+    REFERENCES `xem`.`locations` (`id` )
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_directrules_names1`
     FOREIGN KEY (`name_id` )
-    REFERENCES `u2361_xem`.`names` (`id` )
+    REFERENCES `xem`.`names` (`id` )
     ON DELETE SET NULL
     ON UPDATE CASCADE,
   CONSTRAINT `fk_directrules_elements1`
     FOREIGN KEY (`element_id` )
-    REFERENCES `u2361_xem`.`elements` (`id` )
+    REFERENCES `xem`.`elements` (`id` )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `u2361_xem`.`users`
+-- Table `xem`.`users`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `u2361_xem`.`users` ;
+DROP TABLE IF EXISTS `xem`.`users` ;
 
-CREATE  TABLE IF NOT EXISTS `u2361_xem`.`users` (
+CREATE  TABLE IF NOT EXISTS `xem`.`users` (
   `user_id` INT NOT NULL AUTO_INCREMENT ,
   `user_nick` VARCHAR(45) NULL ,
   `user_email` VARCHAR(255) NOT NULL ,
@@ -168,18 +173,18 @@ CREATE  TABLE IF NOT EXISTS `u2361_xem`.`users` (
   `user_date` DATETIME NOT NULL ,
   `user_modified` DATETIME NOT NULL ,
   `user_last_login` DATETIME NULL DEFAULT NULL ,
+  `user_activationcode` VARCHAR(32) NULL ,
   PRIMARY KEY (`user_id`) ,
   UNIQUE INDEX `user_email` (`user_email` ASC) )
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `u2361_xem`.`passthru`
+-- Table `xem`.`passthru`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `u2361_xem`.`passthru` ;
+DROP TABLE IF EXISTS `xem`.`passthru` ;
 
-CREATE  TABLE IF NOT EXISTS `u2361_xem`.`passthru` (
+CREATE  TABLE IF NOT EXISTS `xem`.`passthru` (
   `id` INT NOT NULL ,
   `origin_id` INT NOT NULL ,
   `destination_id` INT NOT NULL ,
@@ -191,34 +196,34 @@ CREATE  TABLE IF NOT EXISTS `u2361_xem`.`passthru` (
   INDEX `fk_passthru_locations2` (`destination_id` ASC) ,
   CONSTRAINT `fk_passthru_elements1`
     FOREIGN KEY (`element_id` )
-    REFERENCES `u2361_xem`.`elements` (`id` )
+    REFERENCES `xem`.`elements` (`id` )
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_passthru_locations1`
     FOREIGN KEY (`origin_id` )
-    REFERENCES `u2361_xem`.`locations` (`id` )
+    REFERENCES `xem`.`locations` (`id` )
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_passthru_locations2`
     FOREIGN KEY (`destination_id` )
-    REFERENCES `u2361_xem`.`locations` (`id` )
+    REFERENCES `xem`.`locations` (`id` )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `u2361_xem`.`history`
+-- Table `xem`.`history`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `u2361_xem`.`history` ;
+DROP TABLE IF EXISTS `xem`.`history` ;
 
-CREATE  TABLE IF NOT EXISTS `u2361_xem`.`history` (
+CREATE  TABLE IF NOT EXISTS `xem`.`history` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `user_id` INT NOT NULL ,
   `user_lvl` INT NULL COMMENT 'user lvl at time' ,
-  `obj_id` INT NOT NULL COMMENT 'object id' ,
+  `obj_id` VARCHAR(512) NOT NULL COMMENT 'object id' ,
   `obj_type` VARCHAR(12) NOT NULL COMMENT 'object type' ,
-  `element_id` INT NULL DEFAULT 0 ,
+  `element_id` INT NULL DEFAULT NULL ,
   `action` VARCHAR(12) NULL ,
   `time` DATETIME NULL COMMENT 'time of the action' ,
   `revision` INT NULL ,
@@ -229,14 +234,44 @@ CREATE  TABLE IF NOT EXISTS `u2361_xem`.`history` (
   INDEX `fk_history_elements1` (`element_id` ASC) ,
   CONSTRAINT `fk_history_users1`
     FOREIGN KEY (`user_id` )
-    REFERENCES `u2361_xem`.`users` (`user_id` )
+    REFERENCES `xem`.`users` (`user_id` )
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT `fk_history_elements1`
     FOREIGN KEY (`element_id` )
-    REFERENCES `u2361_xem`.`elements` (`id` )
+    REFERENCES `xem`.`elements` (`id` )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `xem`.`cache`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `xem`.`cache` ;
+
+CREATE  TABLE IF NOT EXISTS `xem`.`cache` (
+  `type` VARCHAR(48) NOT NULL ,
+  `namespace` VARCHAR(48) NOT NULL ,
+  `name` VARCHAR(48) NOT NULL ,
+  `data` LONGTEXT NOT NULL ,
+  `creation_date` DATETIME NOT NULL ,
+  `best_before` DATETIME NOT NULL ,
+  `encoded` TINYINT NULL DEFAULT 0 ,
+  PRIMARY KEY (`type`, `name`, `namespace`) )
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_unicode_ci;
+
+
+-- -----------------------------------------------------
+-- Table `xem`.`contents`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `xem`.`contents` ;
+
+CREATE  TABLE IF NOT EXISTS `xem`.`contents` (
+  `page` VARCHAR(512) NOT NULL ,
+  `content` MEDIUMTEXT NULL )
 ENGINE = InnoDB;
 
 
@@ -246,49 +281,49 @@ SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 -- -----------------------------------------------------
--- Data for table `u2361_xem`.`locations`
+-- Data for table `xem`.`locations`
 -- -----------------------------------------------------
 START TRANSACTION;
-USE `u2361_xem`;
-INSERT INTO `u2361_xem`.`locations` (`id`, `name`, `description`, `url`, `show_url`, `movie_url`) VALUES (1, 'scene', 'the SCENE', NULL, NULL, NULL);
-INSERT INTO `u2361_xem`.`locations` (`id`, `name`, `description`, `url`, `show_url`, `movie_url`) VALUES (2, 'tvdb', 'thetvdb.com', 'www.thetvdb.com', 'http://thetvdb.com/?tab=series&id={tvdb}', NULL);
-INSERT INTO `u2361_xem`.`locations` (`id`, `name`, `description`, `url`, `show_url`, `movie_url`) VALUES (3, 'anidb', 'anidb.net', 'www.anidb.net', 'http://anidb.net/perl-bin/animedb.pl?show=anime&aid={anidb}', NULL);
-INSERT INTO `u2361_xem`.`locations` (`id`, `name`, `description`, `url`, `show_url`, `movie_url`) VALUES (4, 'rage', 'tv rage', 'www.tvrage.com', NULL, NULL);
-INSERT INTO `u2361_xem`.`locations` (`id`, `name`, `description`, `url`, `show_url`, `movie_url`) VALUES (5, 'trakt', 'trakt is actively keeping a record of what TV shows and movies you are watching.', 'http://trakt.tv/', 'http://trakt.tv/search?q=tvdb:{tvdb}', 'http://trakt.tv/search?q=imdb:{imdb}');
+USE `xem`;
+INSERT INTO `xem`.`locations` (`id`, `name`, `description`, `url`, `show_url`, `movie_url`) VALUES (1, 'scene', 'the SCENE', NULL, NULL, NULL);
+INSERT INTO `xem`.`locations` (`id`, `name`, `description`, `url`, `show_url`, `movie_url`) VALUES (2, 'tvdb', 'thetvdb.com', 'www.thetvdb.com', 'http://thetvdb.com/?tab=series&id={tvdb}', NULL);
+INSERT INTO `xem`.`locations` (`id`, `name`, `description`, `url`, `show_url`, `movie_url`) VALUES (3, 'anidb', 'anidb.net', 'www.anidb.net', 'http://anidb.net/perl-bin/animedb.pl?show=anime&aid={anidb}', NULL);
+INSERT INTO `xem`.`locations` (`id`, `name`, `description`, `url`, `show_url`, `movie_url`) VALUES (4, 'rage', 'tv rage', 'www.tvrage.com', NULL, NULL);
+INSERT INTO `xem`.`locations` (`id`, `name`, `description`, `url`, `show_url`, `movie_url`) VALUES (5, 'trakt', 'trakt is actively keeping a record of what TV shows and movies you are watching.', 'http://trakt.tv/', 'http://trakt.tv/search?q=tvdb:{tvdb}', 'http://trakt.tv/search?q=imdb:{imdb}');
 
 COMMIT;
 
 -- -----------------------------------------------------
--- Data for table `u2361_xem`.`elements`
+-- Data for table `xem`.`elements`
 -- -----------------------------------------------------
 START TRANSACTION;
-USE `u2361_xem`;
-INSERT INTO `u2361_xem`.`elements` (`id`, `type`, `main_name`, `entity_order`, `lock_lvl`, `note`, `forum_link`) VALUES (1, 'show', 'Black Lagoon', NULL, NULL, NULL, NULL);
-INSERT INTO `u2361_xem`.`elements` (`id`, `type`, `main_name`, `entity_order`, `lock_lvl`, `note`, `forum_link`) VALUES (2, 'show', 'American Dad!', NULL, NULL, NULL, NULL);
+USE `xem`;
+INSERT INTO `xem`.`elements` (`id`, `type`, `main_name`, `entity_order`, `lock_lvl`, `note`, `forum_link`) VALUES (1, 'show', 'Black Lagoon', NULL, NULL, NULL, NULL);
+INSERT INTO `xem`.`elements` (`id`, `type`, `main_name`, `entity_order`, `lock_lvl`, `note`, `forum_link`) VALUES (2, 'show', 'American Dad!', NULL, NULL, NULL, NULL);
 
 COMMIT;
 
 -- -----------------------------------------------------
--- Data for table `u2361_xem`.`seasons`
+-- Data for table `xem`.`seasons`
 -- -----------------------------------------------------
 START TRANSACTION;
-USE `u2361_xem`;
-INSERT INTO `u2361_xem`.`seasons` (`id`, `location_id`, `element_id`, `identifier`, `season`, `season_size`, `absolute_start`, `episode_start`) VALUES (1, 2, 2, '73141', 1, 7, 1, NULL);
-INSERT INTO `u2361_xem`.`seasons` (`id`, `location_id`, `element_id`, `identifier`, `season`, `season_size`, `absolute_start`, `episode_start`) VALUES (2, 2, 1, '', 1, 12, 1, NULL);
-INSERT INTO `u2361_xem`.`seasons` (`id`, `location_id`, `element_id`, `identifier`, `season`, `season_size`, `absolute_start`, `episode_start`) VALUES (3, 2, 1, '', 2, 12, 0, NULL);
-INSERT INTO `u2361_xem`.`seasons` (`id`, `location_id`, `element_id`, `identifier`, `season`, `season_size`, `absolute_start`, `episode_start`) VALUES (4, 2, 1, '', 3, 5, 0, NULL);
-INSERT INTO `u2361_xem`.`seasons` (`id`, `location_id`, `element_id`, `identifier`, `season`, `season_size`, `absolute_start`, `episode_start`) VALUES (5, 3, 1, '3395', 1, 12, 1, NULL);
-INSERT INTO `u2361_xem`.`seasons` (`id`, `location_id`, `element_id`, `identifier`, `season`, `season_size`, `absolute_start`, `episode_start`) VALUES (6, 3, 1, '4597', 2, 12, 1, NULL);
-INSERT INTO `u2361_xem`.`seasons` (`id`, `location_id`, `element_id`, `identifier`, `season`, `season_size`, `absolute_start`, `episode_start`) VALUES (7, 3, 1, '6645', 3, 5, 1, NULL);
+USE `xem`;
+INSERT INTO `xem`.`seasons` (`id`, `location_id`, `element_id`, `identifier`, `season`, `season_size`, `absolute_start`, `episode_start`) VALUES (1, 2, 2, '73141', 1, 7, 1, NULL);
+INSERT INTO `xem`.`seasons` (`id`, `location_id`, `element_id`, `identifier`, `season`, `season_size`, `absolute_start`, `episode_start`) VALUES (2, 2, 1, '', 1, 12, 1, NULL);
+INSERT INTO `xem`.`seasons` (`id`, `location_id`, `element_id`, `identifier`, `season`, `season_size`, `absolute_start`, `episode_start`) VALUES (3, 2, 1, '', 2, 12, 0, NULL);
+INSERT INTO `xem`.`seasons` (`id`, `location_id`, `element_id`, `identifier`, `season`, `season_size`, `absolute_start`, `episode_start`) VALUES (4, 2, 1, '', 3, 5, 0, NULL);
+INSERT INTO `xem`.`seasons` (`id`, `location_id`, `element_id`, `identifier`, `season`, `season_size`, `absolute_start`, `episode_start`) VALUES (5, 3, 1, '3395', 1, 12, 1, NULL);
+INSERT INTO `xem`.`seasons` (`id`, `location_id`, `element_id`, `identifier`, `season`, `season_size`, `absolute_start`, `episode_start`) VALUES (6, 3, 1, '4597', 2, 12, 1, NULL);
+INSERT INTO `xem`.`seasons` (`id`, `location_id`, `element_id`, `identifier`, `season`, `season_size`, `absolute_start`, `episode_start`) VALUES (7, 3, 1, '6645', 3, 5, 1, NULL);
 
 COMMIT;
 
 -- -----------------------------------------------------
--- Data for table `u2361_xem`.`names`
+-- Data for table `xem`.`names`
 -- -----------------------------------------------------
 START TRANSACTION;
-USE `u2361_xem`;
-INSERT INTO `u2361_xem`.`names` (`id`, `element_id`, `season`, `name`, `language`) VALUES (1, 1, 2, 'Black Lagoon: The Second Barrage', NULL);
-INSERT INTO `u2361_xem`.`names` (`id`, `element_id`, `season`, `name`, `language`) VALUES (2, 1, 3, 'Black Lagoon: Roberta`s Blood Trail', NULL);
+USE `xem`;
+INSERT INTO `xem`.`names` (`id`, `element_id`, `episode_id`, `season`, `name`, `language`) VALUES (1, 1, NULL, 2, 'Black Lagoon: The Second Barrage', NULL);
+INSERT INTO `xem`.`names` (`id`, `element_id`, `episode_id`, `season`, `name`, `language`) VALUES (2, 1, NULL, 3, 'Black Lagoon: Roberta`s Blood Trail', NULL);
 
 COMMIT;
