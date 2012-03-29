@@ -42,13 +42,19 @@ class TvdbProxy extends Baseproxy {
     		$this->passthruCall($url);
     		return;
     	}
+    	$api_language_regex = '/all\/(.*)\.xml/';
+    	$lang_result = preg_match($api_language_regex, $rest, $lang_matches);
+    	$requested_language = 'xx';
+    	if(!$result)
+    		$requested_language = $lang_matches[1];
+
     	// for shows that don't need a transform just go to TVDB
-    	print $this->destination;
+    	//print $this->destination;
     	$p = new Postman($this->oh, $tvdb_id, 'tvdb', $this->destination);
     	if (!$p->element)
     		$this->passthruCall($url);
     	else{
-    	    $cacheData = $this->oh->dbcache->load('proxy_out', $p->element->id, 'tvdb_'.$this->destination);
+    	    $cacheData = $this->oh->dbcache->load('proxy_out', $p->element->id, 'tvdb_'.$this->destination.'_'.$requested_language);
     	    if($cacheData)
     	        return $cacheData;
             // don't print warnings about the awful XML that TVDB gives
@@ -58,7 +64,7 @@ class TvdbProxy extends Baseproxy {
             //print_r($this->rawData->asXML());
             //print  $this->transform($this->rawData, $p);
             $out = $this->transform($this->rawData, $p);
-            $this->oh->dbcache->save('proxy_out', $p->element->id, 'tvdb_'.$this->destination, 259200, $out); // save into db cache for 3 days (259200s)
+            $this->oh->dbcache->save('proxy_out', $p->element->id, 'tvdb_'.$this->destination.'_'.$requested_language, 259200, $out); // save into db cache for 3 days (259200s)
     	    return $out;
     	}
     }
@@ -82,8 +88,8 @@ class TvdbProxy extends Baseproxy {
 
         for ($i = 0; $i < count($xml->Episode); $i++){
             $ep = $this->duplicate_ep($xml->Episode[$i]);
-            
 
+            /*
             print "#######################\n";
 		    print "current index: ".$i;
 		    print "\n";
@@ -91,34 +97,34 @@ class TvdbProxy extends Baseproxy {
 		    print "ep:  ";
             print $ep->SeasonNumber."|".$ep->EpisodeNumber."|".$ep->absolute_number;
             print "\n";
-
+            */
 		    $newAdress = $postman->resolveAddress((int)$ep->SeasonNumber, (int)$ep->EpisodeNumber, (int)$ep->absolute_number);
 
 		    if(!$newAdress){
-		        print "\n";
+		        //print "\n";
                 $this->xml_join($new_xml, $ep); // just add the normal unmodified version
 		        continue;
 		    }
 		    $newAdress = $newAdress[$this->destination];
-		    print_r($newAdress);
+		    //print_r($newAdress);
 		    $newAdressKey = implode("|", $newAdress);
-            print $this->destination.": ".$newAdress['season'];
+            /*print $this->destination.": ".$newAdress['season'];
             print "|".$newAdress['episode'];
-            print "|".$newAdress['absolute']."\n";
+            print "|".$newAdress['absolute']."\n";*/
 
 		    if(isset($newAdressHistory[$newAdressKey])){
 
 		        $otherEpIndexs = $newAdressHistory[$newAdressKey];
 		        $otherEp = $this->duplicate_ep($new_xml->Episode[$otherEpIndexs["new"]]);
 
-                print "adress ".$newAdressKey." already in use. combining (current) ".(int)$ep->SeasonNumber."|". (int)$ep->EpisodeNumber."|". (int)$ep->absolute_number." and ".(int)$otherEp->SeasonNumber."|". (int)$otherEp->EpisodeNumber."|". (int)$otherEp->absolute_number."\n";
-		        print "otherEpIndexs: old:".$otherEpIndexs['old']." new:".$otherEpIndexs['old']."\n";
+                /*print "adress ".$newAdressKey." already in use. combining (current) ".(int)$ep->SeasonNumber."|". (int)$ep->EpisodeNumber."|". (int)$ep->absolute_number." and ".(int)$otherEp->SeasonNumber."|". (int)$otherEp->EpisodeNumber."|". (int)$otherEp->absolute_number."\n";
+		        print "otherEpIndexs: old:".$otherEpIndexs['old']." new:".$otherEpIndexs['old']."\n";*/
                 $otherEp->Overview .= $this->delimiter.$ep->Overview;
 		        $otherEp->EpisodeName .= $this->delimiter.$ep->EpisodeName;
 
                 $this->xml_join($new_xml, $otherEp);
 		        unset($new_xml->Episode[$otherEpIndexs['new']]); // remove old ep
-		        print "\n";
+		        //print "\n";
 		        continue;
 		    }
 
@@ -130,9 +136,9 @@ class TvdbProxy extends Baseproxy {
             $this->xml_join($new_xml, $ep);
 
 		    $newAdressHistory[$newAdressKey] = array("new"=>count($new_xml->Episode)-1,"old"=>$i);
-	        print "\n";
+	        //print "\n";
 		}
-        print_r($newAdressHistory);
+        //print_r($newAdressHistory);
 
         unset($new_xml->Episode[0]["Episode"]); // simplexml can be weird sometimes
 
@@ -170,23 +176,23 @@ class TvdbProxy extends Baseproxy {
     	$ep->seriesid = $ep->seriesid;
 
 
-        */
-        
+
+
         if($ep_clone->FirstAired != ''){
             print 'its empty-';
         }
-        
+
         if(!$ep_clone->FirstAired){
             print "its not here-";
         }
-        
+
         if($ep_clone->FirstAired){
             print "its here: ".$ep_clone->FirstAired.'-';
-        }
+        }*/
     	return $ep_clone;
     }
     private function duplicate_series($series){
-        
+
         $series_clone = clone $series;
         /*
     	$series->id = $series->id;

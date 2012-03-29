@@ -25,12 +25,10 @@ class Proxy extends CI_Controller {
         $api_regex = '/\/api\/([0-9A-F]+)\/series\/(\d+)\/?(.*)/';
     	$result = preg_match($api_regex, current_url(), $matches);
     	if($matches){
-            $proxy = new TvdbProxy($this->oh, $matches[0], $this->uri->segment(3));    
+            $proxy = new TvdbProxy($this->oh, $matches[0], $this->uri->segment(3));
             if($proxy->validUrl){
-                ob_start();
                 $xml = $proxy->call();
-                ob_end_clean();
-                print $xml;
+                $this->output->set_output($xml);
                 return;
             }
         }

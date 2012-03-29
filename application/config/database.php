@@ -47,9 +47,9 @@
 $active_group = 'default';
 $active_record = TRUE;
 
-$db['default']['hostname'] = '127.0.0.1:8889';
+$db['default']['hostname'] = 'localhost:3306';
 $db['default']['username'] = 'root';
-$db['default']['password'] = 'root';
+$db['default']['password'] = 'dimmer';
 $db['default']['database'] = 'u2361_xem';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';

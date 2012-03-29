@@ -85,7 +85,8 @@ class Xem extends SuperController {
 			$season = -1;
 		$newSeason->season = $season;
 		$newSeason->season_size = $_POST['season_size'];
-		$newSeason->identifier = $_POST['identifier'];
+		if(isset($_POST['identifier']))
+    		$newSeason->identifier = $_POST['identifier'];
 		$newSeason->save();
 
 		redirect('xem/show/'.$newSeason->element_id);

@@ -165,11 +165,11 @@ class Changelog{
 	                if($new[$key] == -1)
 	                   $new[$key] = '*';
 	            }
-	            $out[] = 'changed '.$key.' from <b>'.$old[$key].'</b> to <b>'.$new[$key].'</b>';
+	            $out[] = 'changed '.str_replace('_', ' ', $key).' from <b>'.$old[$key].'</b> to <b>'.$new[$key].'</b>';
 	        }elseif ($old[$key] && !$new[$key])
-	            $out[] = 'removed '.$key.' <b>'.$old[$key].'</b>';
+	            $out[] = 'removed '.str_replace('_', ' ', $key).' <b>'.$old[$key].'</b>';
 	        elseif (!$old[$key] && $new[$key])
-	            $out[] = 'added '.$key.' <b>'.$new[$key].'</b>';
+	            $out[] = 'added '.str_replace('_', ' ', $key).' <b>'.$new[$key].'</b>';
 	    }
 	    if($out)
 	        return join(', ', $out);

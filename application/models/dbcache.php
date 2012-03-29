@@ -61,8 +61,6 @@ class DBCache{
 	function getNamspaceSize($namspace) {
 		$this->db->where('namespace', $namspace);
 		$result = $this->db->get_where('cache');
-		//print_query($this->db);
-		//print_r($result);
 		return rows($result);
 	}
 }

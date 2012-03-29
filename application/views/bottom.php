@@ -1,6 +1,19 @@
 
 </div><!-- end #content -->
 <?if(isset($cmse))echo $cmse; ?>
+<div id="adds" class="clear-keep-height">
+    <script type="text/javascript"><!--
+    google_ad_client = "ca-pub-8047294342495073";
+    /* xem_unten */
+    google_ad_slot = "6026161732";
+    google_ad_width = 728;
+    google_ad_height = 90;
+    //-->
+    </script>
+    <script type="text/javascript"
+    src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+    </script>
+</div>
 <div class="clear" id="footer">
 	<div><strong>{elapsed_time}</strong>s says <a href="http://codeigniter.com/">CodeIgniter</a></div>
     <div><?=anchor('https://github.com/lad1337/xem','GitHub')?></div>

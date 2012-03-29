@@ -26,11 +26,13 @@ class Map extends CI_Controller {
         if(isset($_REQUEST['destination']))
             $destination = $_REQUEST['destination'];
         $p = new Postman($this->oh, $identifier, $origin, $destination);
-
+        if(!$p->element){
+            $this->_fullOut('failure', array(), 'no show with the '.$origin.'_id '.$identifier.' found');
+            return;
+        }
         $data = array();
         if(!$destination)
             $destination = 'all';
-
         $cacheData = $this->oh->dbcache->load('map_out', $p->element->id, $origin.'_'.$destination);
         $cachedMsg = '';
         $absolute = 1;
@@ -42,8 +44,6 @@ class Map extends CI_Controller {
 
                 for ($i = 0; $i < $season->season_size; $i++) {
                     $curEpNumber = $i + $season->episode_start;
-
-                    //print $i." ";
                     $new = $p->resolveAddress($season->season, $curEpNumber);
                     $originData = array('season'=>(int)$season->season, 'episode'=>$curEpNumber);
                     if($season->season != 0){
@@ -60,7 +60,6 @@ class Map extends CI_Controller {
             $data = $cacheData;
             $cachedMsg = 'this was a cached version';
         }
-        //$data[] = $p->resolveAddress(1,2);
 
         $this->oh->dbcache->save('map_out', $p->element->id, $origin.'_'.$destination, 259200, $data); // save into db cache for 3 days (259200s)
         $this->_fullOut('success', $data, 'full mapping for '.$identifier.' on '.$origin.'. '.$cachedMsg);
@@ -164,8 +163,8 @@ class Map extends CI_Controller {
         $elements = $this->db->get('elements');
         foreach($elements->result() as $element){
             $seasons = $this->db->get_where('seasons', array('element_id'=>$element->id, 'location_id'=>$curLocationID));
-            
-            
+
+
             foreach($seasons->result() as $curRow){
                 if($curRow->identifier && !in_array($curRow->identifier, $ids))
                     $ids[] = $curRow->identifier;

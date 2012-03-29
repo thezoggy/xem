@@ -56,7 +56,8 @@ class FullElement{
 			$table = $type."s";
 			$name = $type;
 		}
-
+        if($type == 'seasons')
+    		$this->db->order_by("season", "asc");
 		$rows = $this->db->get_where($table,array("element_id"=>$id));
 		if(rows($rows)){
 			$out = array();
@@ -134,10 +135,14 @@ class FullElement{
 	public function getdirectLink($location_id, $season){
 		$url = $this->locations[$location_id]->show_url;
 
+	    $lastIdentifier = '';
 		foreach($this->seasons as $curSeason){
+		    if($curSeason->identifier)
+		        $lastIdentifier = $curSeason->identifier;
+            log_message('debug', $curSeason->season.'-'.$lastIdentifier);
 			$newUrl = str_replace("{".$curSeason->location->name."}","",$url);
 			if($newUrl != $url && $curSeason->season == $season){
-				return str_replace("{".$curSeason->location->name."}",$curSeason->identifier,$url);
+				return str_replace("{".$curSeason->location->name."}", $lastIdentifier,$url);
 			}
 		}
 	}

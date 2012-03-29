@@ -1147,15 +1147,23 @@ function showAdresses(data, params){
         }
         var id = entityName+'_'+entity.season+'_'+entity.episode;
         var ep = $('#'+id);
+        var curOffset = offset;
         if(ep.length > 0){
             markHover(id);
             ep.addClass('hover');
-        }else{
-
-            console.log('#'+id, ep)
-            var ep = $('#ep_qtip_'+entityName);
-            if(ep.length == 0){
+            curOffset = 0;
+        }
+        if(true){
+            
+            console.log('#'+id, ep, 'offset '+curOffset)
+            var tip = $('#ep_qtip_'+entityName);
+            if(tip.length == 0){
                 adressAnchor = $('#infoHeader'+entityName);
+                curTarget = adressAnchor;
+                if(ep.length > 0){
+                    curTarget = ep;
+                    console.log('curTarget', curTarget);
+                }
                 adressAnchor.qtip({
                     content: {
                         text: '<span class="'+entityName+'">'+entityName+'</span><ul id="ep_qtip_'+entityName+'"><li><label>Season:</label>'+entity.season+'</li><li><label>Episode:</label>'+entity.episode+'</li><li><label>Absolute:</label>'+entity.absolute+'</li></ul>'
@@ -1173,14 +1181,15 @@ function showAdresses(data, params){
                         classes: 'ui-tooltip-shadow ui-tooltip-tipsy address'
                     },
                     position: {
+                        target: curTarget,
                         my: 'top center',
                         adjust: {
-                           y: offset
+                           y: curOffset
                         }
                      }
                  });
             }else{
-                ep.append('<li>-</li><li><label>Season:</label>'+entity.season+'</li><li><label>Episode:</label>'+entity.episode+'</li><li><label>Absolute:</label>'+entity.absolute+'</li>');
+                tip.append('<li>-</li><li><label>Season:</label>'+entity.season+'</li><li><label>Episode:</label>'+entity.episode+'</li><li><label>Absolute:</label>'+entity.absolute+'</li>');
             }
             
         }

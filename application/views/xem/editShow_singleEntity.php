@@ -17,9 +17,6 @@ $curElementLocation = null;
 		<?if($curElementLocation->absolute_start > 0)
 			$absolute_number = $curElementLocation->absolute_start;
 		?>
-        <?if($curElementLocation->episode_start > 0)
-            $absolute_number = $absolute_number + $curElementLocation->episode_start -1;
-        ?>
 		<li>
 			<div class="seasonHeader" id="seasonHeader_<?=$curElementLocation->season?>_<?=$curLocation->name?>" data-season="<?=$curElementLocation->season?>" data-locationName="<?=$curLocation->name?>" data-locationID="<?=$curLocation->id?>">
 				<span><?if($curElementLocation->season == -1) echo 'S*';else echo 'S'.zero_pad($curElementLocation->season,2)?>
@@ -48,7 +45,7 @@ $curElementLocation = null;
 						</li>
                         <?if(!($curLocation->name == 'master' || $curLocation->name == 'scene')):?>
 						<li>
-							<label>Identifier</label><input class="season" name="identifier" value="<?=$curElementLocation->identifier?>" <?=$disabled?>/>
+							<label>Identifier</label><input class="season" maxlength="20" name="identifier" value="<?=$curElementLocation->identifier?>" <?=$disabled?>/>
 						</li>
                         <?endif?>
 						<li>

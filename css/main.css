@@ -725,6 +725,11 @@ input[disabled='disabled'] {
     height: 0px !important;
     padding: 0 !important;
 }
+.clear-keep-height{
+	clear: both !important;
+    float: none !important;
+    padding: 0 !important;
+}
 
 /*footer inkl "add this"*/
 #footer{
