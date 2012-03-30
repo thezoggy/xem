@@ -299,7 +299,7 @@ class Postman{
 
     private function getAbsolute($location, $season, $episode) {
         log_message('debug', 'getAbsolute('.$location->name.', '.$season.', '.$episode.')');
-        $absolute = 0;
+        $absolute = 1;
         if($season == 0)
             return 0;
 
@@ -308,19 +308,22 @@ class Postman{
         //log_message('debug', $this->db->last_query());
         foreach($seasons->result() as $curSeason){
 
+            //$absolute = $absolute - $curSeason->episode_start + 1;
+
             if ($curSeason->season > 0 AND $curSeason->absolute_start > 0){
-                $absolute = ($curSeason->absolute_start - $curSeason->episode_start);
+                $absolute = ($curSeason->absolute_start);
                 log_message('debug', 'absolute_start '.$absolute);
             }
 
             if((int)$curSeason->season == (int)$season){
-                $final = (int)$absolute + (int)$episode;
+                $final = (int)$absolute + ((int)$episode - $curSeason->episode_start);
                 log_message('debug', 'absolute return '.$final);
                 return $final;
             }
             if($curSeason->season > 0)
                 $absolute = $absolute + $curSeason->season_size;
 
+            log_message('debug', 'season: '.$curSeason->season.' absolute: '.$absolute);
         }
     }
 
