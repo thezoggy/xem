@@ -100,12 +100,22 @@ class TvdbProxy extends Baseproxy {
             */
 		    $newAdress = $postman->resolveAddress((int)$ep->SeasonNumber, (int)$ep->EpisodeNumber, (int)$ep->absolute_number);
 
+
+
 		    if(!$newAdress){
 		        //print "\n";
                 $this->xml_join($new_xml, $ep); // just add the normal unmodified version
 		        continue;
 		    }
+
 		    $newAdress = $newAdress[$this->destination];
+		    //log_message('debug',print_r($newAdress, true));
+		    if($newAdress['season'] == 0 && $newAdress['episode'] == 0 &&  $newAdress['absolute'] != 0){
+		        //print "\n";
+                $this->xml_join($new_xml, $ep); // just add the normal unmodified version
+		        continue;
+		    }
+
 		    //print_r($newAdress);
 		    $newAdressKey = implode("|", $newAdress);
             /*print $this->destination.": ".$newAdress['season'];
