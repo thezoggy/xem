@@ -25,6 +25,8 @@ function getShows($db,$term=false){
 		$query = "SELECT  e.id, e.main_name, n.name FROM `elements` AS e LEFT JOIN `names` AS n ON n.element_id = e.id WHERE (n.name LIKE '%".$term."%' OR e.main_name LIKE '%".$term."%' OR n.name SOUNDS LIKE '".$term."' OR e.main_name SOUNDS LIKE '".$term."' ) AND `status` > 0  GROUP BY e.main_name ORDER BY e.main_name";
 
 	$shows = $db->query($query);
+	if(!$shows)
+	   return array();
 	$shows = $shows->result();
 	if($shows)
 	    return $shows;
