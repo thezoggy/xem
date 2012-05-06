@@ -221,7 +221,7 @@ class Postman{
                 }
             }
         }
-        return false;
+        return array();
 	}
 
     private function dbSeason($location) {
