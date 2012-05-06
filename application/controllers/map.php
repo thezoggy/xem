@@ -60,9 +60,14 @@ class Map extends CI_Controller {
             $data = $cacheData;
             $cachedMsg = 'this was a cached version';
         }
-
+        
         $this->oh->dbcache->save('map_out', $p->element->id, $origin.'_'.$destination, 259200, $data); // save into db cache for 3 days (259200s)
-        $this->_fullOut('success', $data, 'full mapping for '.$identifier.' on '.$origin.'. '.$cachedMsg);
+        if(!$data){
+            $this->_fullOut('failure', array(), 'no single connection');
+        }else{
+            $this->_fullOut('success', $data, 'full mapping for '.$identifier.' on '.$origin.'. '.$cachedMsg);
+        }
+        
     }
 
     function single() {
@@ -136,6 +141,10 @@ class Map extends CI_Controller {
         $includeDefaultNames = false;
         if(isset($_REQUEST['defaultNames']))
             $includeDefaultNames = (bool) $_REQUEST['defaultNames'];
+
+        $includeSeasonNumbers = false;
+        if(isset($_REQUEST['seasonNumbers']))
+            $includeSeasonNumbers = (bool) $_REQUEST['seasonNumbers'];
 
         $seasonFilterType = false;
         $seasonFilterSeason = false;
@@ -215,30 +224,30 @@ class Map extends CI_Controller {
                             switch ($seasonFilterType) {
                                 case 'ne': // is not equal to
                                     if($name->season != $seasonFilterSeason)
-                                        $namesStrings[] = $name->name;
+                                        $namesStrings[] = $this->_allNames_helper_name_season($name, $includeSeasonNumbers);
                                     break;
                                 case 'gt': // is greater than
                                     if($name->season > $seasonFilterSeason)
-                                        $namesStrings[] = $name->name;
+                                        $namesStrings[] = $this->_allNames_helper_name_season($name, $includeSeasonNumbers);
                                     break;
                                 case 'ge': // is greater than or equal to
                                     if($name->season >= $seasonFilterSeason)
-                                        $namesStrings[] = $name->name;
+                                        $namesStrings[] = $this->_allNames_helper_name_season($name, $includeSeasonNumbers);
                                     break;
                                 case 'lt': // is less than
                                     if($name->season < $seasonFilterSeason)
-                                        $namesStrings[] = $name->name;
+                                        $namesStrings[] = $this->_allNames_helper_name_season($name, $includeSeasonNumbers);
                                     break;
                                 case 'le': // is less than or equal to
                                     if($name->season <= $seasonFilterSeason)
-                                        $namesStrings[] = $name->name;
+                                        $namesStrings[] = $this->_allNames_helper_name_season($name, $includeSeasonNumbers);
                                     break;
                                 case 'eq': // is equal to
                                     if($name->season == $seasonFilterSeason)
-                                        $namesStrings[] = $name->name;
+                                        $namesStrings[] = $this->_allNames_helper_name_season($name, $includeSeasonNumbers);
                                     break;
                                 default: // no filter set
-                                    $namesStrings[] = $name->name;
+                                    $namesStrings[] = $this->_allNames_helper_name_season($name, $includeSeasonNumbers);
                                     break;
                             }
                         }
@@ -261,7 +270,14 @@ class Map extends CI_Controller {
 
         $this->_fullOut('success', $out);
     }
+    function _allNames_helper_name_season($nameObj, $includeSeasonNumbers){
+        if($includeSeasonNumbers){
+            return array($nameObj->name=>(int)$nameObj->season);
+        }else{
+            return $nameObj->name;
+        }
 
+    }
     function sbLegacy() {
         $locations = $this->db->get('locations');
 		$tvdb_id = 0;
