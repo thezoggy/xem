@@ -21,7 +21,7 @@
 							<ul class="names">
 								<?foreach($names as $curName):?>
 								<li class="name">
-                                    <?=img(array('src'=>'images/flags/'.$curName->language.'.png','data-id'=>$curName->id,'data-lang'=>$curName->language,'id'=>'flag_'.$curName->id,'width'=>17))?></span>
+                                    <?=img(array('src'=>'images/flags/'.$curName->language.'.png','data-id'=>$curName->id,'data-lang'=>$curName->language,'id'=>'flag_'.$curName->id,'width'=>17))?>
                                     <span class="name" data-id="<?=$curName->id?>"><?=$curName->name?></span>
                                     <div class="clear"></div>
                                 </li>
