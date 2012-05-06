@@ -8,5 +8,5 @@
 
 <h2>Special thanks to:</h2>
 <p>
-zoggy, taki, fluffy
+zoggy, Tacki, fluffy
 </p>

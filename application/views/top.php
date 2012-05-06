@@ -1,9 +1,21 @@
 <!DOCTYPE html>
+<!--                                                                                                    
+                                                                                                
+ ,,                                                                                             
+*MM                     `7MMF'            db      `7MM"""Yb.                                    
+ MM                       MM             ;MM:       MM    `Yb.  __,                             
+ MM,dMMb.`7M'   `MF'      MM            ,V^MM.      MM     `Mb `7MM  pd""b.   pd""b.  M******A' 
+ MM    `Mb VA   ,V        MM           ,M  `MM      MM      MM   MM (O)  `8b (O)  `8b Y     A'  
+ MM     M8  VA ,V         MM      ,    AbmmmqMA     MM     ,MP   MM      ,89      ,89      A'   
+ MM.   ,M9   VVV          MM     ,M   A'     VML    MM    ,dP'   MM    ""Yb.    ""Yb.     A'    
+ P^YbmdP'    ,V         .JMMmmmmMMM .AMA.   .AMMA..JMMmmmdP'   .JMML.     88       88    A'     
+            ,V                                                      (O)  .M' (O)  .M'   A'      
+         OOb"                                                        bmmmd'   bmmmd'   A'       
+-->
 <html lang="en">
 <head>
 	<!-- meta tags -->
-	<meta charset="utf-8">
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<!-- favicon and title -->
 	<link rel="icon" href="http://thexem.de/images/entitys/icon_master.png" type="image/png">
 	<title><?=$title?> | Xem</title>
