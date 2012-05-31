@@ -2,6 +2,7 @@ var conObjs = {};
 var conObjFrom = {};
 var conObjTo = {};
 var papers = {};
+var quickConnet = false;
 /* demostuff */
 
 // passthruConObjs = JSON.parse('{"passthru_xmaster_scene":{"fid":"xmaster","tid":"scene"},"passthru_scene_xmaster":{"fid":"scene","tid":"xmaster"},"passthru_scene_anidb":{"fid":"scene","tid":"anidb"},"passthru_anidb_scene":{"fid":"anidb","tid":"scene"},"passthru_anidb_rage":{"fid":"anidb","tid":"rage"},"passthru_rage_anidb":{"fid":"rage","tid":"anidb"},"passthru_trakt_tvdb":{"fid":"trakt","tid":"tvdb"},"passthru_tvdb_trakt":{"fid":"tvdb","tid":"trakt"},"passthru_scene_rage":{"fid":"scene","tid":"rage"},"passthru_rage_scene":{"fid":"rage","tid":"scene"},"passthru_xmaster_rage":{"fid":"xmaster","tid":"rage"},"passthru_rage_xmaster":{"fid":"rage","tid":"xmaster"},"passthru_anidb_xmaster":{"fid":"anidb","tid":"xmaster"},"passthru_xmaster_anidb":{"fid":"xmaster","tid":"anidb"}}');
@@ -158,41 +159,46 @@ function displayConnectTip(fromLi,toLi){
 		my_pos = 'bottom right';
 	}
 	
-	$('.seasonConnection.edit').qtip({
-		content: function() {
-			var container = $('<div>');
-			var text = '<p>Click connect to create a direct link between<br/>';
-			text += fromName+':<br/>- Season '+fromSeason+' Episode '+fromEpisode+'<br/>';
-			text += toName+':<br/>- Season '+toSeason+' Episode '+toEpisode+'<br/>';
-			var connectB = $('<input type="button">');
-			connectB.attr('value', 'Connect');
-			connectB.click(function(){$('.ui-tooltip').remove();connect();});
-			var cancelB = $('<input type="button">');
-			cancelB.attr('value', 'Cancel');
-			cancelB.click(function(){$('.hover').removeClass('hover');$('.selected').removeClass('selected');$('.ui-tooltip').remove();});
-			container.append(text);
-			container.append(cancelB);
-			container.append(connectB);
-	    	return container;
-	   },
-	   show: {
-	   	  solo: true,
-	      ready: true
-	   },
-	   position: {
-	   	my: my_pos,
-	   	target: [averagex, averagey]
-   		},
-   		hide: {
-	      event: 'click'
-	   },
-	   events: {
-	      blur: function(event, api) {
-	         // For more information on the API object, check-out the API documentation
-	         $('.ui-tooltip').remove();
-	      }
-	   }
-	})
+	if(!quickConnet){
+	
+    	$('.seasonConnection.edit').qtip({
+    		content: function() {
+    			var container = $('<div>');
+    			var text = '<p>Click connect to create a direct link between<br/>';
+    			text += fromName+':<br/>- Season '+fromSeason+' Episode '+fromEpisode+'<br/>';
+    			text += toName+':<br/>- Season '+toSeason+' Episode '+toEpisode+'<br/>';
+    			var connectB = $('<input type="button">');
+    			connectB.attr('value', 'Connect');
+    			connectB.click(function(){$('.ui-tooltip').remove();connect();});
+    			var cancelB = $('<input type="button">');
+    			cancelB.attr('value', 'Cancel');
+    			cancelB.click(function(){$('.hover').removeClass('hover');$('.selected').removeClass('selected');$('.ui-tooltip').remove();});
+    			container.append(text);
+    			container.append(cancelB);
+    			container.append(connectB);
+    	    	return container;
+    	   },
+    	   show: {
+    	   	  solo: true,
+    	      ready: true
+    	   },
+    	   position: {
+    	   	my: my_pos,
+    	   	target: [averagex, averagey]
+       		},
+       		hide: {
+    	      event: 'click'
+    	   },
+    	   events: {
+    	      blur: function(event, api) {
+    	         // For more information on the API object, check-out the API documentation
+    	         $('.ui-tooltip').remove();
+    	      }
+    	   }
+    	})
+	}else{
+	   connect();
+	}
 }
 
 function connect(fake){
@@ -505,15 +511,15 @@ function createEditIcon(seasonConnectionDOM){
 			}else
 				i.animate({'path':shuffleIcon},500)
 				
-			resetOtherEditIcons();
+			resetOtherEditIcons(seasonConnectionDOM);
 		});
 	}
 	return true;
 }
 
-function resetOtherEditIcons(){
+function resetOtherEditIcons(notThisOne){
 	$('.seasonConnection').each(function(){
-		if(!$(this).hasClass('edit')){
+		if(!$(this).hasClass('edit') && !(notThisOne.get(0) === $(this).get(0))){
 			createEditIcon($(this));
 		}	
 	});	

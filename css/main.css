@@ -3,6 +3,8 @@ body{
 	background: #eee;
 }
 
+body.draft{
+}
 
 button, input, select, textarea {
 	font-size: 12px;
@@ -91,6 +93,11 @@ img { vertical-align: middle; }
 }
 #content{
     margin: auto;
+}
+
+#element{
+    z-index: 1;
+    position: relative;
 }
 
 /*element slector*/
@@ -206,7 +213,9 @@ ul.no{
 	padding: 0 0 0 1px;
 	background-color: #EEE;
 }
-
+#alternativeNamesContainer{
+    float: left;
+}
 
 #alternativeNames td{
 	position: relative;
@@ -250,6 +259,34 @@ ul.no{
 }
 #alternativeNames li.name span{
     padding-left: 2px;
+}
+
+#toolbox{
+    float: right;
+    padding: 5px;
+    margin: 20px 0;
+    border: 3px solid #525252;
+    background: rgba(255,255,255,0.5);
+    width: 300px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+
+#toolbox label{
+    min-width: 120px;
+}
+#toolbox li{
+    margin-bottom: 4px;
+}
+
+#draft_background{
+    position: absolute;
+    color: #CCC;
+    width: 100%;
+    height: 100%;
+    font-size: 300px;
+    z-index: 0;
 }
 
 
@@ -314,7 +351,8 @@ ul.no{
 	width: 142px;
 }
 
-.seasonHeaderInfo{
+.seasonHeaderInfo,
+.seasonHeaderFake{
 	background-color: #333;
 	cursor: default;
 	text-align: center;

@@ -27,7 +27,8 @@ function setNewContent(c){
 }
 
 function restore(){
-    setNewContent(originalContent);
+    if(originalContent)
+        setNewContent(originalContent);
     $('#savePage').attr('disabled','disabled');
 }
 

@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<!--                                                                                                    
-                                                                                                
- ,,                                                                                             
-*MM                     `7MMF'            db      `7MM"""Yb.                                    
- MM                       MM             ;MM:       MM    `Yb.  __,                             
- MM,dMMb.`7M'   `MF'      MM            ,V^MM.      MM     `Mb `7MM  pd""b.   pd""b.  M******A' 
- MM    `Mb VA   ,V        MM           ,M  `MM      MM      MM   MM (O)  `8b (O)  `8b Y     A'  
- MM     M8  VA ,V         MM      ,    AbmmmqMA     MM     ,MP   MM      ,89      ,89      A'   
- MM.   ,M9   VVV          MM     ,M   A'     VML    MM    ,dP'   MM    ""Yb.    ""Yb.     A'    
- P^YbmdP'    ,V         .JMMmmmmMMM .AMA.   .AMMA..JMMmmmdP'   .JMML.     88       88    A'     
-            ,V                                                      (O)  .M' (O)  .M'   A'      
-         OOb"                                                        bmmmd'   bmmmd'   A'       
+<!--
+
+ ,,
+*MM                     `7MMF'            db      `7MM"""Yb.
+ MM                       MM             ;MM:       MM    `Yb.  __,
+ MM,dMMb.`7M'   `MF'      MM            ,V^MM.      MM     `Mb `7MM  pd""b.   pd""b.  M******A'
+ MM    `Mb VA   ,V        MM           ,M  `MM      MM      MM   MM (O)  `8b (O)  `8b Y     A'
+ MM     M8  VA ,V         MM      ,    AbmmmqMA     MM     ,MP   MM      ,89      ,89      A'
+ MM.   ,M9   VVV          MM     ,M   A'     VML    MM    ,dP'   MM    ""Yb.    ""Yb.     A'
+ P^YbmdP'    ,V         .JMMmmmmMMM .AMA.   .AMMA..JMMmmmdP'   .JMML.     88       88    A'
+            ,V                                                      (O)  .M' (O)  .M'   A'
+         OOb"                                                        bmmmd'   bmmmd'   A'
 -->
 <html lang="en">
 <head>
@@ -46,7 +46,7 @@
 	<script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
 	<script type="text/javascript">stLight.options({publisher:'15e087b2-55e2-44be-bda6-54e3ee00d766'});</script>
 </head>
-<body>
+<body class="<?if(isset($fullelement)){if($fullelement->isDraft) echo 'draft';} ?>">
 <div id="everything">
     <!-- <a href="http://github.com/you"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/c641758e06304bc53ae7f633269018169e7e5851/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f77686974655f6666666666662e706e67" alt="Fork me on GitHub"></a> -->
 	<div id="page">

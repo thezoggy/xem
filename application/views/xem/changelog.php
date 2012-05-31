@@ -1,7 +1,10 @@
 
 <h1>Changelog:</h1>
+<?if($element->isDraft()):?>
+<h2><?=anchor('xem/draft/'.$element->parent, $element->main_name)?></h2>
+<?else:?>
 <h2><?=anchor('xem/show/'.$element->id, $element->main_name)?></h2>
-
+<?endif?>
 <table id="changelog">
     <!--
     <tr>

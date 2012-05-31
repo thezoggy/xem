@@ -28,8 +28,8 @@ class DBObject{
 			$this->load();
 	}
 
-	public function save(){
-		if(!$this->id)
+	public function save($load=true){
+		if(!$this->id && $load)
 			$this->load();
 	    $updateted = false;
 	    $dbEntry = $this->db->get_where($this->table, array('id'=>$this->id));
@@ -52,7 +52,7 @@ class DBObject{
 			$this->db->insert($this->table, $this->buildNameValueArray($this->dataFields, $this->id));
 		    log_message('debug',$this->db->last_query());
 		    if(!$this->id)
-			    $this->id = $this->db->insert_id();
+			    $this->id = (int)$this->db->insert_id();
 			log_message('debug',"new id: ".$this->id);
 			$this->history->createEvent('insert',$this);
 			$this->clearNamespace();
@@ -165,6 +165,21 @@ class DBObject{
 		else
 			return false;
 	}
+
+	function createCopy($new_element_id){
+
+        log_message('debug', "copying ".$this->className." id ".$this->id);
+
+	    $this->id = 0;
+	    if(isset($this->element_id) && $new_element_id);
+	        $this->element_id = $new_element_id;
+	    if($this->className == 'element'){
+	        $this->parent = $new_element_id;
+	    }
+
+	    return $this->save(false);
+	}
+
 }
 
 

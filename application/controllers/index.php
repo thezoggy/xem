@@ -7,7 +7,7 @@ class Index extends SuperController {
 	}
 
 	public function index(){
-		$this->out['locations'] = $this->db->get('locations');
+		$this->out['locations'] = $this->db->get_where('locations',array('status'=>1));
 		$this->_loadView('index');
 
 		//$p = new Postman($this->oh,'110381','tvdb');

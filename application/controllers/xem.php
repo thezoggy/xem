@@ -8,6 +8,7 @@ class Xem extends SuperController {
 		$this->out['languages'] = $this->db->get('languages');
 
 		$this->out['languagesJS'] = json_encode(buildSimpleLanguageArray($this->out['languages']));
+		$this->out['is_draft'] = false;
 
 		//email stuff
 	    $this->load->library('email');
@@ -24,6 +25,10 @@ class Xem extends SuperController {
 		if($id = $this->uri->segment(3)){
 			if(is_numeric($id))
 				$fullElement = new FullElement($this->oh,$id);
+				if($fullElement->isDraft){
+				    redirect('xem/draft/'.$fullElement->parentElement->id);
+				    return false;
+				}
 			else{
 				$id = urldecode($id);
 				$tmp = $this->db->get_where('elements',array('main_name'=>$id));
@@ -39,6 +44,40 @@ class Xem extends SuperController {
 		}else{
 			$this->out['fullelement'] = $fullElement;
 
+    		$this->out['editRight'] = ($this->session->userdata('logged_in') && ($this->user_lvl >=  $fullElement->status) && ($this->user_lvl >= 5 || $fullElement->isDraft));
+		}
+
+		$this->out['title'] = $fullElement->main_name.' | Maping';
+		$this->_loadView('show');
+	}
+
+	public function draft(){
+	    $fullElement = null;
+
+	    # we have to get the draft id
+		if($id = $this->uri->segment(3)){
+			if(is_numeric($id)){
+			    $darfts = $this->db->get_where('elements',array('parent'=>$id));
+				if(rows($darfts)){
+				    foreach ($darfts->result_array() as $cur_draft) {
+				        if($cur_draft['status'] > 0){
+        					$fullElement = new FullElement($this->oh, $cur_draft['id']);
+				        }
+				    }
+				}
+	            if(!$fullElement){
+        			redirect('xem/createDraft/'.$id);
+        			return false;
+				}
+			}
+		}
+	    if(!$fullElement){
+			redirect('xem/shows');
+			return false;
+		}else{
+			$this->out['fullelement'] = $fullElement;
+		    $this->out['is_draft'] = true;
+
     		$this->out['editRight'] = ($this->session->userdata('logged_in') && ($this->user_lvl >=  $fullElement->status));
 		}
 
@@ -46,6 +85,54 @@ class Xem extends SuperController {
 		$this->_loadView('show');
 	}
 
+	public function createDraft() {
+		if($id = $this->uri->segment(3)){
+			if(is_numeric($id)){
+			    $e = new Element($this->oh, $id);
+			    if($e->parent && $e->status > 0){ // check if this is allready a draft
+    				redirect('xem/draft/'.$e->parent);
+    				return false;
+			    }
+                log_message('debug', "Initiating creat draft for ".$id);
+				$fullElement = new FullElement($this->oh, $id);
+				$new_draft = $fullElement->createDraft();
+				redirect('xem/draft/'.$id);
+				return false;
+		    }
+		}else{
+			redirect('xem/shows');
+		}
+	}
+    public function makePublic(){
+		if(!grantAcces(4)) {
+			redirect('user/login');
+			return false;
+		}
+        if($id = $this->uri->segment(3)){
+			if(is_numeric($id)){
+				$fullElement = new FullElement($this->oh, $id);
+				$oldPublic = $fullElement->parentElement;
+				if($oldPublic){
+    				$oldPublic->status = -1;
+    				$oldPublic->parent = $id;
+    		        $oldPublic->save();
+                    // newPublic is pretty much "this"
+    		        $newPublic = $fullElement->element;
+    		        $newPublic->parent = 0;
+    		        $newPublic->save();
+
+                    $this->oh->history->createEvent('draft_accepted', $newPublic);
+    				redirect('xem/show/'.$id);
+    				return true;
+				}else{ // this was not a draft
+    				redirect('xem/show/'.$id);
+    				return false;
+				}
+		    }
+		}else{
+			redirect('xem/shows');
+		}
+    }
 	public function shows(){
 		$this->out['title'] = 'Shows';
 		$this->out['curShows'] = $this->out['shows'];
@@ -68,9 +155,11 @@ class Xem extends SuperController {
     		$name->season = $season;
     		$name->save();
 		}
-
-
-		redirect('xem/show/'.$_POST['element_id']);
+        $e = new Element($this->oh, $_POST['element_id']);
+        if($e->isDraft())
+    		redirect('xem/draft/'.$e->parent);
+        else
+    		redirect('xem/show/'.$_POST['element_id']);
 	}
 
 	public function newSeason(){
@@ -89,7 +178,11 @@ class Xem extends SuperController {
     		$newSeason->identifier = $_POST['identifier'];
 		$newSeason->save();
 
-		redirect('xem/show/'.$newSeason->element_id);
+        $e = new Element($this->oh, $_POST['element_id']);
+        if($e->isDraft())
+    		redirect('xem/draft/'.$e->parent);
+        else
+    		redirect('xem/show/'.$_POST['element_id']);
 	}
 
 
@@ -122,7 +215,11 @@ class Xem extends SuperController {
 			$season->delete();
 		}
 		// print_o($season);
-		redirect('xem/show/'.$_POST['element_id']);
+        $e = new Element($this->oh, $_POST['element_id']);
+        if($e->isDraft())
+    		redirect('xem/draft/'.$e->parent);
+        else
+    		redirect('xem/show/'.$_POST['element_id']);
 	}
 
 	function deleteShow(){
@@ -218,222 +315,6 @@ class Xem extends SuperController {
 		$this->out['events'] = $changelog->events;
 		$this->_loadView('changelog');
 	}
-
-	//old
-	public function _editElementProcces(){
-		if(!$this->session->userdata('logged_in')) {
-			redirect('user/login');
-		}
-		$element_id = $_POST['element_id'];
-
-		// change main name
-		$element = new SimpleElement($this->oh,$element_id);
-		$element->main_name = $_POST['main_name'];
-		$element->save();
-		unset($_POST['main_name']);
-
-		//new name and season
-		if($_POST['newName']){
-			$season = -1;
-			if($_POST['newNameSeason'] && $_POST['newNameSeason'] != -1)
-				$season = $_POST['newNameSeason'];
-
-			$newSeason = new Season($this->db);
-			$newSeason->element_id = $element_id;
-			$newSeason->season = $season;
-			$newSeason->save();
-
-			$newName = new Name($this->db);
-			$newName->element_id = $element_id;
-			$newName->name = $_POST['newName'];
-			$newName->season = $newSeason;
-			$newName->save();
-			unset($_POST['newName']);
-			unset($_POST['newNameSeason']);
-		}
-
-		foreach($_POST as $key=>$value){
-			if(strpos($key, "elementLocationNew_") !== false){
-
-				$key = explode("_",$key);
-				$location_id = $key[1];
-
-				$season = -1;
-				if($_POST["elementLocationSeasonNew_".$location_id] && $_POST["elementLocationSeasonNew_".$location_id] != "all")
-					$season = $_POST["elementLocationSeasonNew_".$location_id];
-
-
-				$seasonSize = -1;
-				if($_POST["elementLocationSeasonNew_".$location_id] && $_POST["elementLocationSeasonNew_".$location_id] != "infinite")
-					$seasonSize = $_POST["elementLocationSeasonNew_".$location_id];
-
-
-				$newSeason = new Season($this->db);
-				$newSeason->element_id = $element_id;
-				$newSeason->season = $season;
-				$newSeason->save();
-
-				$newElementLocation = new ElementLocation($this->db);
-				$newElementLocation->location = new Location($this->db, $location_id);
-				$newElementLocation->element = new Element($this->db, $element_id);
-				$newElementLocation->season = $newSeason;
-				$newElementLocation->identifier = $value;
-				$newElementLocation->seasonsize = $seasonSize;
-				$newElementLocation->save();
-
-				unset($_POST[$key]);
-				unset($_POST["elementLocationSeasonNew_".$location_id]);
-				continue;
-			}
-			if(strpos($key, "location_") !== false){
-				print "----------------<br>";
-				$key = explode("_",$key);
-				$elementLocation_id = $key[1];
-				$oldSeason = $key[2];
-
-				if($value || ($_POST["locationSize_".$elementLocation_id] && $_POST["locationSeason_".$elementLocation_id])){
-					$season = -1;
-					if($_POST["locationSeason_".$elementLocation_id] && $_POST["locationSeason_".$elementLocation_id] != "all")
-						$season = $_POST["locationSeason_".$elementLocation_id];
-
-					$seasonSize = -1;
-					if($_POST["locationSize_".$elementLocation_id] && $_POST["locationSize_".$elementLocation_id] != "infinite")
-						$seasonSize = $_POST["locationSize_".$elementLocation_id];
-
-					$newSeason = new Season($this->db);
-					$newSeason->element_id = $element_id;
-					$newSeason->season = $season;
-					$newSeason->save();
-					$newElementLocation = new ElementLocation($this->db, $elementLocation_id);
-					print $newElementLocation->location->name.": ".$newElementLocation->identifier."<br>";
-					$newElementLocation->season = $newSeason;
-					$newElementLocation->identifier = $value;
-					$newElementLocation->seasonsize = $seasonSize;
-					$newElementLocation->save();
-				}else{
-					$newElementLocation = new ElementLocation($this->db, $elementLocation_id);
-					$newElementLocation->delete();
-				}
-				continue;
-			}
-			if(strpos($key, "name_") !== false){
-				print "----------------<br>";
-				$key = explode("_",$key);
-				$name_id = $key[1];
-				if($value){
-					$season = -1;
-					if($_POST["nameSeason_".$name_id] && $_POST["nameSeason_".$name_id] != "all")
-						$season = $_POST["nameSeason_".$name_id];
-
-					$newSeason = new Season($this->db);
-					$newSeason->element_id = $element_id;
-					$newSeason->season = $season;
-					$newSeason->save();
-
-					$newName = new Name($this->db, $name_id);
-					$newName->name = $value;
-					$newName->season = $newSeason;
-					$newName->save();
-
-				}else{
-					$newName = new Name($this->db, $name_id);
-					$newName->delete();
-				}
-				continue;
-			}
-
-		}
-		if(!isset($_POST['debug']))
-			redirect('xem/editElement/'.$element_id);
-	}
-	function _addShowRule(){
-		$this->out['locations'] = $this->db->get('locations');
-		$this->out['shows'] = $this->db->get_where('elements',array('type'=>'show'));
-
-		$this->load->view('top', $this->out);
-		$this->load->view('addShowRule',$this->out);
-		$this->load->view('bottom', $this->out);
-
-	}
-
-	function _editShowrule(){
-		$rule_map = $this->db->get('maps');
-		$this->out['rule_maps'] = array();
-		foreach($rule_map->result() as $rule){
-			$this->out['rule_maps'][$rule->id] = new Map($this->db, $rule->id);
-		}
-
-		if($id = $this->uri->segment(3)){
-			$map = $this->out['rule_maps'][$id];
-			$map->buildOffsetrules();
-			$this->out['rule_map'] = $map;
-		}
-
-		$this->load->view('top', $this->out);
-		$this->load->view('editShowRule',$this->out);
-		$this->load->view('bottom', $this->out);
-	}
-
-	function _editShowRuleProcess(){
-		if(!$this->session->userdata('logged_in')) {
-			redirect('user/login');
-		}
-		print "<pre>";
-		print_r($_POST);
-		print "</pre>";
-
-		// change human values(end,start) to machine values(-1)
-		foreach($_POST as $key=>$value){
-			if(($value == "end" || $value == "start" )&& (strpos($key, "from") !== false || strpos($key, "to") !== false)){
-				$_POST[$key] = -1;
-			}
-		}
-
-		$map_id = 0;
-		if(isset($_POST['rule_map_id']))
-			$map_id = $_POST['rule_map_id'];
-
-		$newMap = new Simplemap($this->db, $map_id);
-		if(isset($_POST["element_id"]))
-			$newMap->element_id = $_POST["element_id"];
-		if(isset($_POST["name_id"]))
-			$newMap->name_id = $_POST["name_id"];
-		$newMap->save();
-
-		if(isset($_POST["origin_id"]) && isset($_POST["destination_id"])){
-			$newMapLocation = new Maplocation($this->db);
-			$newMapLocation->map_id = $newMap->id;
-			$newMapLocation->origins = $_POST["origin_id"];
-			$newMapLocation->destinations = $_POST["destination_id"];
-			$newMapLocation->save();
-		}
-		$rule_id = 0;
-		if(isset($_POST['offset_rule_id']))
-			$rule_id = $_POST['offset_rule_id'];
-
-		$newOffsetrule = new Offsetrule($this->db, $rule_id);
-		$newOffsetrule->map_id = $newMap->id;
-
-		$newOffsetrule->season_from = $_POST["season_from"];
-		$newOffsetrule->season_to = $_POST["season_to"];
-		$newOffsetrule->season_offset = $_POST["season_offset"];
-
-		$newOffsetrule->episode_from = $_POST["episode_from"];
-		$newOffsetrule->episode_to = $_POST["episode_to"];
-		$newOffsetrule->episode_offset = $_POST["episode_offset"];
-		$newOffsetrule->absolute_episode_offset = $_POST["absolute_ep_offset"];
-		$newOffsetrule->save();
-
-
-		if(isset($_POST["delete"])){
-			$offset_rule_id = $_POST['offset_rule_id'];
-			$this->db->delete("offsetrules", array("id"=>$offset_rule_id));
-		}
-
-		redirect('xem/editShowRule/'.$newMap->id);
-
-	}
-
 
 
 }

@@ -64,12 +64,17 @@ class Postman{
 	        $this->destinationNames = $tmpDestinationNames;
         if(!startswith($this->identifier, 'xem_')){
     	    $seasons = $this->db->get_where('seasons',array('location_id'=>$this->origin->id,'identifier'=>$this->identifier));
-    	    if(rows($seasons) >= 1){
-    	        $season = getFirst($seasons);
-    	        $e = new Element($this->oh, $season['element_id']);
-    	        if($e->status > 0)
-        	        $this->element = $e;
-    	    }
+	        foreach($seasons->result_array() as $curSeason) {
+	            $cur_element = $this->db->get_where('elements',array('id'=>$curSeason['element_id'], 'parent'=>0));
+	            if(rows($cur_element)){
+	                $cur_element = getFirst($cur_element);
+	                if($cur_element['status'] > 0){
+            	        $e = new Element($this->oh, $season['element_id']);
+            	        $this->element = $e;
+	                }
+	            }
+	        }
+
         }else{
             $i = explode('_', $this->identifier);
 	        $this->element = new Element($this->oh, $i[1]);

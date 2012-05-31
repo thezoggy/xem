@@ -14,15 +14,15 @@ function grantAcces($lvl=0){
 		return true;
 	$CI =& get_instance();
 	if($CI->session->userdata('logged_in'))
-		if($CI->session->userdata('user_lvl')>$lvl)
+		if($CI->session->userdata('user_lvl')>=$lvl)
 			return true;
 	return false;
 }
 
 function getShows($db,$term=false){
-	$query = "SELECT `main_name`,`id` FROM `elements` WHERE `type` = 'show' AND `status` > 0 ORDER BY `main_name`";
+	$query = "SELECT `main_name`,`id` FROM `elements` WHERE `type` = 'show' AND `status` > 0 AND `parent` = 0 ORDER BY `main_name`";
 	if($term)
-		$query = "SELECT  e.id, e.main_name, n.name FROM `elements` AS e LEFT JOIN `names` AS n ON n.element_id = e.id WHERE (n.name LIKE '%".$term."%' OR e.main_name LIKE '%".$term."%' OR n.name SOUNDS LIKE '".$term."' OR e.main_name SOUNDS LIKE '".$term."' ) AND `status` > 0  GROUP BY e.main_name ORDER BY e.main_name";
+		$query = "SELECT  e.id, e.main_name, n.name FROM `elements` AS e LEFT JOIN `names` AS n ON n.element_id = e.id WHERE (n.name LIKE '%".$term."%' OR e.main_name LIKE '%".$term."%' OR n.name SOUNDS LIKE '".$term."' OR e.main_name SOUNDS LIKE '".$term."' ) AND `status` > 0  AND `parent` = 0 GROUP BY e.main_name ORDER BY e.main_name";
 
 	$shows = $db->query($query);
 	if(!$shows)
@@ -40,8 +40,11 @@ function rows($db_result){
 			return $db_result->num_rows();
 	return 0;
 }
-function buildLocations($oh){
-	$locations = $oh->db->get("locations");
+function buildLocations($oh, $all=false){
+    if($all)
+    	$locations = $oh->db->get('locations');
+    else
+    	$locations = $oh->db->get_where('locations',array('status'=>1));
 	$locationsArray = array();
 	if(rows($locations))
 		foreach($locations->result_array() as $curLocation){

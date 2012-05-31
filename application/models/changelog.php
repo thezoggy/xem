@@ -10,7 +10,7 @@ class Changelog{
 		$this->oh = $oh;
 		$this->db = $oh->db;
 		$this->element_id = $element_id;
-		$this->locations = buildLocations($this->oh);
+		$this->locations = buildLocations($this->oh, true);
 
 		$this->init();
 	}
@@ -37,8 +37,9 @@ class Changelog{
 								"user_id"=>$curRevsion->user_id,
 				                "diff"=>$diff,
 								"old"=>$old,
-								"new"=>$new);
-				$event['human_form'] = $this->createHumanform($event);
+								"new"=>$new,
+				                "obj_id"=>$curRevsion->obj_id);
+				$event['human_form'] = $this->createHumanform($event,$this->element_id);
 				$this->events[] = $event;
 
 			}
@@ -46,7 +47,7 @@ class Changelog{
 
 	}
 
-	private function createHumanform($event){
+	private function createHumanform($event, $cur_element_id){
 	    switch ($event['action']) {
 	        case 'insert':
 	            return $this->createHumanformInsert($event);
@@ -54,8 +55,12 @@ class Changelog{
 	            return $this->createHumanformUpdate($event);
 	        case 'delete':
 	            return $this->createHumanformDelete($event);
+	        case 'create_draft':
+	            return $this->createHumanformDraftCreate($event, $cur_element_id);
+	        case 'draft_accept':
+	            return $this->createHumanformDraftAccepted($event, $cur_element_id);
 	        default:
-	            return 'unknown event db entry broken/old';
+	            return 'unknown event: '.$event['action'];
     	        break;
 	    }
 	}
@@ -101,8 +106,10 @@ class Changelog{
 	                return 'deleted the show <b>'.$new['main_name'].'</b> which had a level of <b>'.$old['status'].'</b>';
 	            elseif((int)$old['status'] != (int)$new['status'] && (int)$old['status'] == 0 && (int)$new['status'] > 0 )
 	                return 'undeleted the show <b>'.$new['main_name'].'</b>';
+	            elseif($old['entity_order'] != $new['entity_order'])
+	                return 'changed the entity order from <strong>'.$old['entity_order'].'</strong> to <strong>'.$new['entity_order'].'</strong>';
 	            else
-	                return "i don't know what happend. A save without data change."; //.print_r($old, true).' vs '.print_r($old, true);
+	                return "A save without data change.";//.print_r($old, true).' vs '.print_r($old, true);
 	        case 'Name':
 	            if($old['name'] != $new['name'])
 	                return 'changed alias name from <b>'.$old['name'].'</b> to <b>'.$new['name'].'</b>';
@@ -148,6 +155,20 @@ class Changelog{
 	            return 'deleted season <b>'.$seasonNumber.'</b> of <span class="'.$loc.'">'.$loc.'</span>';
 	    }
 	}
+
+	private function createHumanformDraftCreate($event, $cur_element_id){
+        if($cur_element_id == $event['obj_id'])
+            return '<strong>created this draft</strong>';
+        else
+            return '<strong>created draft '.$event['obj_id'].'</strong>';
+	}
+	private function createHumanformDraftAccepted($event, $cur_element_id){
+        if($cur_element_id == $event['obj_id'])
+            return '<strong>made this draft public</strong>';
+        else
+            return '<strong>made draft '.$event['obj_id'].' public</strong>';
+	}
+
 
 	private function locN($id){
 	   return $this->locations[$id]->name;

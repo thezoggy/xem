@@ -6,8 +6,12 @@ class FullElement{
 	public $id;
 	public $main_name;
 	public $status;
+	public $parent;
 	private $objArrays = array();
 
+	public $element;
+	public $isDraft = false;
+	public $parentElement = null;
 
 	public $seasons = array();
 	public $names = array();
@@ -30,12 +34,18 @@ class FullElement{
 		if(rows($elementRow)){
 			$elementRow = $elementRow->row_array();
 
+			$this->element = new Element($this->oh, $elementRow['id']);
+            $this->isDraft = $this->element->isDraft();
+            if($this->isDraft)
+                $this->parentElement = new Element($this->oh, $this->element->parent);
+
 			$this->locations = buildLocations($this->oh);
 
 			$this->id = $elementRow['id'];
 			$this->main_name = $elementRow['main_name'];
 			$this->entity_order = $elementRow['entity_order'];
 			$this->status = (int)$elementRow['status'];
+			$this->parent = (int)$elementRow['parent'];
 
 			$this->seasons = $this->build("seasons",$this->id);
 			$this->names = $this->build("names",$this->id);
@@ -47,7 +57,7 @@ class FullElement{
 		}
 	}
 
-	private function build($type,$id){
+	private function build($type, $id){
 
 		if(endswith($type,"s")){
 			$table = $type;
@@ -151,7 +161,8 @@ class FullElement{
 		if($this->entity_order){
 			$newOrder = array();
 			foreach(explode(",",$this->entity_order) as $locID){
-				$newOrder[$locID] = $this->locations[$locID];
+			    if(isset($this->locations[$locID]))
+    				$newOrder[$locID] = $this->locations[$locID];
 			}
 			return $newOrder;
 		}else
@@ -165,21 +176,23 @@ class FullElement{
 		$out = array();
 		if($this->directrules){
 			foreach($this->directrules as $curRule){
-				$fID = $this->locations[$curRule->origin_id]->name;
-				$tID = $this->locations[$curRule->destination_id]->name;
-				$fs = $curRule->origin_season;
-				$fe = $curRule->origin_episode;
+			    if(isset($this->locations[$curRule->origin_id]) && isset($this->locations[$curRule->destination_id])){
+    				$fID = $this->locations[$curRule->origin_id]->name;
+    				$tID = $this->locations[$curRule->destination_id]->name;
+    				$fs = $curRule->origin_season;
+    				$fe = $curRule->origin_episode;
 
-				$ts = $curRule->destination_season;
-				$te = $curRule->destination_episode;
+    				$ts = $curRule->destination_season;
+    				$te = $curRule->destination_episode;
 
-				$key = $fID."_".$fs."_".$fe."_".$tID."_".$ts."_".$te;
-				$out[$key] = array("fid"=>$fID,
-									"fs"=>(int)$fs,
-									"fe"=>(int)$fe,
-									"tid"=>$tID,
-									"ts"=>(int)$ts,
-									"te"=>(int)$te);
+    				$key = $fID."_".$fs."_".$fe."_".$tID."_".$ts."_".$te;
+    				$out[$key] = array("fid"=>$fID,
+    									"fs"=>(int)$fs,
+    									"fe"=>(int)$fe,
+    									"tid"=>$tID,
+    									"ts"=>(int)$ts,
+    									"te"=>(int)$te);
+			    }
 
 			}
 			return json_encode($out);
@@ -195,16 +208,18 @@ class FullElement{
 		$out = array();
 		if($this->passthrus){
 			foreach($this->passthrus as $curRule){
-				$fID = $this->locations[$curRule->origin_id]->name;
-				$tID = $this->locations[$curRule->destination_id]->name;
-				$type = $curRule->type;
-				$pid = $curRule->id;
+			    if(isset($this->locations[$curRule->origin_id]) && isset($this->locations[$curRule->destination_id])){
+    				$fID = $this->locations[$curRule->origin_id]->name;
+    				$tID = $this->locations[$curRule->destination_id]->name;
+    				$type = $curRule->type;
+    				$pid = $curRule->id;
 
-				$key = "passthru_".$fID."_".$tID;
-				$out[$key] = array("fid"=>$fID,
-									"tid"=>$tID,
-									"type"=>$type,
-									"id"=>$pid);
+    				$key = "passthru_".$fID."_".$tID;
+    				$out[$key] = array("fid"=>$fID,
+    									"tid"=>$tID,
+    									"type"=>$type,
+    									"id"=>$pid);
+			    }
 
 			}
 			return json_encode($out);
@@ -214,5 +229,63 @@ class FullElement{
 
 	}
 
+	function createDraft(){
+        log_message('debug', "Creating draft for ".$this->id);
+	    # TODO: first check if we already have a draft
+		$draft_id = $this->element->createCopy($this->id);
+
+	    foreach($this->seasons as $id=>$cur_obj){
+	        $cur_obj->createCopy($draft_id);
+	    }
+	    foreach($this->names as $id=>$cur_obj){
+	        $cur_obj->createCopy($draft_id);
+	    }
+	    foreach($this->directrules as $id=>$cur_obj){
+	        $cur_obj->createCopy($draft_id);
+	    }
+	    foreach($this->passthrus as $id=>$cur_obj){
+	        $cur_obj->createCopy($draft_id);
+	    }
+        log_message('debug', "Draft id for ".$this->id." is ".$draft_id);
+
+        $this->history->deleteHistoryForElement($draft_id);
+        $this->history->copyHistoryFromTo($this->id, $draft_id);
+        $this->history->createEvent('create_draft', $this->element);
+
+        return $draft_id;
+
+	}
+
+	private function getDraft(){
+	    $id = 0;
+	    $darfts = $this->db->get_where('elements',array('parent'=>$this->id));
+		if(rows($darfts)){
+		    foreach ($darfts->result_array() as $cur_draft) {
+		        if($cur_draft['status'] > 0){
+					$id = $cur_draft['id'];
+					break;
+		        }
+		    }
+		}
+		return $id;
+	}
+
+    function draftChangesCount() {
+        if(!$this->isDraft)
+            $draft_id = $this->getDraft();
+         else
+             $draft_id = $this->id;
+        $count = 0;
+        $query = "SELECT `action` FROM `history` WHERE `element_id` = '".$draft_id."' ORDER BY `time` DESC";
+        $history_entries = $this->db->query($query);
+        if(rows($history_entries)){
+            foreach ($history_entries->result_array() as $cur_entry) {
+                if($cur_entry['action'] == 'create_draft')
+                    break;
+                $count++;
+            }
+        }
+        return $count;
+    }
 }
 ?>

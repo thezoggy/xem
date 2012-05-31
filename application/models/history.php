@@ -19,7 +19,8 @@ class History{
 				if($obj->element_id)
 					$data['element_id'] = $obj->element_id;
 		}else{
-		    $this->db->set('element_id', 'NULL', FALSE);
+		    $data['element_id'] = $obj->id;
+		    //$this->db->set('element_id', 'NULL', FALSE);
 		}
 
 		$data['old_data'] = json_encode($obj->initialData);
@@ -43,5 +44,28 @@ class History{
 		}
 		return $rev;
 	}
+
+	function deleteHistoryForElement($id){
+	    return $this->db->delete('history', array('element_id' => $id));
+	}
+
+	function copyHistoryFromTo($from, $to){
+
+        log_message('debug', "Copying history from ".$from." to ".$to);
+	    $old_history = $this->db->query("SELECT * FROM `history` WHERE `element_id` = '".$from."' ORDER BY `time` DESC");
+	    if(rows($old_history)){
+
+            log_message('debug', "Found ".rows($old_history)." history entries for ".$from);
+			foreach($old_history->result_array() as $curRevsion){
+			    $curRevsion['element_id'] = $to;
+			    unset($curRevsion['id']);
+
+                log_message('debug', "Adding history entry revision ".$curRevsion['revision']);
+			    $this->db->insert('history', $curRevsion);
+			}
+	    }
+	}
+
+
 }
 ?>

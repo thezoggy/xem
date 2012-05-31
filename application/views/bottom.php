@@ -13,6 +13,16 @@
     <script type="text/javascript"
     src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
     </script>
+    <script type='text/javascript'>
+    (function () { 
+    var scriptProto = 'https:' == document.location.protocol ? 'https://' : 'http://'; 
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.async = true;
+    script.src = scriptProto+'api.yieldkit.com/v1/js?api_key=373b21a29848d65f8b586ecb368b6d3d&source='+encodeURIComponent(document.location.href);
+    (document.getElementsByTagName('head')[0] || document.body).appendChild(script); 
+    })();
+    </script>
 </div>
 <div class="clear" id="footer">
 	<div><strong>{elapsed_time}</strong>s says <a href="http://codeigniter.com/">CodeIgniter</a></div>
