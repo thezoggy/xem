@@ -166,10 +166,11 @@ class Xem extends SuperController {
         if($id = $this->uri->segment(3)){
 		    if(is_numeric($id)){
 		        $e = new Element($this->oh, $id);
-		        if(!$e->parent){
+		        if(!$e->parent){ // this is no draft !
             		redirect('xem/show/'.$id);
             		return false;
 		        }
+		        $this->oh->history->createEvent('public_request', $e);
 		        $e->status = 4;
 		        $e->save();
 

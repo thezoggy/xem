@@ -59,6 +59,8 @@ class Changelog{
 	            return $this->createHumanformDraftCreate($event, $cur_element_id);
 	        case 'draft_accept':
 	            return $this->createHumanformDraftAccepted($event, $cur_element_id);
+	        case 'public_request':
+	            return 'send a public request';
 	        default:
 	            return 'unknown event: '.$event['action'];
     	        break;
@@ -109,7 +111,7 @@ class Changelog{
 	            elseif($old['entity_order'] != $new['entity_order'])
 	                return 'changed the entity order from <strong>'.$old['entity_order'].'</strong> to <strong>'.$new['entity_order'].'</strong>';
 	            else
-	                return "A save without data change.";//.print_r($old, true).' vs '.print_r($old, true);
+	                return "A save without data change.<!-- old:".print_r($old, true).' vs new:'.print_r($new, true)."-->";
 	        case 'Name':
 	            if($old['name'] != $new['name'])
 	                return 'changed alias name from <b>'.$old['name'].'</b> to <b>'.$new['name'].'</b>';
