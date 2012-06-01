@@ -84,7 +84,7 @@ $curElementLocation = null;
 					<ul>
 						<li><label>Season</label><input class="season" name="season" autocomplete="off" value="<? if(isset($curElementLocation->season)) echo $curElementLocation->season+1?>" <?=$disabled?>/></li>
 						<li><label>Size</label><input class="season" name="season_size" autocomplete="off" value="" <?=$disabled?>/></li>
-						<li><label>Identifier</label><input class="season" name="identifier" autocomplete="off" <?if($curLocation->name == 'master' || $curLocation->name == 'scene'):?>disabled="disabled"<?endif?>/></li>
+						<li><label>Identifier</label><input class="season" name="identifier" autocomplete="off" <?if($curLocation->name == 'master' || $curLocation->name == 'scene'):?>disabled="disabled"<?endif?> <?if(isset($lastIdentifier)):?>placeholder="<?=$lastIdentifier?>"<?endif;?>/></li>
 						<li><input class="fullWidthButton" type="submit" value="Add New Season" <?=$disabled?>/></li>
 					</ul>
 				</form>
