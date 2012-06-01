@@ -1,0 +1,16 @@
+<?
+$config['protocol'] = 'smtp';
+
+$config['smtp_host'] = 'localhost';
+$config['smtp_user'] = 'username';
+$config['smtp_pass'] = 'password';
+$config['smtp_port'] = 25;
+$config['smtp_timeout'] = 5;
+
+$config['mailpath'] = '/usr/sbin/sendmail';
+$config['charset'] = 'utf-8'; // default
+$config['wordwrap'] = FALSE;
+$config['mailtype'] = 'html';
+$config['crlf'] = '\r\n';
+$config['newline'] = '\r\n';
+?>
