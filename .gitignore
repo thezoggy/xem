@@ -1,1 +1,3 @@
 application/config/recaptcha.php
+application/config/database.php
+application/logs/*.php
