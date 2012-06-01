@@ -79,8 +79,12 @@ class Xem extends SuperController {
 				    }
 				}
 	            if(!$fullElement){
-        			redirect('xem/createDraft/'.$id);
-        			return false;
+            		if(grantAcces(1)) {
+        	    		redirect('xem/createDraft/'.$id);
+            		}else{
+            			redirect('xem/show/'.$id);
+            		}
+        	    	return false;
 				}
 			}
 		}
@@ -98,10 +102,18 @@ class Xem extends SuperController {
 	}
 
 	public function createDraft() {
+		if(!grantAcces(1)) {
+			redirect('user/login');
+			return false;
+		}
+
 		if($id = $this->uri->segment(3)){
 			if(is_numeric($id)){
 			    $e = new Element($this->oh, $id);
-			    if($e->parent && $e->status > 0){ // check if this is allready a draft
+			    if(!$e->status > 0){ // dont allow creation of drafts for deleted stuff
+    				redirect('xem/shows');
+			    }
+			    if($e->parent){ // check if this is allready a draft
     				redirect('xem/draft/'.$e->parent);
     				return false;
 			    }

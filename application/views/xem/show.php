@@ -65,7 +65,11 @@
                 <li><label>Draft (<?=$fullelement->draftChangesCount()?> ahead)</label><input type="button" value="Go To Draft" onClick="window.location = '/xem/draft/<?=$fullelement->id?>'"/></li>
                 <?else:?>
                 <li><label>Public (<?=$fullelement->draftChangesCount()?> behind)</label><input type="button" value="Go To Public" onClick="window.location = '/xem/show/<?=$fullelement->parent?>'"/></li>
+                <?if($fullelement->status<4):?>
                 <li><label>Public request</label><input type="button" value="Request&hellip;" onClick="requestPublic()"/></li>
+                <?else:?>
+                <li><label>Public request was send&hellip;</label></li>
+                <?endif;?>
                 <?endif?>
                 <?if($editRight):?>
                 <li><label>Save entity order</label><input type="button" value="Save" onClick="saveEntityOrder()"/></li>
