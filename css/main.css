@@ -662,6 +662,15 @@ li.episode .episode_number {
 .shadow{
     text-shadow: -1px 0 #000, 0 1px #000,1px 0 #000, 0 -1px #000;
 }
+
+tr.draft_top td{
+    border-top: solid 2px #000;
+}
+
+tr.draft_bottom td{
+    border-bottom: solid 2px #000;
+}
+
 /*entity colors*/
 
 span.entityname{

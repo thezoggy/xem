@@ -158,13 +158,13 @@ class Changelog{
 
 	private function createHumanformDraftCreate($event, $cur_element_id){
         if($cur_element_id == $event['obj_id'])
-            return '<strong>created this draft</strong>';
+            return '<strong>created this draft</strong><span class="draft_bottom"></span>';
         else
             return '<strong>created draft '.$event['obj_id'].'</strong>';
 	}
 	private function createHumanformDraftAccepted($event, $cur_element_id){
         if($cur_element_id == $event['obj_id'])
-            return '<strong>made this draft public</strong>';
+            return '<strong>made this draft public</strong><span class="draft_top"></span>';
         else
             return '<strong>made draft '.$event['obj_id'].' public</strong>';
 	}
