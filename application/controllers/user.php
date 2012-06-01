@@ -34,6 +34,9 @@ class User extends SuperController {
 
 		if(isset($_POST['user'])&&isset($_POST['pw'])){
 			if($this->simpleloginsecure->login($_POST['user'],$_POST['pw'])){
+			    if(!$this->session->userdata('user_last_login')) // if there is no last login data thisis the first login -> redirect to faq
+			        redirect('/faq');
+
 				redirect($this->out['uri2']);
 			}else
 				$this->out['login_unsuccessfull'] = true;
@@ -58,9 +61,8 @@ class User extends SuperController {
 		$this->form_validation->set_rules('pw_check', 'pw_check', 'required');
 		$this->form_validation->set_rules('email', 'email', 'required');
 		$this->form_validation->set_rules('recaptcha_response_field', 'lang:recaptcha_field_name', 'required|callback_check_captcha');
-        
-        
-        $registration_open = false;
+
+        $registration_open = true;
 
 	    if ($this->form_validation->run() && $registration_open){
     	    if(valid_email($_POST['email'])){
