@@ -49,7 +49,13 @@
 <body class="<?if(isset($fullelement)){if($fullelement->isDraft) echo 'draft';} ?>">
 <div id="everything">
     <!-- <a href="http://github.com/you"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/c641758e06304bc53ae7f633269018169e7e5851/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f77686974655f6666666666662e706e67" alt="Fork me on GitHub"></a> -->
-	<div id="page">
+	<?if(isset($fullelement)):?>
+	<?if($fullelement->isDraft):?>
+    <div class="draft_background" id="draft_left">DRAFT</div>
+    <div class="draft_background" id="draft_right">DRAFT</div>
+    <?endif?>
+    <?endif?>
+    <div id="page">
 		<div id="header">
 			<ul>
 				<li><?=anchor("/","Home")?></li>
@@ -87,7 +93,7 @@
 			</div>
 			<div id="searchContainer">
 				<?=form_open("search/",array('method'=>'get','id'=>'searchForm'))?>
-					<input id="search" name="q"/>
+					<input id="search" name="q" <?if(isset($searchQeuery)){echo 'value="'.$searchQeuery.'"';}?>/>
 				</form>
 			</div>
 			<div id="logo">

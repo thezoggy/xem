@@ -175,6 +175,7 @@ class DBObject{
 	        $this->element_id = $new_element_id;
 	    if($this->className == 'element'){
 	        $this->parent = $new_element_id;
+	        $this->status = 1;
 	    }
 
 	    return $this->save(false);

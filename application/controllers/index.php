@@ -16,7 +16,6 @@ class Index extends SuperController {
 	}
 
 	public function search(){
-		$this->out['title'] = 'Search';
 
 		$id = false;
 		if($this->uri->segment(2))
@@ -24,6 +23,7 @@ class Index extends SuperController {
 		if(isset($_GET['q']))
 			$id = $_GET['q'];
 
+		$this->out['title'] = $id.' | Search';
 
 		if($id){
 			if(is_numeric($id)){
@@ -35,6 +35,7 @@ class Index extends SuperController {
 					redirect('xem/show/'.$shows[0]->id);
 				}else{
 					//print_query($this->db);
+					$this->out['searchQeuery'] = $id;
 					$this->out['curShows'] = $shows;
 					$this->_loadView('showList',false);
 				}

@@ -1068,41 +1068,76 @@ function saveSeasonValues(location,season){
 
 
 function deleteMe(){
-	$('body').qtip({
-	   id: "deleteShowModal",
-	   content: function() {
-	   		var container = $('<div>');
-	   		var cancel = $('<input type="button" value="Cancel">');
-	   		cancel.click(function(){$('.ui-tooltip-red,#qtip-overlay').remove();});
-	   		var del = $('<input type="button" value="DELETE">');
-	   		del.click(function(){$('#deleteShowForm').submit();});
-	   	
-		   	container.append('Delete this show?<br/>(this can be undone)<br/><br/>');
-	   		container.append(cancel);
-	   		container.append('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
-	   		container.append(del);
-	      return container;
-	   },
-	   position: {
-	      my: 'center',
-	      at: 'top center',
-	      target: $(document.body),
+    $('body').qtip({
+       content: function() {
+            var container = $('<div>');
+            var cancel = $('<input type="button" value="Cancel">');
+            cancel.click(function(){$('.ui-tooltip-red,#qtip-overlay').remove();});
+            var del = $('<input type="button" value="DELETE">');
+            del.click(function(){window.location = '/xem/deleteShow/'+$('#element').dataset('id');});
+            cancel.css('float', 'left');
+            del.css('float', 'right');
+            container.append('Delete this show?<br/>(this can be undone)<br/><br/>');
+            container.append(cancel);
+            container.append(del);
+          return container;
+       },
+       position: {
+          my: 'center',
+          at: 'top center',
+          target: $(document.body),
           adjust: {
               y: $(window).scrollTop()+300
            }
-	   },
-	   show: {
-	      modal: true, // Omit the object and set ti to true as short-hand
-	      ready: true
-	   },
-	   style: {
-	   		classes: 'ui-tooltip-red'
-	   },
-	   hide: {
-	      fixed: true
-	   }
-	});
-	
+       },
+       show: {
+          modal: true, // Omit the object and set ti to true as short-hand
+          ready: true
+       },
+       style: {
+            classes: 'ui-tooltip-red showModal'
+       },
+       hide: {
+          fixed: true
+       }
+    });
+}
+
+
+function requestPublic(){
+    $('body').qtip({
+       content: function() {
+            var container = $('<div>');
+            var cancel = $('<input type="button" value="Cancel">');
+            cancel.click(function(){$('.ui-tooltip-red,#qtip-overlay').remove();});
+            var del = $('<input type="button" value="Send Request">');
+            del.click(function(){window.location = '/xem/requestPublic/'+$('#element').dataset('id');});
+            cancel.css('float', 'left');
+            del.css('float', 'right');
+            container.append('Send a request to make this draft public.<br/><br/>If a request is send no new drafts can be created and this one is looked.<br/>Be sure you are done and information is correct.<br/><br/>');
+            container.append(cancel);
+            container.append(del);
+          return container;
+       },
+       position: {
+          my: 'center',
+          at: 'top center',
+          target: $(document.body),
+          adjust: {
+              y: $(window).scrollTop()+300
+           }
+       },
+       show: {
+          modal: true, // Omit the object and set ti to true as short-hand
+          ready: true
+       },
+       style: {
+            classes: 'ui-tooltip-red showModal'
+       },
+       hide: {
+          fixed: true
+       }
+    });
 }
 
 
@@ -1346,8 +1381,7 @@ function showInit(){
 		     return(value);
 		  }, {
 		     submit  : 'Set new Name',
-	      	 style: "inline",
-	      	 cssclass: "mainNameInlineEdit"
+	      	 style: "inline"
 		 });
 		// main name autogrow
 		$('.mainNameInlineEdit input').on('focus',function(){

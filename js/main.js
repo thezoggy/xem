@@ -190,8 +190,9 @@ function mainInit(){
 	    $('label').each(function(){
 	        var curLabel = $(this);
 	        var curInput = curLabel.next('input');
+	        var parent = curLabel.parents('#toolbox'); // disabeld for all labels that have these as parents
 	        // check for the for attr to not beeing invasive
-	        if(typeof(curLabel.attr('for')) == "undefined" && curInput.length){
+	        if(typeof(curLabel.attr('for')) == "undefined" && curInput.length && parent.length == 0){
 	            var id = curInput.attr('id');
 	            if(!id){
 	                // remove "0." from the random to get ids without a dot

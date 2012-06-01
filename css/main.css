@@ -26,6 +26,7 @@ img { vertical-align: middle; }
 */
 #everything{
 	position: relative;
+	overflow: hidden;
 }
 #background{
 	position: absolute;
@@ -280,15 +281,31 @@ ul.no{
     margin-bottom: 4px;
 }
 
-#draft_background{
+.draft_background{
     position: absolute;
     color: #CCC;
-    width: 100%;
-    height: 100%;
-    font-size: 300px;
+    font-size: 150px;
     z-index: 0;
+    top: 250px;
 }
 
+#draft_left{
+    left: -180px;
+    transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+}
+
+#draft_right{
+    right: -180px;
+    transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    -webkit-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+}
 
 .newSeason,
 .seasonHeader,
@@ -623,6 +640,18 @@ li.episode .episode_number {
 .seasonConnection.edit .editConIcon{
 	display: none;
 }
+
+.showModal{
+    font-size: 22px;
+    line-height: 22px;
+    width: 450px;
+}
+
+.ui-tooltip{
+    max-width: none;
+}
+
+
 /* changelog */
 #changelog tr:hover{
     background: #525252;

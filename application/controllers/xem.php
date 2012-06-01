@@ -23,13 +23,13 @@ class Xem extends SuperController {
 	public function show(){
 		$fullElement = null;
 		if($id = $this->uri->segment(3)){
-			if(is_numeric($id))
+			if(is_numeric($id)){
 				$fullElement = new FullElement($this->oh,$id);
-				if($fullElement->isDraft){
-				    redirect('xem/draft/'.$fullElement->parentElement->id);
-				    return false;
-				}
-			else{
+    			if($fullElement->isDraft){
+    			    redirect('xem/draft/'.$fullElement->parentElement->id);
+    			    return false;
+    			}
+			}else{
 				$id = urldecode($id);
 				$tmp = $this->db->get_where('elements',array('main_name'=>$id));
 				if(rows($tmp)){
@@ -47,6 +47,19 @@ class Xem extends SuperController {
     		$this->out['editRight'] = ($this->session->userdata('logged_in') && ($this->user_lvl >=  $fullElement->status) && ($this->user_lvl >= 5 || $fullElement->isDraft));
 		}
 
+		$this->out['title'] = $fullElement->main_name.' | Maping';
+		$this->_loadView('show');
+	}
+
+	public function adminShow(){
+		if(!grantAcces(4)) {
+			redirect('xem/shows');
+			return false;
+		}
+        $id = $this->uri->segment(3);
+        $fullElement = new FullElement($this->oh,$id);
+		$this->out['fullelement'] = $fullElement;
+		$this->out['editRight'] = ($this->session->userdata('logged_in') && ($this->user_lvl >=  $fullElement->status) && ($this->user_lvl >= 5 || $fullElement->isDraft));
 		$this->out['title'] = $fullElement->main_name.' | Maping';
 		$this->_loadView('show');
 	}
@@ -76,7 +89,6 @@ class Xem extends SuperController {
 			return false;
 		}else{
 			$this->out['fullelement'] = $fullElement;
-		    $this->out['is_draft'] = true;
 
     		$this->out['editRight'] = ($this->session->userdata('logged_in') && ($this->user_lvl >=  $fullElement->status));
 		}
@@ -133,10 +145,75 @@ class Xem extends SuperController {
 			redirect('xem/shows');
 		}
     }
+
+    public function requestPublic() {
+        if(!grantAcces(1)) {
+			redirect('user/login');
+			return false;
+		}
+        if($id = $this->uri->segment(3)){
+		    if(is_numeric($id)){
+		        $e = new Element($this->oh, $id);
+		        if(!$e->parent){
+            		redirect('xem/show/'.$id);
+            		return false;
+		        }
+		        $e->status = 4;
+		        $e->save();
+
+		        // info mail
+                $this->email->to('info@thexem.de');
+                $this->email->subject('Draft Public Request | '.$e->main_name);
+                $emailBody = $this->load->view('email/draft_request', array('show'=>$e,'user_nick'=>$this->out['user_nick']), true);
+
+                $this->email->message($emailBody);
+                $this->email->send();
+
+        		redirect('xem/draft/'.$e->parent);
+        		return true;
+		    }
+		}
+		redirect('xem/shows');
+
+    }
+
 	public function shows(){
 		$this->out['title'] = 'Shows';
 		$this->out['curShows'] = $this->out['shows'];
 		$this->_loadView('showList',false);
+	}
+
+	public function adminShows(){
+        if(!grantAcces(4)) {
+			redirect('xem/shows');
+			return false;
+		}
+		$shows = $this->db->get('elements');
+		$finalShows = array();
+		if(rows($shows)){
+		    foreach ($shows->result() as $cur_show) {
+		        $id = (int)$cur_show->id;
+		        $parent = (int)$cur_show->parent;
+		        if($parent){
+		            if(!isset($finalShows[$parent])){
+		                $finalShows[$parent] = array();
+		            }
+		            if(!isset($finalShows[$parent]['draft'])){
+		                $finalShows[$parent]['draft'] = array();
+		            }
+		            $finalShows[$parent]['draft'][$id] = $cur_show;
+		        }else{
+		            if(!isset($finalShows[$id])){
+		                $finalShows[$id] = array();
+		            }
+		            $finalShows[$id]['public'] = $cur_show;
+		        }
+		    }
+		}
+
+		$this->out['title'] = 'Shows';
+		$this->out['curShows'] = $finalShows;
+		$this->_loadView('adminShowList');
 	}
 
 	function newAlternativeName(){
@@ -225,13 +302,25 @@ class Xem extends SuperController {
 	function deleteShow(){
 		if(!grantAcces(4)) {
 			redirect('');
+            return false;
 		}
 
-		$element = new Element($this->oh, $_POST['element_id']);
-		$element->status = 0;
-		$element->save();
-
-		redirect('xem/show/'.$_POST['element_id']);
+        if($id = $this->uri->segment(3)){
+            log_message('debug', 'Deleting show/draft '.$id);
+    		$element = new Element($this->oh, $id);
+    		$element->status = 0;
+    		$element->save();
+            if($element->parent){
+                log_message('debug', 'Deleted draft '.$id.' going back to show'.$element->parent);
+                redirect('xem/show/'.$element->parent);
+                return true;
+            }else{
+                log_message('debug', 'Deleted show '.$id);
+                redirect('xem/show/'.$id);
+                return true;
+            }
+        }else
+            redirect('');
 	}
 	function unDeleteShow(){
 		if(!grantAcces(4)) {
