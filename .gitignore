@@ -1,1 +1,22 @@
+#  XEM User Related    #
+########################
+application/config/database.php
+application/config/email.php
 application/config/recaptcha.php
+application/logs/*.php
+
+#  IDE specific      #
+######################
+*.bak
+*.tmp
+
+# OS generated files #
+######################
+.Spotlight-V100
+.Trashes
+.DS_Store
+desktop.ini
+ehthumbs.db
+Thumbs.db
+.directory
+*~
