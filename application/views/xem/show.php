@@ -7,7 +7,7 @@
 		<div id="alternativeNamesContainer">
     		<?if($fullelement->groupedNames()):?>
     		<div id="alternativeNames">
-    			<h2>Alternative Names</h2>
+    			<!--<h2>Alternative Names</h2>-->
     			<table>
     				<?foreach($fullelement->groupedNames() as $season=>$names):?>
     				<tr>
