@@ -69,7 +69,7 @@ class Postman{
 	            if(rows($cur_element)){
 	                $cur_element = getFirst($cur_element);
 	                if($cur_element['status'] > 0){
-            	        $e = new Element($this->oh, $season['element_id']);
+            	        $e = new Element($this->oh, $cur_element['id']);
             	        $this->element = $e;
 	                }
 	            }
