@@ -424,7 +424,7 @@ li.episode{
 	-webkit-transition-duration: 0.5s;
 	transition-property: margin-right, margin-left;
 	transition-duration: 0.5s;
-	
+	line-height: 16px;
 	margin-bottom: 1px;
 }
 
