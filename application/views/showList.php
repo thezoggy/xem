@@ -1,6 +1,3 @@
-<?if(grantAcces(4)):?>
-    <?=anchor('xem/adminShows','Admin View')?>
-<?endif?>
 <?if($curShows):?>
 <ul>
 	<?foreach($curShows as $show):?>

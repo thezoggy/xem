@@ -56,10 +56,6 @@ a:hover{
     margin: auto;
 }
 
-#element{
-    z-index: 1;
-    position: relative;
-}
 
 /*element slector*/
 #elementSelector option{
@@ -72,7 +68,7 @@ ul.no label{
 	font-size: 14px;
 	font-weight: normal;
 }
-.fullWidthButton{
+input.fullWidthButton{
 	width: 100%;
 	margin-top:3px;
 }
@@ -93,7 +89,7 @@ ul.no{
 }
 
 #element h1{
-	display: inline;	
+	display: inline;
 }
 
 .mainNameInlineEdit input {
@@ -779,7 +775,7 @@ input[disabled='disabled'] {
     text-align: center;
     font-size: 16px;
 }
-.adminShows label, .address label, #toolbox label {
+.seasonEdit > form > ul li label,.adminShows label, .address label, #toolbox label {
   display: inline-block;
   min-width: 85px;
   font-size: 14px;

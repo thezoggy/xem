@@ -1380,17 +1380,9 @@ function showInit(){
 		     saveNewName(value);
 		     return(value);
 		  }, {
-		     submit  : 'Set new Name',
+		     submit  : '<button class="btn btn-primary btn-large">Set New Name</button>',
 	      	 style: "inline"
 		 });
-		// main name autogrow
-		$('.mainNameInlineEdit input').on('focus',function(){
-			var curHalfWidth = parseInt($('#content').css('width'))/2;
-			$(this).autoGrowInput({
-		    	comfortZone: 30,
-		    	maxWidth: curHalfWidth
-			});	
-		}); 
 		// main name qtip
 		$("#element h1").qtip({
 		   content: {

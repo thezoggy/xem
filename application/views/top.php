@@ -41,7 +41,6 @@
         <script type="text/javascript" src="<?php echo base_url();?>js/jquery.transition.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>js/jquery.dataset.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>js/jquery.jeditable.mini.js"></script>
-        <script type="text/javascript" src="<?php echo base_url();?>js/jquery.autoGrowInput.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>js/jquery.qtip.min.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>js/raphael-min.js"></script>
 
