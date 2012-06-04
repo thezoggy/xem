@@ -126,7 +126,7 @@
                         </li>
                         <li class="divider-vertical"></li>
                         <li>
-                            <?=anchor("faq","Faq")?>
+                            <?=anchor("faq","FAQ")?>
                         </li>
                         <li class="divider-vertical"></li>
                         <li>
@@ -172,7 +172,11 @@
 			<div id="logo">
 			</div>
 		</div>
-		<!--<h1 style="color:red;">Dev:This site make break any minute now... be aware</h1>-->
+
+    <div class="alert alert-error">
+        <button class="close" data-dismiss="alert">×</button>
+        <strong>Warning!</strong> Development : This site could break at any moment, be aware!
+    </div>
 
     <div class="container-fluid">
         <div class="row-fluid">
