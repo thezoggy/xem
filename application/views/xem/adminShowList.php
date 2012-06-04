@@ -1,3 +1,6 @@
+<div class="page-header">
+    <h1>Admin View <small>Every deleted or previous draft will open in an 'admin view'.</small></h1>
+</div>
 
 <style type="text/css">
 <!--
@@ -19,26 +22,26 @@
 </style>
 
 <div class="adminShows">
-    <input type="button" value="Toggle" onCLick="$('.list .show.lvl_1,.list .show.lvl_2,.list .show.lvl_3').toggle()"/>
+    <input type="button" class="btn" value="Toggle" onclick="$('.list .show.lvl_1,.list .show.lvl_2,.list .show.lvl_3').toggle()"/>
     <label>Black<span class="list"><span class="show lvl_1">√</span></span></label><span>Public Show</span><br/>
 
-    <input type="button" value="Toggle" onCLick="$('.list .lvl_0').toggle()"/>
+    <input type="button" class="btn" value="Toggle" onclick="$('.list .lvl_0').toggle()"/>
     <label>White<span class="list"><span class="lvl_0">√</span></span></label><span class="lvl_0">Deleted</span><br/>
 
-    <input type="button" value="Toggle" onCLick="$('.list .draft.lvl_-1').toggle()"/>
+    <input type="button" class="btn" value="Toggle" onclick="$('.list .draft.lvl_-1').toggle()"/>
     <label>Grey<span class="list"><span class="draft lvl_-1">√</span></span></label><span class="draft lvl_-1">Old Public</span><br/>
 
-    <input type="button" value="Toggle" onCLick="$('.list .draft.lvl_1').toggle()"/>
+    <input type="button" class="btn" value="Toggle" onclick="$('.list .draft.lvl_1').toggle()"/>
     <label>Green<span class="list"><span class="draft lvl_1">√</span></span></label><span class="draft lvl_1">Current Draft</span><br/>
 
-    <input type="button" value="Toggle" onCLick="$('.list .draft.lvl_4').toggle()"/>
+    <input type="button" class="btn" value="Toggle" onclick="$('.list .draft.lvl_4').toggle()"/>
     <label>Blue<span class="list"><span class="draft lvl_4">√</span></span></label><span class="draft lvl_4">Current Draft waiting for approval!</span><br/>
 
-    <input type="button" value="Toggle Drafts" onCLick="$('.drafts').toggle()"/><input type="button" value="Toggle Old/Deleted Drafts" onCLick="$('.oldDrafts, .list .drafts .lvl_0, .list .drafts .lvl_-1').toggle()"/><br>
-    Every deleted or previous draft will open in an "admin view" ... there are no restrictions for admins
-    <br/>
+    <input type="button" class="btn" value="Toggle Drafts" onclick="$('.drafts').toggle()"/>
+    <input type="button" class="btn" value="Toggle Old/Deleted Drafts" onclick="$('.oldDrafts, .list .drafts .lvl_0, .list .drafts .lvl_-1').toggle()"/>
 </div>
-
+<br/>
+<div class="well">
 <?if($curShows):?>
 <ul class="adminShows list">
 	<?foreach($curShows as $root_id=>$drafPublic):?>
@@ -74,6 +77,7 @@
 <?else:?>
 <h1>No Shows Found</h1>
 <?endif;?>
+</div>
 
 <script type="text/javascript">
 $('.oldDrafts, .list .drafts .lvl_0, .list .drafts .lvl_-1').toggle();
