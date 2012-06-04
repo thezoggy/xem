@@ -21,7 +21,7 @@ function getApiUrl() {
  */
 function genericRequest(curFunction, params, succes_callback, error_callback) {
 
-    var apiUrl = getApiUrl()+curFunction;
+    var apiUrl = getApiUrl() + curFunction;
     $.ajax( { type : "POST",
 		    url : apiUrl,
 		    data : params,
@@ -36,7 +36,7 @@ function genericRequest(curFunction, params, succes_callback, error_callback) {
 // TODO: refactor !!!
 function genericMapRequest(curFunction, params, succes_callback, error_callback) {
 
-    var apiUrl = '/map/'+curFunction;
+    var apiUrl = '/map/' + curFunction;
     $.ajax( { type : "POST",
             url : apiUrl,
             data : params,
@@ -138,20 +138,22 @@ var pressTimerLogout;
 
 function mainInit(){
 
-	 $('#elementSelector').change(function(){
+    $('#elementSelector').change(function(){
         if ($(this).val() == "0") {
-            $('#elementSelectorContainer').attr('class','new');
+            $('#elementSelector').hide();
+            $('#newStuff').show();
             $('#newElementName').focus();
         } else if($(this).val() != "choose"){
-            $('#elementSelectorContainer').attr('class','normal');
-            document.location.assign("/xem/show/"+$(this).val());
+            $('#newStuff').hide();
+            document.location.assign("/xem/show/" + $(this).val());
         }
     });
     $('#cancelNewElement').click(function(){
-        $('#elementSelectorContainer').attr('class','normal');
+        $('#newStuff').hide();
+        $('#elementSelector').show();
         $('#elementSelector').val('choose').focus();
     });
-    
+
 	$("#search").autocomplete({
 		source: function(request, response){
 			var params = new Params();
@@ -171,7 +173,7 @@ function mainInit(){
 		position: { my : "right top", at: "right bottom" },
 		minLength: 2
 	});
-	
+
 	$("#logout").mouseup(function(){
 		clearTimeout(pressTimerText);
 		clearTimeout(pressTimerLogout);
@@ -185,7 +187,7 @@ function mainInit(){
 		pressTimerText = window.setTimeout(function() { link.text('Logout'); }, 100);
 		pressTimerLogout = window.setTimeout(function() {document.location.href=link.attr('href');},1200);
 		return false; 
-	});  
+	});
 	$(document).ready(function() {
 	    $('label').each(function(){
 	        var curLabel = $(this);
@@ -205,11 +207,8 @@ function mainInit(){
 	});
 	
 	console.log('normal init done');
-    
 }
 
 $(document).ready(function() {
-	mainInit();
+    mainInit();
 });
-
-

@@ -133,24 +133,24 @@
                             <?=anchor("xem/shows","Shows")?>
                         </li>
                         <li>
-                            <div id="elementSelectorContainer" class="normal">
-                                <?=form_open("xem/addShow",array('class'=>'navbar-form','id'=>'addShowForm'))?>
-                                    <select id="elementSelector">
-                                        <?if($logedIn):?>
-                                            <option value="0">Add New Show</option>
-                                        <?endif?>
-                                        <option value="choose" <?if(!isset($fullelement)){echo 'selected="selected"';} ?>>Choose a Show</option>
-                                        <?foreach($shows as $row):?>
-                                            <option value="<?=$row->id?>"  <?if(isset($fullelement)){if($fullelement->id==$row->id) echo 'selected="selected"';} ?>><?=$row->main_name?></option>
-                                        <?endforeach?>
-                                    </select>
-                                    <div class="newStuff">
-                                        <input id="newElementName" name="main_name" <?=$disabled?>/>
-                                        <input type="button" value="Cancel" id="cancelNewElement" class="btn" <?=$disabled?>/>
-                                        <input type="submit" value="Add" id="addNewElement" class="btn btn-primary" <?=$disabled?>/>
+                            <?=form_open("xem/addShow",array('class'=>'navbar-search','id'=>'addShowForm'))?>
+                                <select id="elementSelector">
+                                    <?if($logedIn):?>
+                                        <option value="0">Add New Show</option>
+                                    <?endif?>
+                                    <option value="choose" <?if(!isset($fullelement)){echo 'selected="selected"';} ?>>Choose a Show</option>
+                                    <?foreach($shows as $row):?>
+                                        <option value="<?=$row->id?>"  <?if(isset($fullelement)){if($fullelement->id==$row->id) echo 'selected="selected"';} ?>><?=$row->main_name?></option>
+                                    <?endforeach?>
+                                </select>
+                                <div id="newStuff" class="hide">
+                                    <input id="newElementName" name="main_name" class="search-query" <?=$disabled?>/>
+                                    <div class="btn-group pull-right">
+                                        <input type="button" value="Cancel" id="cancelNewElement" class="btn btn-danger btn-mini" <?=$disabled?>/>
+                                        <input type="submit" value="Add" id="addNewElement" class="btn btn-primary btn-mini" <?=$disabled?>/>
                                     </div>
-                                </form>
-                            </div>
+                                </div>
+                            </form>
                         </li>
                         <li class="divider-vertical"></li>
                     </ul>
