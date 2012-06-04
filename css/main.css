@@ -6,28 +6,16 @@ body{
 body.draft{
 }
 
-button, input, select, textarea {
-	font-size: 12px;
-}
-
 a,
 a:link,
 a:visited{
 	color: inherit;
 	text-decoration: none;
 }
-
 a:hover{
 	text-decoration: underline;
 }
 
-/*
-img { vertical-align: middle; }
-*/
-#everything{
-	position: relative;
-	overflow: hidden;
-}
 #background{
 	position: absolute;
 	bottom: 0;
@@ -56,9 +44,7 @@ img { vertical-align: middle; }
 }
 
 #page{
-    margin: auto;
-	width: 80%;
-	min-width: 1120px;
+    padding: 10px 25px;
 }
 
 /* header */
@@ -102,19 +88,8 @@ img { vertical-align: middle; }
 }
 
 /*element slector*/
-#elementSelectorContainer{
-	height: 20px;
-	margin-left: 20px;
-	float: left;
-}
-#elementSelector{
-    width: 300px;
-}
-#newElementName{
-    width: 190px;
-}
-#cancelNewElement{
-    margin-left: 240px;
+#elementSelector option{
+    padding: 3px 6px;
 }
 
 
@@ -160,8 +135,6 @@ img { vertical-align: middle; }
 	
 	transition-property: margin, background;
 	transition-duration: 0.5s;
-         
-         
 }
 
 #newElementName,
@@ -171,11 +144,12 @@ img { vertical-align: middle; }
 }
 
 #newElementName{
-	top: 0;
-	right: auto;
+    width: 190px;
+    float: left;
+    position: relative;
 }
 
-label{
+ul.no label{
 	display: inline-block;
 	min-width: 85px;
 	font-size: 14px;
@@ -584,7 +558,7 @@ li.episode .episode_number {
 .seasonConnection .passthru {
 	background: #333;
 	height: 28px;
-	top: 56px;
+	top: 34px;
 	-moz-transition: all 0.5s;
 	-webkit-transition: all 0.5s;
 	-o-transition: all 0.5s;
@@ -888,4 +862,100 @@ input[disabled='disabled'] {
     text-align: center;
     font-size: 16px;
 }
+.adminShows label, .address label, #toolbox label {
+  display: inline-block;
+  min-width: 85px;
+  font-size: 14px;
+  font-weight: normal;
+}
 
+/* -- zoggy */
+/* .show is a reserved class for bootstrap.. */
+.list span.show {
+  display: inline;
+}
+.dropdown-menu li > a {
+  color: #333;
+}
+.dropdown-menu li > a:hover > [class^="icon-"], .dropdown-menu li > a:hover > [class*=" icon-"] {
+  background-image: url("../images/glyphicons-halflings-white.png");
+}
+img {
+  max-width: none;
+  /* fixes IE8 */
+}
+input, textarea, select, .uneditable-input {
+  width: auto;
+  color: #000;
+}
+legend, form {
+  margin-bottom: 0;
+}
+select:focus,
+.btn:focus {
+  outline: none;
+}
+input[disabled], select[disabled], textarea[disabled], input[readonly], select[readonly], textarea[readonly] {
+  background-color: #efefef;
+  border-color: #ccc;
+}
+.btn:focus,
+.btn:active {
+  border: 1px solid #4d90fe;
+  outline: none;
+  -moz-box-shadow: none;
+       box-shadow: none;
+}
+.btn-primary:focus,
+.btn-warning:focus,
+.btn-danger:focus,
+.btn-success:focus,
+.btn-info:focus,
+.btn-inverse:focus {
+  border: 1px solid transparent;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.75) inset;
+}
+.alert {
+  font-size: 15px;
+  text-align: center;
+}
+.navbar .brand {
+  padding: 6px 15px;
+  margin-left: -15px;
+}
+.navbar label {
+  color: #333;
+}
+input[type="image"] {
+  width: auto;
+}
+.search-query {
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+}
+#search-submit {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  *margin-right: .3em;
+  line-height: 14px;
+  vertical-align: text-top;
+  background-color: transparent;
+  background-image: url("../images/glyphicons-halflings.png");
+  background-position: -48px 0;
+  background-repeat: no-repeat;
+  border: 0 none;
+  cursor: pointer;
+  right: 10px;
+  opacity: 0.75;
+  position: absolute;
+  text-indent: -9999px;
+  top: 6px;
+}
+
+.footer {
+    border-top: 1px solid #E5E5E5;
+    margin-top: 25px;
+    padding: 15px 0 36px;
+}

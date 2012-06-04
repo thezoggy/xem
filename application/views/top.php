@@ -29,7 +29,7 @@
         <link rel="apple-touch-icon-precomposed" href="./images/apple-touch-icon-57x57-precomposed.png">
 -->
 
-        <? echo link_tag('css/normalize.css', 'stylesheet', 'text/css'); ?>
+        <? echo link_tag('css/bootstrap.css', 'stylesheet', 'text/css'); ?>
         <? echo link_tag('css/smoothness/jquery-ui-1.8.16.custom.css', 'stylesheet', 'text/css'); ?>
         <? echo link_tag('css/jquery.qtip.min.css', 'stylesheet', 'text/css'); ?>
         <? echo link_tag('css/main.css', 'stylesheet', 'text/css'); ?>
@@ -37,6 +37,7 @@
         <script type="text/javascript" src="<?php echo base_url();?>js/jquery-1.7.2.min.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>js/jquery-ui-1.8.16.custom.min.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>js/html5boilerplate.consolewrapper.js"></script>
+        <script type="text/javascript" src="<?php echo base_url();?>js/bootstrap.min.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>js/jquery.transition.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>js/jquery.dataset.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>js/jquery.jeditable.mini.js"></script>
@@ -54,7 +55,7 @@
 
     </head>
 <body class="<?if(isset($fullelement)){if($fullelement->isDraft) echo 'draft';} ?>">
-<div id="everything">
+<div id="page">
     <!-- <a href="http://github.com/you"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/c641758e06304bc53ae7f633269018169e7e5851/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f77686974655f6666666666662e706e67" alt="Fork me on GitHub"></a> -->
 	<?if(isset($fullelement)):?>
 	<?if($fullelement->isDraft):?>
@@ -62,49 +63,117 @@
     <div class="draft_background" id="draft_right">DRAFT</div>
     <?endif?>
     <?endif?>
-    <div id="page">
-		<div id="header">
-			<ul>
-				<li><?=anchor("/","Home")?></li>
-				<li>
-					<?if($logedIn):?>
-					<?=anchor("user/logout/".$uri,"Profile",'id="logout" title="'.$user_nick.' lvl '.$user_lvl.'. Hold to logout"')?>
-					<?else:?>
-					<?=anchor("user/login/".$uri,"Login",'title="and registration"')?>
-					<?endif?>
-				</li>
-				<li>
-					<?=anchor("doc","Doc")?>
-				</li>
-				<li>
-					<?=anchor("faq","Faq")?>
-				</li>
-				<li>
-					<?=anchor("xem/shows","Shows")?>
-				</li>
-			</ul>
-			<div id="elementSelectorContainer" class="normal">
-				<?=form_open("xem/addShow",array('id'=>'addShowForm'))?>
-				    <select id="elementSelector">
-				        <?if($logedIn):?><option value="0">Add New Show</option><?endif?>
-				        <option value="choose" <?if(!isset($fullelement)){echo 'selected="selected"';} ?>>Choose a Show</option>
-						<?foreach($shows as $row):?>
-				        <option value="<?=$row->id?>"  <?if(isset($fullelement)){if($fullelement->id==$row->id) echo 'selected="selected"';} ?>><?=$row->main_name?></option>
-						<?endforeach?>
-				    </select>
 
-				    <input class="newStuff" id="newElementName" name="main_name" <?=$disabled?>/>
-				    <input type="button" value="Cancel" id="cancelNewElement" class="newStuff" <?=$disabled?>/>
-				    <input type="submit" value="Add" id="addNewElement" class="newStuff" <?=$disabled?>/>
-			    </form>
-			</div>
-			<div id="searchContainer">
-				<?=form_open("search/",array('method'=>'get','id'=>'searchForm'))?>
-					<input id="search" name="q" <?if(isset($searchQeuery)){echo 'value="'.$searchQeuery.'"';}?>/>
-				</form>
-			</div>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+
+                <a class="brand" href="/" title="XEM"><img alt="XEM" src="/images/xem_logo.png" height="26" /></a>
+
+                <div class="nav-collapse">
+                    <ul class="nav">
+                        <li class="divider-vertical"></li>
+                        <li class="dropdown">
+                            <?if($logedIn):?>
+                            <a class="dropdown-toggle" href="#" data-toggle="dropdown"><? echo $user_nick ?> <strong class="caret"></strong></a>
+                            <ul class="dropdown-menu">
+                                <li><?=anchor("user","<i class='icon-user'></i> Profile (Level $user_lvl)")?></li>
+                                <li><?=anchor("user/logout","<i class='icon-off'></i> Log Out")?></li>
+                            <?if(grantAcces(4)):?>
+                                <li class="divider"></li>
+                                <li><?=anchor("xem/adminShows","<i class='icon-fire'></i> Admin View")?></li>
+                            <?endif?>
+                            </ul>
+                            <?else:?>
+                            <a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign In <strong class="caret"></strong></a>
+                            <div class="dropdown-menu" style="padding: 15px;">
+                                <?=form_open("user/login/",array('class'=>'form-vertical'))?>
+                                <fieldset>
+                                    <legend>Sign In</legend>
+                                    <div class="control-group">
+                                        <label class="control-label" for="user">User:</label>
+                                        <div class="controls">
+                                            <input type="text" name="user" class="input-large">
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="control-label" for="user">Password:</label>
+                                        <div class="controls">
+                                            <input type="password" name="pw" class="input-large">
+                                        </div>
+                                    </div>
+                                    <div class="pull-left">
+                                        <div style="padding-top: 6px;">
+                                            <?=anchor('user/register','Need an account?')?>
+                                        </div>
+                                    </div>
+                                    <div class="pull-right">
+                                        <input class="btn btn-large" type="submit" value="Sign In">
+                                    </div>
+                                </fieldset>
+                                </form>
+                            </div>
+                            <?endif?>
+                        </li>
+                        <li class="divider-vertical"></li>
+                        <li>
+                            <?=anchor("doc","Doc")?>
+                        </li>
+                        <li class="divider-vertical"></li>
+                        <li>
+                            <?=anchor("faq","Faq")?>
+                        </li>
+                        <li class="divider-vertical"></li>
+                        <li>
+                            <?=anchor("xem/shows","Shows")?>
+                        </li>
+                        <li>
+                            <div id="elementSelectorContainer" class="normal">
+                                <?=form_open("xem/addShow",array('class'=>'navbar-form','id'=>'addShowForm'))?>
+                                    <select id="elementSelector">
+                                        <?if($logedIn):?>
+                                            <option value="0">Add New Show</option>
+                                        <?endif?>
+                                        <option value="choose" <?if(!isset($fullelement)){echo 'selected="selected"';} ?>>Choose a Show</option>
+                                        <?foreach($shows as $row):?>
+                                            <option value="<?=$row->id?>"  <?if(isset($fullelement)){if($fullelement->id==$row->id) echo 'selected="selected"';} ?>><?=$row->main_name?></option>
+                                        <?endforeach?>
+                                    </select>
+                                    <div class="newStuff">
+                                        <input id="newElementName" name="main_name" <?=$disabled?>/>
+                                        <input type="button" value="Cancel" id="cancelNewElement" class="btn" <?=$disabled?>/>
+                                        <input type="submit" value="Add" id="addNewElement" class="btn btn-primary" <?=$disabled?>/>
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
+                        <li class="divider-vertical"></li>
+                    </ul>
+                    <ul class="nav pull-right">
+                        <li>
+                            <?=form_open("search/",array('method'=>'get','class'=>'navbar-search','id'=>'searchForm'))?>
+                                <input class="search-query" id="search" name="q" <?if(isset($searchQeuery)){echo 'value="'.$searchQeuery.'"';}?>/>
+                                <input id="search-submit" type="submit" value="Search">
+                            </form>
+                        </li>
+                    </ul>
+                </div><!-- /nav-collapse -->
+
+            </div><!-- /container -->
+        </div><!-- /navbar-inner -->
+    </div><!-- /navbar -->
+
+		<div id="header" style="display: none;">
 			<div id="logo">
 			</div>
 		</div>
 		<!--<h1 style="color:red;">Dev:This site make break any minute now... be aware</h1>-->
-		<div id="content">
+
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span12">
