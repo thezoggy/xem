@@ -841,7 +841,7 @@ input[disabled], select[disabled], textarea[disabled], input[readonly], select[r
 input[type="image"] {
   width: auto;
 }
-.search-query {
+input.search-query {
   -webkit-border-radius: 4px;
      -moz-border-radius: 4px;
           border-radius: 4px;
