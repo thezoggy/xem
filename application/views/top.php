@@ -72,7 +72,7 @@
                     <span class="icon-bar"></span>
                 </a>
 
-                <a class="brand" href="/" title="XEM"><img alt="XEM" src="/images/xem_logo.png" height="26" /></a>
+                <a class="brand" href="/" title="XEM"><div id="logo"></div></a>
 
                 <div class="nav-collapse">
                     <ul class="nav">

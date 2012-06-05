@@ -46,11 +46,7 @@ a:hover{
 
 
 #logo{
-	position: absolute;
-	height: 58px;
-	width: 235px;
-	right: 0;
-	top: 33px;	
+    height: 28px;
 }
 #content{
     margin: auto;
