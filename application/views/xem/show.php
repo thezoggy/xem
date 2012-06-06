@@ -1,3 +1,14 @@
+<ul class="breadcrumb">
+    <li>
+        <?=anchor("/","<i class='icon-home'></i> Home")?> <span class="divider">/</span>
+    </li>
+    <li>
+        <?=anchor("xem/shows","<i class='icon-list-alt'></i> Shows")?> <span class="divider">/</span>
+    </li>
+    <li class="active">
+        <?=$fullelement->main_name?>
+    </li>
+</ul>
 
 <?if(isset($fullelement)):?>
 <?if($fullelement->status > 0 || grantAcces(4)):?>
