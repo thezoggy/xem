@@ -1,7 +1,71 @@
 <?if(isset($fullelement)):?>
 <?if($fullelement->status > 0 || grantAcces(4)):?>
 <div id="element" data-id="<?=$fullelement->id?>">
-		<h1><?=$fullelement->main_name?></h1>
+        <h1><?=$fullelement->main_name?></h1>
+        <div class="btn-group pull-right">
+          <button data-toggle="dropdown" class="btn btn-info dropdown-toggle">Toolbox <span class="caret"></span></button>
+          <ul class="dropdown-menu">
+            <?if(!$fullelement->isDraft):?>
+            <li><?=anchor("xem/draft/".$fullelement->id,"<i class='icon-hand-right'></i> Draft (".$fullelement->draftChangesCount().") ahead")?></li>
+            <?else:?>
+            <li><?=anchor("xem/show/".$fullelement->parent,"<i class='icon-hand-left'></i> Public (".$fullelement->draftChangesCount().") behind")?></li>
+                <?if($fullelement->status<4):?>
+                <li><div class="btnWrapper"><input type="button" value="Public Request&hellip;" onclick="requestPublic()" class="btn btn-inverse" /></div></li>
+                <?else:?>
+                <li><div class="btnWrapper"><input type="button" value="Public Request Pending&hellip;" class="btn btn-success" disabled="disabled"/></div></li>
+                <?endif?>
+            <?endif?>
+            <?if($editRight):?>
+                <li class="divider"></li>
+                <li><?=anchor("#","<i class='icon-ok-circle'></i> Save Entities Order", array('onclick'=>'saveEntityOrder(); return false;') )?></li>
+                <li><?=anchor("#","<i class='icon-minus-sign'></i> QuickConnect OFF", array('id'=>'toggleQC', 'title'=>'If QuickConnet is ON a direct connection will be made as soon two episodes are marked.', 'onclick'=>'toggleQC(); return false;') )?></li>
+            <?endif?>
+            <?if(grantAcces(3)):?>
+                <li style="display: none;">
+                    <?=form_open("xem/setLockLevel",array('id'=>'deleteShowForm'))?>
+                    <?=form_hidden("element_id",$fullelement->id)?>
+
+                    <label>Lock Level</label><select name="lvl">
+                        <?for($i = 1; $i <= 3; $i++):?>
+                        <option value="<?=$i?>" <?if($fullelement->status == $i){ echo 'selected="selected"';} ?>><?=$i?></option>
+                        <?endfor?>
+                        </select>
+                        <input type="submit" value="Set" class="btn btn-mini"/>
+                    </form>
+                </li>
+
+            <?if(!$fullelement->isDraft):?>
+                <li class="divider"></li>
+                <li>
+                    <?=form_open("xem/clearCache",array('id'=>'deleteShowForm'))?>
+                        <?=form_hidden("element_id",$fullelement->id)?>
+                        <li><div class="btnWrapper"><input type="submit" value="Clear cache (<?=$fullelement->cacheSize?>)" onclick="saveEntityOrder()" class="btn" /></div></li>
+                    </form>
+                </li>
+            <?endif?>
+            <?endif?>
+
+            <?if(grantAcces(4)):?>
+            <?if($fullelement->status > 0):?>
+            <?if(!$fullelement->isDraft):?>
+                <li class="divider"></li>
+                <li><div class="btnWrapper"><input type="button" value="Delete This Show&hellip;" onclick="deleteMe()" class="btn btn-danger btn-mini" /></div></li>
+            <?else:?>
+                <li class="divider"></li>
+                <li><label>Make draft public</label><input type="button" onclick="window.location = '/xem/makePublic/<?=$fullelement->id?>'" value="Make Public" class="btn btn-success btn-mini"/></li>
+                <li><label>Delete</label><input type="button" onclick="deleteMe()" value="Delete This Draft&hellip;" class="btn btn-danger btn-mini"/></li>
+            <?endif?>
+            <?else:?>
+                <li>
+                 <?=form_open("xem/unDeleteShow")?>
+                    <?=form_hidden("element_id",$fullelement->id)?>
+                    <input type="submit" value="UnDelete This Show" class="btn btn-mini">
+                  </form>
+                </li>
+            <?endif?>
+            <?endif?>
+          </ul>
+        </div>
 		<br class="clear"/>
 		<div id="alternativeNamesContainer">
     		<?if($fullelement->groupedNames()):?>

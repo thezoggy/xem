@@ -4,17 +4,19 @@ body{
 
 body.draft{
 }
-
-a,
-a:link,
-a:visited{
-	color: inherit;
-	text-decoration: none;
+.seasonHeader a {
+  color: #fff;
+  text-decoration: none;
+}
+table a {
+  color: #000;
+}
+table a:hover {
+  color: #fff;
 }
 a:hover{
-	text-decoration: underline;
+  text-decoration: underline;
 }
-
 #background{
 	position: absolute;
 	bottom: 0;
@@ -168,8 +170,8 @@ ul.no{
     position: absolute;
     color: #CCC;
     font-size: 150px;
-    z-index: 0;
-    top: 250px;
+    z-index: -1;
+    top: 350px;
 }
 
 #draft_left{
@@ -875,4 +877,12 @@ input.search-query {
 .share .st_fblike_hcount{
   width: 96px !important;
   margin-top: -2px !important;
+}
+.dropdown-menu div.btnWrapper {
+  clear: both;
+  display: block;
+  font-weight: normal;
+  line-height: 18px;
+  padding: 3px 15px;
+  white-space: nowrap;
 }
