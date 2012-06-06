@@ -172,7 +172,7 @@
 			</div>
 		</div>
 
-    <div class="alert alert-error">
+    <div class="alert alert-error hide">
         <button class="close" data-dismiss="alert">×</button>
         <strong>Warning!</strong> Development : This site could break at any moment, be aware!
     </div>
