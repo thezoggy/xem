@@ -28,12 +28,13 @@
         </script>
     </div>
 
-    <footer class="footer" id="footer">
+    <footer class="footer">
         <p class="pull-right"><a href="#"><img src="<?php echo base_url();?>images/top.gif"></a></p>
         <div><strong>{elapsed_time}</strong>s says <?=anchor('http://codeigniter.com/', img( array('src'=>'images/social-codeigniter.png', 'title'=>'CodeIgniter', 'class'=>'social') ));?></div>
         <div><?=anchor('https://github.com/lad1337/xem', img( array('src'=>'images/social-github.png', 'title'=>'GitHub', 'class'=>'social') ));?></div>
         <div><?=anchor('imprint', img( array('src'=>'images/social-imprint.png', 'title'=>'Imprint', 'class'=>'social') ));?></div>
         <div><?=anchor('contact', img( array('src'=>'images/social-contact.png', 'title'=>'Contact', 'class'=>'social', 'height'=>'22') ));?></div>
+        <div><?=anchor('http://validator.w3.org/check?uri='.curPageURL(), img( array('src'=>'images/html5_bw_badge22.png', 'title'=>'HTML5 Powered with CSS3 / Styling, Graphics, 3D &amp; Effects, and Semantics', 'class'=>'social') ));?></div>
         <div>
             <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
                 <input type="hidden" name="cmd" value="_donations">
@@ -44,10 +45,8 @@
                 <input type="hidden" name="currency_code" value="EUR">
                 <input type="hidden" name="bn" value="PP-DonationsBF:btn_donate_SM.gif:NonHostedGuest">
                 <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" name="submit" alt="PayPal - The safer, easier way to pay online!">
-                <img alt="" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
             </form>
         </div>
-        <div><?=anchor('http://validator.w3.org/check?uri='.curPageURL(), img( array('src'=>'images/html5_badge22.png', 'title'=>'HTML5 Powered with CSS3 / Styling, Graphics, 3D &amp; Effects, and Semantics') ));?></div>
         <div class="share" style="margin-top: -1px;">
             <span  class='st_twitter_hcount'></span>
             <span  class='st_facebook_hcount'></span>
