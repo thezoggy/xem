@@ -1,12 +1,3 @@
-<ul class="breadcrumb">
-    <li>
-        <?=anchor("/","<i class='icon-home'></i> Home")?> <span class="divider">/</span>
-    </li>
-    <li class="active">
-        <i class='icon-list-alt'></i> Shows
-    </li>
-</ul>
-
 <div class="well">
     <?if($curShows):?>
     <ul>
