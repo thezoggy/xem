@@ -314,7 +314,7 @@ class Xem extends SuperController {
 
 	function deleteShow(){
 		if(!grantAcces(4)) {
-			redirect('');
+			redirect('user/login');
             return false;
 		}
 
@@ -337,19 +337,24 @@ class Xem extends SuperController {
 	}
 	function unDeleteShow(){
 		if(!grantAcces(4)) {
-			redirect('');
+			redirect('user/login');
+            return false;
 		}
 
-		$element = new Element($this->oh, $_POST['element_id']);
-		$element->status = 1;
-		$element->save();
+        if($id = $this->uri->segment(3)){
+    		$element = new Element($this->oh, $id);
+    		$element->status = 1;
+    		$element->save();
 
-		redirect('xem/show/'.$_POST['element_id']);
+    		redirect('xem/show/'.$id);
+        }else
+            redirect('');
 	}
 
     function setLockLevel() {
 		if(!grantAcces(3)) {
-			redirect('');
+			redirect('user/login');
+            return false;
 		}
 
 		$element = new Element($this->oh, $_POST['element_id']);
@@ -361,17 +366,21 @@ class Xem extends SuperController {
 
     function clearCache() {
         if(!grantAcces(3)) {
-			redirect('');
+			redirect('user/login');
+            return false;
 		}
 
-		$this->oh->dbcache->clearNamespace($_POST['element_id']);
-
-		redirect('xem/show/'.$_POST['element_id']);
+        if($id = $this->uri->segment(3)){
+    		$this->oh->dbcache->clearNamespace($id);
+    		redirect('xem/show/'.$id);
+        }else
+            redirect('');
     }
 
 	function addShow(){
 		if(!$this->session->userdata('logged_in')) {
 			redirect('user/login');
+            return false;
 		}
 		$newName = $_POST['main_name'];
 		if($newName != ""){
