@@ -1517,6 +1517,11 @@ function showInit() {
 
 }
 
+// needed to fix select box in bootstraps' dropdown
+$('#setLockLevelForm').click(function (e) {
+    e.stopPropagation();
+});
+
 $(document).ready(function () {
     showInit();
 });
