@@ -82,7 +82,7 @@
                             <a class="dropdown-toggle" href="#" data-toggle="dropdown"><? echo $user_nick ?> <strong class="caret"></strong></a>
                             <ul class="dropdown-menu">
                                 <li><?=anchor("user","<i class='icon-user'></i> Profile (Level $user_lvl)")?></li>
-                                <li><?=anchor("user/logout","<i class='icon-off'></i> Log Out")?></li>
+                                <li><?=anchor("user/logout/".$uri, "<i class='icon-off'></i> Log Out")?></li>
                             <?if(grantAcces(4)):?>
                                 <li class="divider"></li>
                                 <li><?=anchor("xem/adminShows","<i class='icon-fire'></i> Admin View")?></li>
@@ -91,7 +91,7 @@
                             <?else:?>
                             <a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign In <strong class="caret"></strong></a>
                             <div class="dropdown-menu" style="padding: 15px;">
-                                <?=form_open("user/login/",array('class'=>'form-vertical'))?>
+                                <?=form_open("user/login/".$uri, array('class'=>'form-vertical'))?>
                                 <fieldset>
                                     <legend>Sign In</legend>
                                     <div class="control-group">
