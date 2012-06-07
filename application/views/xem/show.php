@@ -53,7 +53,7 @@
                     <li><div class="btnWrapper"><input type="button" value="Delete This Show&hellip;" onclick="deleteMe()" class="btn btn-danger" /></div></li>
                 <?else:?>
                     <li class="divider"></li>
-                    <li><div class="btnWrapper"><input type="button" value="Make Draft Public" data-toggle="modal" href="#confirmMakeDraftPublic" class="btn btn-success" /></div></li>
+                    <li><div class="btnWrapper"><input type="button" value="Make Draft Public&hellip;" data-toggle="modal" href="#confirmMakeDraftPublic" class="btn btn-success" /></div></li>
                     <li><div class="btnWrapper"><input type="button" value="Delete This Draft&hellip;" onclick="deleteMe()" class="btn btn-danger" /></div></li>
                 <?endif?>
                 <?else:?>
@@ -72,11 +72,11 @@
 
         <div class="modal fade hide" id="confirmMakeDraftPublic">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <a class="close" href="#" data-dismiss="modal">&times;</a>
                 <h3>Make Draft Public</h3>
             </div>
             <div class="modal-body">
-                <p>Are you sure you are ready to submit this for Admin review?</p>
+                <p>Are you sure you want to replace the Public version with this Draft?</p>
             </div>
             <div class="modal-footer">
                 <a href="#" class="btn" data-dismiss="modal">Close</a>

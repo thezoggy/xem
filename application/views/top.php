@@ -12,7 +12,7 @@
             ,V                                                      (O)  .M' (O)  .M'   A'
          OOb"                                                        bmmmd'   bmmmd'   A'
 -->
-<html>
+<html lang="en">
     <head>
         <meta charset="utf-8">
         <title><?=$title?> | Xem</title>
