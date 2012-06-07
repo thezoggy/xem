@@ -40,17 +40,8 @@
 
                 <?if(!$fullelement->isDraft):?>
                     <li class="divider"></li>
-                    <li style="display: none;">
-                        <?=form_open("xem/clearCache",array('id'=>'deleteShowForm'))?>
-                            <?=form_hidden("element_id",$fullelement->id)?>
-                            <li><div class="btnWrapper"><input type="submit" value="Clear Cache (<?=$fullelement->cacheSize?>)" onclick="saveEntityOrder()" class="btn" /></div></li>
-                        </form>
-                    </li>
                     <li>
-                        <?=form_open("xem/clearCache",array('id'=>'clearCacheForm'))?>
-                            <?=form_hidden("element_id",$fullelement->id)?>
-                            <li><?=anchor("#","<i class='icon-remove-sign'></i> Clear Cache (" . $fullelement->cacheSize . ")", array('onclick'=>'saveEntityOrder(); return false;') )?></li>
-                        </form>
+                        <li><?=anchor("xem/clearCache/".$fullelement->id,"<i class='icon-remove-sign'></i> Clear Cache (" . $fullelement->cacheSize . ")" )?></li>
                     </li>
                 <?endif?>
                 <?endif?>
