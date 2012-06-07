@@ -854,7 +854,7 @@ input.search-query {
 }
 .footer {
   margin: 10px 0;
-  border-top: 1px solid #E5E5E5;
+  border-top: 1px solid #ddd;
   margin-top: 25px;
   padding: 15px 0 36px;
 }
