@@ -53,7 +53,13 @@ function save(){
 }
 
 </script>
-<input onCLick="editPage()" value="Edit" type="button"/>
-<input onCLick="preview()" value="Preview" type="button"/>
-<input onCLick="restore()" value="Restore" type="button"/>
-<input id="savePage" onCLick="save()" value="Save" type="button" disabled="disabled"/>
+<div class="btn-toolbar">
+    <div class="btn-group">
+        <input onclick="editPage()" value="Edit" type="button" class="btn" />
+        <input onclick="preview()" value="Preview" type="button" class="btn" />
+        <input onclick="restore()" value="Restore" type="button" class="btn" />
+    </div>
+    <div class="btn-group">
+        <input id="savePage" onclick="save()" value="Save" type="button" disabled="disabled" class="btn" />
+    </div>
+</div>

@@ -1,19 +1,16 @@
+<div class="page-header">
+    <h1><?=$user_nick?> <small>level <?=$user_lvl?></small></h1>
+</div>
 
-<h1><?=$user_nick?></h1>
-<h3>user config settings stuff</h3>
-
+<h3>Change Password</h3>
 
 <?=form_open("user/changePw",array('id'=>'changePw'))?>
-	<ul>
-		<li><label style="width: 160px;" >Current Password</label><input name="old_pw" type="password"/></li>
-		<li><label style="width: 160px;" >New Password</label><input name="new_pw" type="password"/></li>
-		<li><label style="width: 160px;" >New Password Again</label><input name="new_pw_check" type="password"/></li>
-	</ul>
-	<input type="submit" value="Save New Password"/><br/>
-	<span style="font-size:80%;">Note: Upon changing your password, you must log back in</span>
+    <ul>
+        <li><label style="width: 160px;" >Current Password</label><input name="old_pw" type="password"/></li>
+        <li><label style="width: 160px;" >New Password</label><input name="new_pw" type="password"/></li>
+        <li><label style="width: 160px;" >New Password Again</label><input name="new_pw_check" type="password"/></li>
+    </ul>
+    <input type="submit" value="Save New Password" class="btn" />
+    <br/>
+    <small>Note: Upon changing your password, you must log back in</small>
 </form>
-
-
-<p>
-you are level <?=$user_lvl?>
-<p>

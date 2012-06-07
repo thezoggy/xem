@@ -1,60 +1,63 @@
 
-</div><!-- end #content -->
-<?if(isset($cmse))echo $cmse; ?>
-<div id="adds" class="clear-keep-height">
-    <script type="text/javascript"><!--
-    google_ad_client = "ca-pub-8047294342495073";
-    /* xem_unten */
-    google_ad_slot = "6026161732";
-    google_ad_width = 728;
-    google_ad_height = 90;
-    //-->
-    </script>
-    <script type="text/javascript"
-    src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-    </script>
-    <script type='text/javascript'>
-    (function () { 
-    var scriptProto = 'https:' == document.location.protocol ? 'https://' : 'http://'; 
-    var script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.async = true;
-    script.src = scriptProto+'api.yieldkit.com/v1/js?api_key=373b21a29848d65f8b586ecb368b6d3d&source='+encodeURIComponent(document.location.href);
-    (document.getElementsByTagName('head')[0] || document.body).appendChild(script); 
-    })();
-    </script>
-</div>
-<div class="clear" id="footer">
-	<div><strong>{elapsed_time}</strong>s says <a href="http://codeigniter.com/">CodeIgniter</a></div>
-    <div><?=anchor('https://github.com/lad1337/xem','GitHub')?></div>
-	<div><?=anchor('imprint','Imprint')?></div>
-	<div><?=anchor('contact','Contact')?></div>
-	<div>
-		<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
-		<input type="hidden" name="cmd" value="_donations">
-		<input type="hidden" name="business" value="lad1337@gmail.com">
-		<input type="hidden" name="lc" value="US">
-		<input type="hidden" name="item_name" value="lad1337">
-		<input type="hidden" name="no_note" value="0">
-		<input type="hidden" name="currency_code" value="EUR">
-		<input type="hidden" name="bn" value="PP-DonationsBF:btn_donate_SM.gif:NonHostedGuest">
-		<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" name="submit" alt="PayPal - The safer, easier way to pay online!">
-		<img alt="" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
-		</form>
-	</div>
-	<div style="margin-top: -3px;"><?=anchor('http://validator.w3.org/check?uri='.curPageURL(),'<img src="http://www.w3.org/html/logo/badge/html5-badge-h-css3-graphics-semantics.png" height="24" alt="HTML5 Powered with CSS3 / Styling, Graphics, 3D &amp; Effects, and Semantics" title="HTML5 Powered with CSS3 / Styling, Graphics, 3D &amp; Effects, and Semantics">')?></div>
-	<div class="share" style="margin-top: -3px;">
-		<span  class='st_twitter_hcount'></span>
-		<span  class='st_facebook_hcount'></span>
-		<!--<span  class='st_fblike_hcount' ></span>-->
-		<span  class='st_plusone_hcount' ></span>
-	</div>
-	<div class="clear"></div>
-</div>
-</div><!-- end #page -->
+                <?if(isset($cmse))echo $cmse; ?>
+
+            </div><!-- /container-fluid -->
+        </div><!-- /row-fluid -->
+    </div><!-- /span12 -->
+
+    <div id="adds" class="clear-keep-height">
+        <br/>
+        <script type="text/javascript"><!--
+        google_ad_client = "ca-pub-8047294342495073";
+        /* xem_unten */
+        google_ad_slot = "6026161732";
+        google_ad_width = 728;
+        google_ad_height = 90;
+        //-->
+        </script>
+        <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+        <script type='text/javascript'>
+        (function () { 
+        var scriptProto = 'https:' == document.location.protocol ? 'https://' : 'http://'; 
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.async = true;
+        script.src = scriptProto+'api.yieldkit.com/v1/js?api_key=373b21a29848d65f8b586ecb368b6d3d&source='+encodeURIComponent(document.location.href);
+        (document.getElementsByTagName('head')[0] || document.body).appendChild(script);
+        })();
+        </script>
+    </div>
+
+    <footer class="footer">
+        <p class="pull-right"><a href="#"><img src="<?php echo base_url();?>images/top.gif"></a></p>
+        <div><strong>{elapsed_time}</strong>s says <?=anchor('http://codeigniter.com/', img( array('src'=>'images/social-codeigniter.png', 'title'=>'CodeIgniter', 'class'=>'social') ));?></div>
+        <div><?=anchor('https://github.com/lad1337/xem', img( array('src'=>'images/social-github.png', 'title'=>'GitHub', 'class'=>'social') ));?></div>
+        <div><?=anchor('imprint', img( array('src'=>'images/social-imprint.png', 'title'=>'Imprint', 'class'=>'social') ));?></div>
+        <div><?=anchor('contact', img( array('src'=>'images/social-contact.png', 'title'=>'Contact', 'class'=>'social', 'height'=>'22') ));?></div>
+        <div><?=anchor('http://validator.w3.org/check?uri='.curPageURL(), img( array('src'=>'images/html5_bw_badge22.png', 'title'=>'HTML5 Powered with CSS3 / Styling, Graphics, 3D &amp; Effects, and Semantics', 'class'=>'social') ));?></div>
+        <div>
+            <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+                <input type="hidden" name="cmd" value="_donations">
+                <input type="hidden" name="business" value="lad1337@gmail.com">
+                <input type="hidden" name="lc" value="US">
+                <input type="hidden" name="item_name" value="lad1337">
+                <input type="hidden" name="no_note" value="0">
+                <input type="hidden" name="currency_code" value="EUR">
+                <input type="hidden" name="bn" value="PP-DonationsBF:btn_donate_SM.gif:NonHostedGuest">
+                <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" name="submit" alt="PayPal - The safer, easier way to pay online!">
+            </form>
+        </div>
+        <div class="share" style="margin-top: -1px;">
+            <span  class='st_twitter_hcount'></span>
+            <span  class='st_facebook_hcount'></span>
+            <!--<span  class='st_fblike_hcount' ></span>-->
+            <span  class='st_plusone_hcount' ></span>
+        </div>
+    </footer>
+
+</div><!-- /page -->
 
 <div id="overlay"></div>
-</div><!-- end #everything -->
 <script type="text/javascript">
 	var _gaq = _gaq || [];
 	_gaq.push(['_setAccount', 'UA-22409438-2']);
