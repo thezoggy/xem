@@ -21,7 +21,7 @@
                 <?endif?>
                 <?if($editRight):?>
                     <li class="divider"></li>
-                    <li><?=anchor("#","<i class='icon-ok-circle'></i> Save Entities Order", array('onclick'=>'saveEntityOrder(); return false;') )?></li>
+                    <li><?=anchor("#","<i class='icon-retweet'></i> Save Entities Order", array('onclick'=>'saveEntityOrder(); return false;') )?></li>
                     <li><?=anchor("#","<i class='icon-minus-sign'></i> QuickConnect OFF", array('id'=>'toggleQC', 'title'=>'If QuickConnet is ON a direct connection will be made as soon two episodes are marked.', 'onclick'=>'toggleQC(); return false;') )?></li>
                 <?endif?>
                 <?if(grantAcces(3)):?>
@@ -53,7 +53,7 @@
                     <li><div class="btnWrapper"><input type="button" value="Delete This Show&hellip;" onclick="deleteMe()" class="btn btn-danger" /></div></li>
                 <?else:?>
                     <li class="divider"></li>
-                    <li><div class="btnWrapper"><input type="button" value="Make Draft Public" onclick="window.location = '/xem/makePublic/<?=$fullelement->id?>'" class="btn btn-success" /></div></li>
+                    <li><div class="btnWrapper"><input type="button" value="Make Draft Public" data-toggle="modal" href="#confirmMakeDraftPublic" class="btn btn-success" /></div></li>
                     <li><div class="btnWrapper"><input type="button" value="Delete This Draft&hellip;" onclick="deleteMe()" class="btn btn-danger" /></div></li>
                 <?endif?>
                 <?else:?>
@@ -69,6 +69,21 @@
             <?endif?>
           </ul>
         </div>
+
+        <div class="modal fade hide" id="confirmMakeDraftPublic">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3>Make Draft Public</h3>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you are ready to submit this for Admin review?</p>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn" data-dismiss="modal">Close</a>
+                <?=anchor("xem/makePublic/".$fullelement->id,"Submit", array('class'=>'btn btn-primary') )?>
+            </div>
+        </div>
+
 		<br class="clear"/>
 		<div id="alternativeNamesContainer">
     		<?if($fullelement->groupedNames()):?>
