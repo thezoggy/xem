@@ -184,7 +184,7 @@ ul.no{
 }
 
 #draft_right{
-    right: -180px;
+    right: -150px;
     transform: rotate(-90deg);
     -ms-transform: rotate(-90deg);
     -moz-transform: rotate(-90deg);
@@ -222,7 +222,7 @@ ul.no{
 }
 .newSeason:hover form,
 .newSeason.inEdit form{
-    height: 86px;
+    height: 98px;
 }
 
 .seasonHeader.edit{
