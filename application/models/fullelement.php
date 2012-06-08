@@ -141,8 +141,10 @@ class FullElement{
     	}
         return print_r($out, true);
     }
-
-	public function getdirectLink($location_id, $season){
+    /*
+     * this was a try to incoperrate urls that use identifiers from different locations then itself but it has an error
+     * when the last current season identifier is not set it will use the identifier from the previous location
+	public function getdirectLink_old($location_id, $season){
 		$url = $this->locations[$location_id]->show_url;
 
 	    $lastIdentifier = '';
@@ -156,6 +158,13 @@ class FullElement{
 			}
 		}
 	}
+	*/
+	public function getdirectLink($location_id, $identifier) {
+		$url = $this->locations[$location_id]->show_url;
+
+		return str_replace("{".$this->locations[$location_id]->name."}", $identifier,$url);
+	}
+
 
 	function sortedEntitys(){
 		if($this->entity_order){

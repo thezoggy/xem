@@ -25,7 +25,7 @@ $curElementLocation = null;
 					$lastIdentifier = $curElementLocation->identifier;
 				}
 				if(isset($lastIdentifier))
-					echo '| '.anchorEncode($fullelement->getdirectLink($curLocation->id,$curElementLocation->season),$lastIdentifier,'target="_blank"');
+					echo '| '.anchorEncode($fullelement->getdirectLink($curLocation->id,$lastIdentifier),$lastIdentifier,'target="_blank"');
 				?>
 				</span>
 			</div>
