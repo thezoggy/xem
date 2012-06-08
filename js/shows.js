@@ -490,7 +490,7 @@ function createEditIcon(seasonConnectionDOM) {
 
     var shuffleIcon = 'M9.089,13.133c0.346,0.326,0.69,0.75,1.043,1.228c0.051-0.073,0.099-0.144,0.15-0.219c0.511-0.75,1.09-1.599,1.739-2.421c0.103-0.133,0.211-0.245,0.316-0.371c-0.487-0.572-1.024-1.12-1.672-1.592C9.663,9.02,8.354,8.506,6.899,8.517H0.593v3.604H6.9C7.777,12.138,8.333,12.422,9.089,13.133zM22.753,16.082v2.256c-0.922-0.002-2.45-0.002-2.883-0.002c-1.28-0.03-2.12-0.438-2.994-1.148c-0.378-0.311-0.74-0.7-1.097-1.133c-0.268,0.376-0.538,0.764-0.813,1.168c-0.334,0.488-0.678,0.99-1.037,1.484c-0.089,0.121-0.189,0.246-0.283,0.369c1.455,1.528,3.473,2.846,6.202,2.862h2.905v2.256l3.515-2.026l3.521-2.03l-3.521-2.028L22.753,16.082zM16.876,13.27c0.874-0.712,1.714-1.118,2.994-1.148c0.433,0,1.961,0,2.883-0.002v2.256l3.515-2.026l3.521-2.028l-3.521-2.029l-3.515-2.027V8.52h-2.905c-3.293,0.02-5.563,1.93-7.041,3.822c-1.506,1.912-2.598,3.929-3.718,4.982C8.332,18.033,7.777,18.32,6.9,18.336H0.593v3.604H6.9c1.455,0.011,2.764-0.502,3.766-1.242c1.012-0.735,1.772-1.651,2.454-2.573C14.461,16.267,15.574,14.34,16.876,13.27z';
     var checkIcon = 'M2.379,14.729 5.208,11.899 12.958,19.648 25.877,6.733 28.707,9.561 12.958,25.308z';
-    var c = paper.circle(20, 20, 16);
+    var c = paper.circle(20, 17, 12);
     var i = null;
     if (seasonConnectionDOM.hasClass('edit')) {
         i = paper.path(checkIcon);
@@ -498,7 +498,7 @@ function createEditIcon(seasonConnectionDOM) {
         i = paper.path(shuffleIcon);
     }
 
-    i.transform('T5,5');
+    i.transform('T5,2S0.7');
 
 
     c.attr({fill: "#000"});
@@ -1078,105 +1078,6 @@ function saveSeasonValues(location, season) {
     $('#seasonEditForm_' + location + '_' + season).submit();
 }
 
-
-function deleteMe() {
-    $('body').qtip({
-        content: function () {
-            var container = $('<div>');
-            var cancel = $('<input type="button" class="btn" value="Cancel">');
-            cancel.click(function () {$('.ui-tooltip-red,#qtip-overlay').remove(); });
-            var del = $('<input type="button" class="btn btn-danger" value="DELETE">');
-            del.click(function () {window.location = '/xem/deleteShow/' + $('#element').dataset('id'); });
-            cancel.css('float', 'left');
-            del.css('float', 'right');
-            container.append('Delete this show?<br/>(this can be undone)<br/><br/>');
-            container.append(cancel);
-            container.append(del);
-            return container;
-        },
-        position: {
-            my: 'center',
-            at: 'top center',
-            target: $(document.body),
-            adjust: {
-                y: $(window).scrollTop() + 300
-            }
-        },
-        show: {
-            modal: true, // Omit the object and set ti to true as short-hand
-            ready: true
-        },
-        style: {
-            classes: 'ui-tooltip-red showModal'
-        },
-        hide: {
-            fixed: true
-        }
-    });
-}
-
-
-function requestPublic() {
-    $('body').qtip({
-        content: function () {
-            var container = $('<div>');
-            var cancel = $('<input type="button" value="Cancel">');
-            cancel.click(function () {$('.ui-tooltip-red,#qtip-overlay').remove(); });
-            var del = $('<input type="button" value="Send Request">');
-            del.click(function () {window.location = '/xem/requestPublic/' + $('#element').dataset('id'); });
-            cancel.css('float', 'left');
-            del.css('float', 'right');
-            container.append('Send a request to make this draft public.<br/><br/>If a request is send no new drafts can be created and this one is looked.<br/>Be sure you are done and information is correct.<br/><br/>');
-            container.append(cancel);
-            container.append(del);
-            return container;
-        },
-        position: {
-            my: 'center',
-            at: 'top center',
-            target: $(document.body),
-            adjust: {
-                y: $(window).scrollTop() + 300
-            }
-        },
-        show: {
-            modal: true, // Omit the object and set ti to true as short-hand
-            ready: true
-        },
-        style: {
-            classes: 'ui-tooltip-red showModal'
-        },
-        hide: {
-            fixed: true
-        }
-    });
-}
-
-
-function showHistory(data, params) {
-    $('#historyContainer').html("");
-
-    var ul = $('<ul>');
-
-    jQuery.each(data, function (k, event) {
-        var li = $('<li style="list-style: circle;margin-bottom: 10px;">');
-        li.append(event.time + " " + event.user + " " + event.action + " " + event.type);
-        var table = $('<table>');
-        table.append('<tr><th>name</th><th>old</th><th>new</th></tr>');
-        var curOld = JSON.parse(event.old);
-        var curNew = JSON.parse(event.new); //TODO: new is a reserved word.. should change
-        jQuery.each(curNew, function (key, value) {
-            table.append("<tr><td>" + key + ": </td><td>" + curOld[key] + " &rarr;</td><td>" + curNew[key] + "</td></tr>");
-        });
-        li.append(table);
-        /*
-         * li.append("old: "+event.old); li.append("<br/>"); li.append("new: "+event.new);
-         */
-        ul.append(li);
-    });
-    $('#historyContainer').append(ul);
-}
-
 function getAdresses(origin, season, episode) {
     var element_id = parseInt($('#element').dataset('id'));
     var params = new Params();
@@ -1502,17 +1403,7 @@ function showInit() {
     if (!editRight) {
         $('.clicker').remove();
     }
-    /*
-    $('#history').click(function(){
 
-        var elementID = parseInt($('#element').dataset('id'));
-        var params = new Params();
-        params.element_id = elementID;
-
-        genericRequest("showRevision", params, showHistory, fakeResHandler);
-
-    });
-    */
     console.log('show init done');
 
 }

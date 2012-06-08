@@ -14,7 +14,7 @@
                 <?else:?>
                 <li><?=anchor("xem/show/".$fullelement->parent,"<i class='icon-hand-left'></i> Public (".$fullelement->draftChangesCount().") behind")?></li>
                     <?if($fullelement->status<4):?>
-                    <li><div class="btnWrapper"><input type="button" value="Public Request&hellip;" onclick="requestPublic()" class="btn btn-inverse" /></div></li>
+                    <li><div class="btnWrapper"><input type="button" value="Public Request&hellip;" data-toggle="modal" href="#confirmPublicRequest" class="btn btn-inverse" /></div></li>
                     <?else:?>
                     <li><div class="btnWrapper"><input type="button" value="Public Request Pending&hellip;" class="btn btn-success" disabled="disabled"/></div></li>
                     <?endif?>
@@ -28,7 +28,7 @@
                     <li>
                         <?=form_open("xem/setLockLevel",array('id'=>'setLockLevelForm'))?>
                         <?=form_hidden("element_id",$fullelement->id)?>
-                        <div class="btnWrapper"><i class='icon-lock'></i> Lock Level at 
+                        <div class="btnWrapper"><i class='icon-lock'></i> Lock Level at
                             <select name="lvl" onchange="this.form.submit();">
                                 <?for($i = 1; $i <= 3; $i++):?>
                                 <option value="<?=$i?>" <?if($fullelement->status == $i){ echo 'selected="selected"';} ?>><?=$i?></option>
@@ -50,11 +50,11 @@
                 <?if($fullelement->status > 0):?>
                 <?if(!$fullelement->isDraft):?>
                     <li class="divider"></li>
-                    <li><div class="btnWrapper"><input type="button" value="Delete This Show&hellip;" onclick="deleteMe()" class="btn btn-danger" /></div></li>
+                    <li><div class="btnWrapper"><input type="button" value="Delete This Show&hellip;" data-toggle="modal" href="#confirmDeleteMe" class="btn btn-danger" /></div></li>
                 <?else:?>
                     <li class="divider"></li>
                     <li><div class="btnWrapper"><input type="button" value="Make Draft Public&hellip;" data-toggle="modal" href="#confirmMakeDraftPublic" class="btn btn-success" /></div></li>
-                    <li><div class="btnWrapper"><input type="button" value="Delete This Draft&hellip;" onclick="deleteMe()" class="btn btn-danger" /></div></li>
+                    <li><div class="btnWrapper"><input type="button" value="Delete This Draft&hellip;" data-toggle="modal" href="#confirmDeleteMe" class="btn btn-danger" /></div></li>
                 <?endif?>
                 <?else:?>
                     <li>
@@ -70,6 +70,36 @@
           </ul>
         </div>
 
+        <div class="modal fade hide" id="confirmPublicRequest">
+            <div class="modal-header">
+                <a class="close" href="#" data-dismiss="modal">&times;</a>
+                <h3>Send a request to make this draft public</h3>
+            </div>
+            <div class="modal-body">
+                <p>If a request is send no new drafts can be created and this one is locked. Be sure you are done and information is correct.</p>
+                <p>Send public request?</p>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+                <?=anchor("xem/deleteShow/".$fullelement->id,"Send", array('class'=>'btn btn-primary') )?>
+            </div>
+        </div>
+
+        <div class="modal fade hide" id="confirmDeleteMe">
+            <div class="modal-header">
+                <a class="close" href="#" data-dismiss="modal">&times;</a>
+                <h3>Delete this <?if(!$fullelement->isDraft)echo 'Show';else echo 'Draft'?></h3>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this <?if(!$fullelement->isDraft)echo 'Show';else echo 'Draft'?>?</p>
+                <p>Note: This can be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+                <?=anchor("xem/deleteShow/".$fullelement->id,"Delete", array('class'=>'btn btn-primary') )?>
+            </div>
+        </div>
+
         <div class="modal fade hide" id="confirmMakeDraftPublic">
             <div class="modal-header">
                 <a class="close" href="#" data-dismiss="modal">&times;</a>
@@ -79,7 +109,7 @@
                 <p>Are you sure you want to replace the Public version with this Draft?</p>
             </div>
             <div class="modal-footer">
-                <a href="#" class="btn" data-dismiss="modal">Close</a>
+                <a href="#" class="btn" data-dismiss="modal">Cancel</a>
                 <?=anchor("xem/makePublic/".$fullelement->id,"Submit", array('class'=>'btn btn-primary') )?>
             </div>
         </div>
