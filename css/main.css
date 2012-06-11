@@ -538,7 +538,8 @@ li.episode .episode_number {
 
 
 /* changelog */
-#changelog tr:hover{
+#changelog tr:hover,
+#changelog tr:hover a{
     background: #525252;
     color: #fff;
 }

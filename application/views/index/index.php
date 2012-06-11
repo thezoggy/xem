@@ -1,5 +1,5 @@
 
-<h1>Welcome to xem</h1>
+<h1>Welcome to XEM</h1>
 <h2>The Xross Entity Map for TV shows*</h2>
 <p>
 	xem helps you keep an overview of your shows on different websites.<br/>
@@ -27,3 +27,23 @@
 
 
 <span class="note">*And soon for motion pictures as well</span>
+<br/>
+<h2>Previously on XEM</h2>
+<table id="changelog">
+    <!--
+    <tr>
+        <th>Time</th>
+        <th>User</th>
+        <th>Description</th>
+    </tr>
+    -->
+    <?foreach($events as $curEvent):?>
+    <tr>
+        <td style="text-align:left;padding-right:4px;"><?if($curEvent['element_id']):?><?=anchor("xem/show/".$curEvent['element_id'], "Element ".$curEvent['element_id'])?><?endif;?></td>
+        <td style="padding-right:20px;white-space:nowrap;" title="id: <?=$curEvent['id']?>"><?=$curEvent['time']?></td>
+        <td style="text-align:right;padding-right:4px;"><?=$curEvent['user_nick']?></td>
+        <td><?=$curEvent['human_form']?></td>
+    </tr>
+    <?endforeach?>
+
+</table>

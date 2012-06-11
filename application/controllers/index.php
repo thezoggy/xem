@@ -8,6 +8,11 @@ class Index extends SuperController {
 
 	public function index(){
 		$this->out['locations'] = $this->db->get_where('locations',array('status'=>1));
+
+		$changelog = new Changelog($this->oh);
+		$changelog->init(0,8);
+		$this->out['events'] = $changelog->events;
+
 		$this->_loadView('index');
 
 		//$p = new Postman($this->oh,'110381','tvdb');

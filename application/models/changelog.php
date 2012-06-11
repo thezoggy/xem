@@ -6,20 +6,31 @@ class Changelog{
 
 	public $events = array();
 
-    function __construct($oh,$element_id){
+    function __construct($oh,$element_id=0){
 		$this->oh = $oh;
 		$this->db = $oh->db;
 		$this->element_id = $element_id;
 		$this->locations = buildLocations($this->oh, true);
 
-		$this->init();
+		$this->events = array();
+		if($this->element_id)
+    		$this->init($this->element_id);
 	}
 
-	private function init(){
+	function init($element_id=0, $limit=5){
 
-		$result = $this->db->query("SELECT * FROM `history` WHERE `element_id` = '".$this->element_id."' ORDER BY `time` DESC");
-		if(rows($result)){
+	    if($element_id)
+    		$result = $this->db->query("SELECT * FROM `history` WHERE `element_id` = '".$element_id."' ORDER BY `time` DESC");
+		else
+		    $result = $this->db->query("SELECT * FROM `history` ORDER BY `time` DESC LIMIT 0,".$limit);
+
+        log_message('debug',$this->db->last_query());
+    	if(rows($result)){
 			foreach($result->result() as $curRevsion){
+			    $cur_element_id = 0;
+			    if($element_id)
+    			    $cur_element_id = $element_id;
+
 				$newRaw = json_decode($curRevsion->new_data,true);
 				$oldRaw = json_decode($curRevsion->old_data,true);
 
@@ -38,8 +49,9 @@ class Changelog{
 				                "diff"=>$diff,
 								"old"=>$old,
 								"new"=>$new,
-				                "obj_id"=>$curRevsion->obj_id);
-				$event['human_form'] = $this->createHumanform($event,$this->element_id);
+				                "obj_id"=>$curRevsion->obj_id,
+				                "element_id"=>$curRevsion->element_id);
+				$event['human_form'] = $this->createHumanform($event, $element_id);
 				$this->events[] = $event;
 
 			}
@@ -92,6 +104,8 @@ class Changelog{
 	            if(isset($new['identifier']) && $new['identifier'] != '')
 	                $out.= ' and identifier <b>'.$new['identifier'].'</b>';
 	            return $out;
+	        case 'Content':
+	            return 'updated the content of '.str_replace('/index', '',anchor($event['obj_id']));
 	    }
 	}
 
@@ -130,6 +144,8 @@ class Changelog{
     			if($seasonNumber == -1)
     				$seasonNumber = "*";
 	            return 'updated season <b>'.$seasonNumber.'</b> of <span class="'.$loc.'">'.$loc.'</span> ... '.$this->buildChange($old,$new,$diff);
+	        case 'Content':
+	            return 'updated the content of '.str_replace('/index', '',anchor($event['obj_id']));
 	    }
 	}
 
