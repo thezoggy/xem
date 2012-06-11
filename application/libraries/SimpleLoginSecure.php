@@ -265,8 +265,7 @@ class SimpleLoginSecure
 		$this->CI =& get_instance();
         $this->CI->db->select('user_nick, user_email, user_lvl');
 		$this->CI->db->where('config_'.$config, $value);
-        $this->CI->db->where('user_lvl <=', $lvl);
-
+        $this->CI->db->where('user_lvl >=', $lvl);
 		$query = $this->CI->db->get_where($this->user_table);
 		if ($query->num_rows() > 0){
 		    return $query->result_array();
