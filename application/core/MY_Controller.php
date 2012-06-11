@@ -18,6 +18,7 @@ class SuperController extends CI_Controller {
 		$this->out['uri2'] = $this->uri->segment(3).'/'.$this->uri->segment(4).'/'.$this->uri->segment(5);
 		$this->out['shows'] = getShows($this->db);
 
+		$this->user_id = 0;
 		$this->user_nick = "";
 		$this->user_email = "";
 		$this->user_lvl = -1;
@@ -25,13 +26,22 @@ class SuperController extends CI_Controller {
 		if($this->session->userdata('logged_in')){
 			$this->out['disabled'] = "";
 			$this->out['logedIn'] = true;
+			$this->user_id = $this->session->userdata('user_id');
 			$this->user_nick = $this->session->userdata('user_nick');
 			$this->user_email = $this->session->userdata('user_email');
 			$this->user_lvl = $this->session->userdata('user_lvl');
 
+			$this->config_email_new_account = $this->session->userdata('config_email_new_account');
+			$this->config_email_new_show = $this->session->userdata('config_email_new_show');
+			$this->config_email_public_request = $this->session->userdata('config_email_public_request');
+
 			$this->out['user_nick'] = $this->user_nick;
 			$this->out['user_email'] = $this->user_email;
 			$this->out['user_lvl'] = $this->user_lvl;
+
+			$this->out['config_email_new_account'] = $this->config_email_new_account;
+			$this->out['config_email_new_show'] = $this->config_email_new_show;
+			$this->out['config_email_public_request'] = $this->config_email_public_request;
 		}else{
 			$this->out['disabled'] = 'disabled="disabled"';
 			$this->out['logedIn'] = false;

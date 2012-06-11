@@ -81,7 +81,7 @@
             </div>
             <div class="modal-footer">
                 <a href="#" class="btn" data-dismiss="modal">Cancel</a>
-                <?=anchor("xem/deleteShow/".$fullelement->id,"Send", array('class'=>'btn btn-primary') )?>
+                <?=anchor("xem/requestPublic/".$fullelement->id,"Send", array('class'=>'btn btn-primary') )?>
             </div>
         </div>
 

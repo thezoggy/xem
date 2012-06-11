@@ -174,13 +174,16 @@ class Xem extends SuperController {
 		        $e->status = 4;
 		        $e->save();
 
-		        // info mail
-                $this->email->to('info@thexem.de');
-                $this->email->subject('Draft Public Request | '.$e->main_name);
                 $emailBody = $this->load->view('email/draft_request', array('show'=>$e,'user_nick'=>$this->out['user_nick']), true);
-
-                $this->email->message($emailBody);
-                $this->email->send();
+                foreach ($this->simpleloginsecure->getUserBasedOn(4, 'email_public_request') as $cur_user) {
+    		        // info mail
+                    $this->email->to($cur_user['user_email']);
+                    $this->email->subject('Draft Public Request | '.$e->main_name);
+                    $this->email->message($emailBody);
+                    $this->email->send();
+                    log_message('debug', 'Sending email_public_request to '. $cur_user['user_email']);
+                    //log_message('debug', $this->email->print_debugger());
+                }
 
         		redirect('xem/draft/'.$e->parent);
         		return true;
@@ -393,13 +396,15 @@ class Xem extends SuperController {
     			$element->main_name = $newName;
     			$element->save();
 
-                // info mail
-                $this->email->to('info@thexem.de');
-                $this->email->subject('New Show | '.$element->main_name);
                 $emailBody = $this->load->view('email/show_new', array('show'=>$element,'user_nick'=>$this->out['user_nick']), true);
-                $this->email->message($emailBody);
-                $this->email->send();
-
+                foreach ($this->simpleloginsecure->getUserBasedOn(4, 'email_new_show') as $cur_user) {
+                    // info mail
+                    $this->email->to($cur_user['user_email']);
+                    $this->email->subject('New Show | '.$element->main_name);
+                    $this->email->message($emailBody);
+                    $this->email->send();
+                    log_message('debug', 'Sending email_new_show to '. $cur_user['user_email']);
+                }
     			redirect('xem/show/'.$element->id);
     			return true;
 		    }

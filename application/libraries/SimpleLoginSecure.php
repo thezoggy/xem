@@ -161,10 +161,7 @@ class SimpleLoginSecure
 			$this->CI->db->simple_query('UPDATE ' . $this->user_table  . ' SET user_last_login = NOW() WHERE user_id = ' . $user_data['user_id']);
 
 			//Set session data
-			unset($user_data['user_pass']);
-			$user_data['user_lvl'] = (int)$user_data['user_lvl'];
-			$user_data['logged_in'] = true;
-			$this->CI->session->set_userdata($user_data);
+			$this->_updateUserData($user_data['user_id']);
 
 			return true;
 		}
@@ -173,6 +170,21 @@ class SimpleLoginSecure
 			return false;
 		}
 
+	}
+
+	function _updateUserData($user_id) {
+
+		//Set session data
+	    $this->CI->db->where('user_id', $user_id);
+		$query = $this->CI->db->get_where($this->user_table);
+		if ($query->num_rows() > 0){
+		    $user_data = $query->row_array();
+
+			unset($user_data['user_pass']);
+			$user_data['user_lvl'] = (int)$user_data['user_lvl'];
+			$user_data['logged_in'] = true;
+			$this->CI->session->set_userdata($user_data);
+		}
 	}
 
 	function changePassword($user_id, $oldPassword='', $newPassword='', $oneTimeCode=''){
@@ -244,6 +256,43 @@ class SimpleLoginSecure
 
 		$this->CI->session->sess_destroy();
 	}
+
+	/**
+	 * get user data based on params
+	 *
+	 */
+	function getUserBasedOn($lvl, $config, $value=1) {
+		$this->CI =& get_instance();
+        $this->CI->db->select('user_nick, user_email, user_lvl');
+		$this->CI->db->where('config_'.$config, $value);
+        $this->CI->db->where('user_lvl <=', $lvl);
+
+		$query = $this->CI->db->get_where($this->user_table);
+		if ($query->num_rows() > 0){
+		    return $query->result_array();
+		}else{
+		    return array();
+		}
+	}
+
+	function setUserConfig($user_id, $configArray) {
+		$this->CI =& get_instance();
+
+		$db_configArray = array();
+		foreach ($configArray as $key => $value) {
+		    $db_configArray['config_'.$key] = $value;
+		}
+
+		$this->CI->db->where('user_id', $user_id);
+	    $this->CI->db->update($this->user_table, $db_configArray);
+
+        log_message('debug',$this->CI->db->last_query());
+
+		$this->_updateUserData($user_id);
+
+	}
+
+
 
 	/**
 	 * Delete user

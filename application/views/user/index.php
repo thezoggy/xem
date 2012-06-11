@@ -14,3 +14,15 @@
     <br/>
     <small>Note: Upon changing your password, you must log back in</small>
 </form>
+<?if(grantAcces(4)):?>
+<h3>Get email notifications on</h3>
+<?=form_open("user/emailSettings")?>
+    <ul>
+        <li><label style="width: 160px;display: inline-block;" >New user activation</label><input name="email_new_account" type="checkbox" <?if($config_email_new_account)echo 'checked="checked"'; ?> value="1"/></li>
+        <li><label style="width: 160px;display: inline-block;" >New show creation</label><input name="email_new_show" type="checkbox" <?if($config_email_new_show)echo 'checked="checked"'; ?> value="1"/></li>
+        <li><label style="width: 160px;display: inline-block;" >Draft public request</label><input name="email_public_request" type="checkbox" <?if($config_email_public_request)echo 'checked="checked"'; ?> value="1"/></li>
+    </ul>
+    <input type="submit" value="Save Email Settings" class="btn" />
+    <br/>
+</form>
+<?endif;?>

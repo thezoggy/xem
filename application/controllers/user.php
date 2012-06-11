@@ -102,11 +102,15 @@ class User extends SuperController {
         $userdata = $this->simpleloginsecure->activate($this->uri->segment(3));
         if($userdata){
             // info mail
-            $this->email->to('info@thexem.de');
-            $this->email->subject('New Account | '.$userdata['user_nick']);
             $emailBody = $this->load->view('email/registration_info', $userdata, true);
-            $this->email->message($emailBody);
-            $this->email->send();
+            foreach ($this->simpleloginsecure->getUserBasedOn(4, 'email_new_account') as $cur_user) {
+                $this->email->to($cur_user['user_email']);
+                $this->email->subject('New Account | '.$userdata['user_nick']);
+                $this->email->message($emailBody);
+                $this->email->send();
+                log_message('debug', 'Sending email_new_account to '. $cur_user['user_email']);
+            }
+
 			redirect('user/login');
         }else
     		$this->_loadView('register');
@@ -137,5 +141,29 @@ class User extends SuperController {
 			}
 		}
 	}
+
+	function emailSettings() {
+	    if (grantAcces(4)) {
+	        $config = array();
+
+            $config['email_new_account'] = 0;
+	        if(isset($_POST['email_new_account']) && $_POST['email_new_account'] == "1")
+	            $config['email_new_account'] = 1;
+
+            $config['email_new_show'] = 0;
+	        if(isset($_POST['email_new_show']) && $_POST['email_new_show'] == "1")
+	            $config['email_new_show'] = 1;
+
+            $config['email_public_request'] = 0;
+	        if(isset($_POST['email_public_request']) && $_POST['email_public_request'] == "1")
+	            $config['email_public_request'] = 1;
+
+            log_message('debug', 'saving email settings for user id '. $this->user_id. ' values: '.print_r($config, true));
+	        $this->simpleloginsecure->setUserConfig($this->user_id, $config);
+	    }
+        redirect('user');
+
+	}
+
 }
 ?>
