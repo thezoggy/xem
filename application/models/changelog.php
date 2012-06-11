@@ -105,7 +105,7 @@ class Changelog{
 	                $out.= ' and identifier <b>'.$new['identifier'].'</b>';
 	            return $out;
 	        case 'Content':
-	            return 'updated the content of '.str_replace('/index', '',anchor($event['obj_id']));
+	            return 'updated the content of <b>'.str_replace('/index', '',anchor($event['obj_id'])).'</b>';
 	    }
 	}
 
@@ -145,7 +145,7 @@ class Changelog{
     				$seasonNumber = "*";
 	            return 'updated season <b>'.$seasonNumber.'</b> of <span class="'.$loc.'">'.$loc.'</span> ... '.$this->buildChange($old,$new,$diff);
 	        case 'Content':
-	            return 'updated the content of '.str_replace('/index', '',anchor($event['obj_id']));
+	            return 'updated the content of <b>'.str_replace('/index', '',anchor($event['obj_id'])).'</b>';
 	    }
 	}
 

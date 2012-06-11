@@ -39,10 +39,9 @@
     -->
     <?foreach($events as $curEvent):?>
     <tr>
-        <td style="text-align:left;padding-right:4px;"><?if($curEvent['element_id']):?><?=anchor("xem/show/".$curEvent['element_id'], "Element ".$curEvent['element_id'])?><?endif;?></td>
         <td style="padding-right:20px;white-space:nowrap;" title="id: <?=$curEvent['id']?>"><?=$curEvent['time']?></td>
         <td style="text-align:right;padding-right:4px;"><?=$curEvent['user_nick']?></td>
-        <td><?=$curEvent['human_form']?></td>
+        <td><?=$curEvent['human_form']?><?if($curEvent['element_id']):?> &rarr; <b><?=anchor("xem/show/".$curEvent['element_id'], "element ".$curEvent['element_id'])?></b><?endif;?></td>
     </tr>
     <?endforeach?>
 
