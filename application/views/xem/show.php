@@ -57,12 +57,8 @@
                     <li><div class="btnWrapper"><input type="button" value="Delete This Draft&hellip;" data-toggle="modal" href="#confirmDeleteMe" class="btn btn-danger" /></div></li>
                 <?endif?>
                 <?else:?>
-                    <li>
-                     <?=form_open("xem/unDeleteShow")?>
-                        <?=form_hidden("element_id",$fullelement->id)?>
-                        <input type="submit" value="UnDelete This Show" class="btn btn-mini">
-                      </form>
-                    </li>
+                    <li class="divider"></li>
+                    <li><div class="btnWrapper"><input type="submit" value="UnDelete This Show&hellip;" data-toggle="modal" href="#confirmUnDeleteMe" class="btn btn-danger" /></div></li>
                 <?endif?>
                 <?endif?>
                 <li class="divider"></li>
@@ -111,6 +107,20 @@
             <div class="modal-footer">
                 <a href="#" class="btn" data-dismiss="modal">Cancel</a>
                 <?=anchor("xem/makePublic/".$fullelement->id,"Submit", array('class'=>'btn btn-primary') )?>
+            </div>
+        </div>
+
+        <div class="modal fade hide" id="confirmUnDeleteMe">
+            <div class="modal-header">
+                <a class="close" href="#" data-dismiss="modal">&times;</a>
+                <h3>Un-Delete this Show?</h3>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to un-delete this Show?</p>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+                <?=anchor("xem/unDeleteShow/".$fullelement->id,"Un-Delete", array('class'=>'btn btn-primary') )?>
             </div>
         </div>
 

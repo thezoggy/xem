@@ -31,7 +31,7 @@ $curElementLocation = null;
 			</div>
 			<div id="seasonEdit_<?=$curElementLocation->season?>_<?=$curLocation->name?>" class="seasonEdit">
 
-				<?=form_open("xem/editSeason",array('id'=>'seasonEditForm_'.$curLocation->name.'_'.$curElementLocation->season))?>
+				<?=form_open("xem/editSeason",array('class'=>'form-inline','id'=>'seasonEditForm_'.$curLocation->name.'_'.$curElementLocation->season))?>
 					<?=form_hidden("element_id",$fullelement->id)?>
 					<?=form_hidden("location_id",$curLocation->id)?>
 					<?=form_hidden("season_id",$curElementLocation->id)?>
@@ -55,10 +55,10 @@ $curElementLocation = null;
 							<label>Ep. Start</label><input class="season" name="episode_start" autocomplete="off" value="<?=$curElementLocation->episode_start?>" <?=$disabled?>/>
 						</li>
 						<li>
-							<input class="fullWidthButton" type="submit" value="Save" onClick="saveSeasonValues('<?=$curLocation->name?>',<?=$curElementLocation->season?>)" <?=$disabled?>/>
+							<input class="btn btn-primary fullWidthButton" type="submit" value="Save" onclick="saveSeasonValues('<?=$curLocation->name?>',<?=$curElementLocation->season?>)" <?=$disabled?>/>
 						</li>
 						<li>
-							<input class="fullWidthButton" type="button" value="Delete Season" onClick="markSeasonForDeleteAndSubmit('<?=$curLocation->name?>',<?=$curElementLocation->season?>);" <?=$disabled?>/>
+							<input class="btn btn-danger fullWidthButton" type="button" value="Delete Season" onclick="markSeasonForDeleteAndSubmit('<?=$curLocation->name?>',<?=$curElementLocation->season?>);" <?=$disabled?>/>
 						</li>
 					</ul>
 
@@ -78,14 +78,14 @@ $curElementLocation = null;
 
 			<?if($editRight):?>
 			<div class="newSeason">
-				<?=form_open("xem/newSeason")?>
+				<?=form_open("xem/newSeason", array('class'=>'form-inline'))?>
 					<?=form_hidden("element_id",$fullelement->id)?>
 					<?=form_hidden("location_id",$curLocation->id)?>
 					<ul>
 						<li><label>Season</label><input class="season" name="season" autocomplete="off" value="<? if(isset($curElementLocation->season)) echo $curElementLocation->season+1?>" <?=$disabled?>/></li>
 						<li><label>Size</label><input class="season" name="season_size" autocomplete="off" value="" <?=$disabled?>/></li>
-						<li><label>Identifier</label><input class="season" name="identifier" autocomplete="off" <?if($curLocation->name == 'master' || $curLocation->name == 'scene'):?>disabled="disabled"<?endif?> <?if(isset($lastIdentifier)):?>placeholder="<?=$lastIdentifier?>"<?endif;?>/></li>
-						<li><input class="fullWidthButton" type="submit" value="Add New Season" <?=$disabled?>/></li>
+						<li><label>Identifier</label><input class="season disabled" name="identifier" autocomplete="off" <?if($curLocation->name == 'master' || $curLocation->name == 'scene'):?>disabled=""<?endif?> <?if(isset($lastIdentifier)):?>placeholder="<?=$lastIdentifier?>"<?endif;?>/></li>
+						<li><input class="btn btn-primary fullWidthButton" type="submit" value="Add New Season" <?=$disabled?>/></li>
 					</ul>
 				</form>
 

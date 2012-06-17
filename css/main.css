@@ -1,5 +1,5 @@
 body{
-	background: #eee;
+  background: #eee;
 }
 
 body.draft{
@@ -68,7 +68,6 @@ ul.no label{
 }
 input.fullWidthButton{
 	width: 100%;
-	margin-top:3px;
 }
 .ui-tooltip-content ul,
 #header ul,
@@ -219,6 +218,7 @@ ul.no{
     -webkit-transition-duration: 0.5s;
     transition-property: height;
     transition-duration: 0.5s;
+    margin-bottom: 0;
 }
 .newSeason:hover form,
 .newSeason.inEdit form{
@@ -758,6 +758,9 @@ input[disabled='disabled'] {
   font-weight: normal;
 }
 
+.ui-tooltip-content input.fullWidthButton {
+  margin: 3px 0;
+}
 /* -- zoggy */
 /* .show is a reserved class for bootstrap.. */
 .list span.show {
@@ -777,16 +780,18 @@ input, textarea, select, .uneditable-input {
   width: auto;
   color: #000;
 }
-legend, form {
+legend, label, .dropdown-menu form, .ui-tooltip-content form {
   margin-bottom: 0;
+}
+.newSeason label, .ui-tooltip-content label {
+  margin-bottom: 6px;
+}
+.page-header {
+  border-bottom: 1px solid #ddd;
 }
 select:focus,
 .btn:focus {
   outline: none;
-}
-input[disabled], select[disabled], textarea[disabled], input[readonly], select[readonly], textarea[readonly] {
-  background-color: #efefef;
-  border-color: #ccc;
 }
 .btn:focus,
 .btn:active {
