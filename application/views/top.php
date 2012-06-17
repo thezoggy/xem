@@ -69,8 +69,8 @@ made at http://patorjk.com/software/taag/ with font Georgia11
 <body class="<?if(isset($fullelement)){if($fullelement->isDraft) echo 'draft';} ?>">
 <div id="page">
     <!-- <a href="http://github.com/you"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/c641758e06304bc53ae7f633269018169e7e5851/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f77686974655f6666666666662e706e67" alt="Fork me on GitHub"></a> -->
-	<?if(isset($fullelement)):?>
-	<?if($fullelement->isDraft):?>
+    <?if(isset($fullelement)):?>
+    <?if($fullelement->isDraft):?>
     <div class="draft_background" id="draft_left">DRAFT</div>
     <div class="draft_background" id="draft_right">DRAFT</div>
     <?endif?>
@@ -104,7 +104,7 @@ made at http://patorjk.com/software/taag/ with font Georgia11
                             <?else:?>
                             <a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign In <strong class="caret"></strong></a>
                             <div class="dropdown-menu" style="padding: 15px;">
-                                <?=form_open("user/login/".$uri, array('class'=>'form-vertical'))?>
+                                <?=form_open("user/login/".$uri, array('class'=>'form-inline'))?>
                                 <fieldset>
                                     <legend>Sign In</legend>
                                     <div class="control-group">
@@ -121,7 +121,7 @@ made at http://patorjk.com/software/taag/ with font Georgia11
                                     </div>
                                     <div class="pull-left">
                                         <div style="padding-top: 6px;">
-                                            <?=anchor('user/register','Need an account?')?>
+                                            <?=anchor("user/register","Need an account?")?>
                                         </div>
                                     </div>
                                     <div class="pull-right">
