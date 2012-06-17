@@ -69,7 +69,7 @@ class Changelog{
 	            return $this->createHumanformDelete($event);
 	        case 'create_draft':
 	            return $this->createHumanformDraftCreate($event, $cur_element_id);
-	        case 'draft_accept':
+	        case 'draft_accepted':
 	            return $this->createHumanformDraftAccepted($event, $cur_element_id);
 	        case 'public_request':
 	            return 'send a public request';
