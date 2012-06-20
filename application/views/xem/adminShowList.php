@@ -4,38 +4,41 @@
 
 <style type="text/css">
 <!--
-.adminShows .draft.lvl_-1 {
+.adminShows .draft.lvl_-1,
+.adminShows .draft.lvl_-1 a {
+    color: white;
+}
+.adminShows .lvl_0,
+.adminShows .lvl_0 a {
     color: grey;
 }
-.adminShows .lvl_0 {
-    color: white;
-    text-shadow: -1px 0 #000, 0 1px #000,1px 0 #000, 0 -1px #000;
-}
 
-.adminShows .draft.lvl_1 {
+.adminShows .draft.lvl_1,
+.adminShows .draft.lvl_1 a {
     color: green;
 }
-.adminShows .draft.lvl_4 {
-    color: blue;
+.adminShows .draft.lvl_4,
+.adminShows .draft.lvl_4 a{
+    color: red;
 }
 -->
 </style>
 
 <div class="adminShows">
-    <input type="button" class="btn" value="Toggle" onclick="$('.list .show.lvl_1,.list .show.lvl_2,.list .show.lvl_3').toggle()"/>
+    <input type="button" class="btn" value="Toggle" onclick="$('.list .show.lvl_1,.list .show.lvl_2,.list .show.lvl_3,.list .show.lvl_4').toggle()"/>
     <label>Black<span class="list"><span class="show lvl_1">√</span></span></label><span>Public Show</span><br/>
 
     <input type="button" class="btn" value="Toggle" onclick="$('.list .lvl_0').toggle()"/>
-    <label>White<span class="list"><span class="lvl_0">√</span></span></label><span class="lvl_0">Deleted</span><br/>
+    <label>Grey<span class="list"><span class="lvl_0">√</span></span></label><span class="lvl_0">Deleted</span><br/>
 
     <input type="button" class="btn" value="Toggle" onclick="$('.list .draft.lvl_-1').toggle()"/>
-    <label>Grey<span class="list"><span class="draft lvl_-1">√</span></span></label><span class="draft lvl_-1">Old Public</span><br/>
+    <label>White<span class="list"><span class="draft lvl_-1">√</span></span></label><span class="draft lvl_-1">Old Public</span><br/>
 
     <input type="button" class="btn" value="Toggle" onclick="$('.list .draft.lvl_1').toggle()"/>
     <label>Green<span class="list"><span class="draft lvl_1">√</span></span></label><span class="draft lvl_1">Current Draft</span><br/>
 
     <input type="button" class="btn" value="Toggle" onclick="$('.list .draft.lvl_4').toggle()"/>
-    <label>Blue<span class="list"><span class="draft lvl_4">√</span></span></label><span class="draft lvl_4">Current Draft waiting for approval!</span><br/>
+    <label>Red<span class="list"><span class="draft lvl_4">√</span></span></label><span class="draft lvl_4">Current Draft waiting for approval!</span><br/>
 
     <input type="button" class="btn" value="Toggle Drafts" onclick="$('.drafts').toggle()"/>
     <input type="button" class="btn" value="Toggle Old/Deleted Drafts" onclick="$('.oldDrafts, .list .drafts .lvl_0, .list .drafts .lvl_-1').toggle()"/>
