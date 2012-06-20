@@ -287,6 +287,8 @@ class Postman{
 		$this->db->order_by("season", "asc");
         $seasons = $this->db->get_where('seasons',array('location_id'=>$location->id, 'element_id'=>$this->element->id));
         foreach($seasons->result() as $curSeason){
+            if($curSeason->season == 0)
+                continue;
             log_message('debug',$curSeason->absolute_start);
             if($curSeason->season_size + $curSeason->absolute_start >= $absolute && $curSeason->absolute_start <= $absolute){
                 if($curSeason->absolute_start == 0)

@@ -299,7 +299,7 @@ class Xem extends SuperController {
 			if(isset($_POST['identifier'])) // is not set on master
     			$season->identifier = $_POST['identifier'];
 			$absolute_start = $_POST['absolute_start'];
-			if($absolute_start == "auto")
+			if($absolute_start == "auto" || $seasonNumber == 0)
 				$absolute_start = 0;
 			$season->absolute_start = $absolute_start;
 			$season->episode_start = $_POST['episode_start'];
