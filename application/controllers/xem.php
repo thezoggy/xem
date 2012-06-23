@@ -304,6 +304,7 @@ class Xem extends SuperController {
 			$season->absolute_start = $absolute_start;
 			$season->episode_start = $_POST['episode_start'];
 			$season->save();
+
 		}else if($_POST['delete'] == true){
 			$season->delete();
 		}
@@ -372,7 +373,6 @@ class Xem extends SuperController {
 			redirect('user/login');
             return false;
 		}
-
         if($id = $this->uri->segment(3)){
     		$this->oh->dbcache->clearNamespace($id);
     		redirect('xem/show/'.$id);
@@ -389,7 +389,10 @@ class Xem extends SuperController {
 		if($newName != ""){
 		    $show = getShows($this->db, $newName);
 		    if(count($show) > 0 && $show != false){ // we allready have a show with that name
-		        redirect('xem/show/'.$show[0]->id);
+				$this->out['searchQeuery'] = $newName;
+				$this->out['curShows'] = $shows;
+				$this->_loadView('showList',false);
+				return false;
 		    }else{
 		        $element = new Element($this->oh);
     			$element->status = 1;

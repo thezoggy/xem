@@ -138,6 +138,10 @@ ul.no {
   padding-left: 2px;
 }
 
+.alternativeNamesInlineEdit{
+    margin: 0;
+}
+
 #toolbox {
   float: right;
   width: 300px;

@@ -7,12 +7,13 @@ class History{
 		$this->session = $session;
 	}
 
-	function createEvent($action,$obj){
+	function createEvent($action,$obj,$silent=false){
 		$data = array();
 		$data['obj_id'] = $obj->id;
 		$data['user_id'] = $this->session->userdata('user_id');
 		$data['user_lvl'] = $this->session->userdata('user_lvl');
 		$data['obj_type'] = get_class($obj);
+		$data['silent'] = ($silent ? 1 : 0);
 
 		if($data['obj_type']!= "Element"){
 			if(isset($obj->element_id))

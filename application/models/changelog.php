@@ -22,10 +22,11 @@ class Changelog{
 	    if($element_id)
     		$result = $this->db->query("SELECT * FROM `history` WHERE `element_id` = '".$element_id."' ORDER BY `time` DESC");
 		else
-		    $result = $this->db->query("SELECT * FROM `history` ORDER BY `time` DESC LIMIT 0,".$limit);
+		    $result = $this->db->query("SELECT * FROM `history` WHERE `silent` = 0 ORDER BY `time` DESC LIMIT 0,".$limit);
 
         log_message('debug',$this->db->last_query());
     	if(rows($result)){
+            $silent_counter = 0;
 			foreach($result->result() as $curRevsion){
 			    $cur_element_id = 0;
 			    if($element_id)
@@ -51,12 +52,45 @@ class Changelog{
 								"new"=>$new,
 				                "obj_id"=>$curRevsion->obj_id,
 				                "element_id"=>$curRevsion->element_id);
-				$event['human_form'] = $this->createHumanform($event, $element_id);
+				/*
+				if($curRevsion->silent){
+			        $silent_counter++;
+			        continue;
+			    }else if($silent_counter > 0){
+			        // fake message event
+                    $this->events[] = $this->getSupressedEventCountEvent($silent_counter);
+			        $silent_counter = 0;
+			    }*/
+		        $event['human_form'] = $this->createHumanform($event, $element_id);
+		        if($curRevsion->silent){
+		           $event['human_form'] .= '<span class="suppressed"></span>';
+		        }
+
 				$this->events[] = $event;
 
 			}
 		}
 
+	}
+
+	private function getFakeMessageEvent($msg){
+	    $event = array("id"=>0,
+								"time"=>"--",
+								"revision"=>0,
+								"type"=>"system",
+								"action"=>"none",
+								"user_nick"=>"",
+								"user_id"=>0,
+				                "diff"=>array(),
+								"old"=>array(),
+								"new"=>array(),
+				                "obj_id"=>0,
+				                "element_id"=>0);
+	    $event['human_form'] = $msg;
+	    return $event;
+	}
+	private function getSupressedEventCountEvent($silent_counter) {
+	    return $this->getFakeMessageEvent("Suppressed output of ".$silent_counter.' changes.<span class="suppressed"></span>');
 	}
 
 	private function createHumanform($event, $cur_element_id){

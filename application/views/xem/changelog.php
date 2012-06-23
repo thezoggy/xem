@@ -27,6 +27,7 @@
 <script type="text/javascript">
 $('tr:has(.draft_bottom)').addClass('draft_bottom');
 $('tr:has(.draft_top)').addClass('draft_top');
+$('tr:has(.suppressed)').hide();
 </script>
 
 

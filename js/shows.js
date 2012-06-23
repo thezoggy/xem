@@ -161,15 +161,19 @@ function displayConnectTip(fromLi, toLi) {
                 var text = '<p>Click connect to create a direct link between<br/>';
                 text += fromName + ':<br/>- Season ' + fromSeason + ' Episode ' + fromEpisode + '<br/>';
                 text += toName + ':<br/>- Season ' + toSeason + ' Episode ' + toEpisode + '<br/>';
+                var button_container = $('<div class="btn-group">');
                 var connectB = $('<input type="button">');
                 connectB.attr('value', 'Connect');
+                connectB.attr('class', 'btn btn-primary btn-mini');
                 connectB.click(function () {$('.ui-tooltip').remove(); connect(); });
                 var cancelB = $('<input type="button">');
                 cancelB.attr('value', 'Cancel');
+                cancelB.attr('class', 'btn btn-danger btn-mini');
                 cancelB.click(function () {$('.hover').removeClass('hover'); $('.selected').removeClass('selected'); $('.ui-tooltip').remove(); });
                 container.append(text);
-                container.append(cancelB);
-                container.append(connectB);
+                button_container.append(cancelB);
+                button_container.append(connectB);
+                container.append(button_container);
                 return container;
             },
             show: {
@@ -685,7 +689,7 @@ function updatePassthruIcons() {
 
                     // passthruContainer.addClass('userAction');
                     var container = $('<div>');
-                    var absoluteB = $('<input type="button" value="Absolute Passthru (Red)" class="fullWidthButton">');
+                    var absoluteB = $('<input type="button" value="Absolute Passthru" class="fullWidthButton btn btn-danger">');
                     absoluteB.click(function () {
                         passthruContainer.addClass('active absolute');
                         a.animate({'fill': 'red'}, 200);
@@ -693,7 +697,7 @@ function updatePassthruIcons() {
                         passthruConObjs['passthru_' + curtName + '_' + curfName] = {'fid': curtName, 'tid': curfName, 'type': 'absolute'};
                         conPassthru(passthruConObjs['passthru_' + curfName + '_' + curtName], 'absolute');
                     });
-                    var seasonepisodeB = $('<input type="button" value="SxxExx Passthru (Yellow)" class="fullWidthButton">');
+                    var seasonepisodeB = $('<input type="button" value="SxxExx Passthru" class="fullWidthButton btn btn-warning">');
                     seasonepisodeB.click(function () {
                         passthruContainer.addClass('active sxxexx');
                         a.animate({'fill': '#f7ff29'}, 200);
@@ -701,7 +705,7 @@ function updatePassthruIcons() {
                         passthruConObjs['passthru_' + curtName + '_' + curfName] = {'fid': curtName, 'tid': curfName, 'type': 'sxxexx'};
                         conPassthru(passthruConObjs['passthru_' + curfName + '_' + curtName], 'sxxexx');
                     });
-                    var fulleB = $('<input type="button" value="Full Passthru (Green)" class="fullWidthButton">');
+                    var fulleB = $('<input type="button" value="Full Passthru" class="fullWidthButton btn btn-success">');
                     fulleB.click(function () {
                         passthruContainer.addClass('active full');
                         a.animate({'fill': '#00ff00'}, 200);
@@ -709,7 +713,7 @@ function updatePassthruIcons() {
                         passthruConObjs['passthru_' + curtName + '_' + curfName] = {'fid': curtName, 'tid': curfName, 'type': 'full'};
                         conPassthru(passthruConObjs['passthru_' + curfName + '_' + curtName], 'full');
                     });
-                    var deleteB = $('<input type="button" value="No Passthru" class="fullWidthButton">');
+                    var deleteB = $('<input type="button" value="No Passthru" class="fullWidthButton btn">');
                     deleteB.click(function () {
                         a.animate({'fill': '#fff'}, 200);
                         window.setTimeout(function () { passthruContainer.removeClass('active sxxexx absolute'); }, 230);
@@ -1255,14 +1259,21 @@ function showInit() {
                 var wPos = getSVGElementCenter(el, this);
                 $(this).qtip({
                     content: function (api) {
-                        var delButton = $('<input type="button" value="Delete"/>');
+                        var container = $('<div class="btn-group pull-right">');
+                        var cancelButton = $('<input type="button" class="btn btn-primary btn-mini" value="Cancel"/>');
+                        cancelButton.bind('click',function(event){
+                            curFirerer.click(); // workaround to hide this qtip
+                        });
+                        var delButton = $('<input type="button" class="btn btn-danger btn-mini" value="Delete"/>');
                         delButton.bind('click', function (event) {
                             // curFirerer.click();
                             $('.editConncetion').remove();
                             disconnect(id, el);
                         });
                         markBySVGElement(id, el);
-                        return delButton;
+                        container.append(cancelButton);
+                        container.append(delButton);
+                        return container;
                     },
                     show: {
                         solo: true,
@@ -1295,7 +1306,7 @@ function showInit() {
             return (value);
         }, {
             submit  : '<button class="btn btn-primary btn-large">Set New Name</button>',
-            style: "inline"
+            style: "display: inline"
         });
         // main name qtip
         $("#element h1").qtip({
@@ -1324,7 +1335,7 @@ function showInit() {
             }
             return (value);
         }, {
-            submit  : 'Change Name',
+            submit  : '<button class="btn btn-primary">Change Name</button>',
             style: "inline",
             cssclass: "alternativeNamesInlineEdit"
         });

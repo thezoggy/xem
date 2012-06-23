@@ -9,6 +9,8 @@ class DBObject{
 	protected $db;
 	protected $table = "";
 
+	protected $diff = array();
+
 	public $id = 0;
 	public $initialData = array();
 
@@ -28,7 +30,7 @@ class DBObject{
 			$this->load();
 	}
 
-	public function save($load=true){
+	public function save($load=true,$silent=false){
 		if(!$this->id && $load)
 			$this->load();
 	    $updateted = false;
@@ -37,10 +39,10 @@ class DBObject{
 		if(rows($dbEntry)){
 		    $valueArray = $this->buildNameValueArray($this->dataFields);
 		    log_message('debug', 'valueArray while saving '.print_r($valueArray,true));
-		    $diff = array_diff_assoc($valueArray, $this->initialData); // create diff to see if something realy changed
-		    log_message('debug', 'array_diff while saving '.print_r($diff,true));
-            if($diff){
-    			$this->history->createEvent('update',$this);
+		    $this->diff = array_diff_assoc($valueArray, $this->initialData); // create diff to see if something realy changed
+		    log_message('debug', 'array_diff while saving '.print_r($this->diff,true));
+            if($this->diff){
+    			$this->history->createEvent('update',$this,$silent);
     			$this->clearNamespace();
     			log_message('debug',"updating a ".$this->className." id:".$this->id);
     			$this->db->update($this->table, $valueArray, array("id"=>$this->id));
@@ -54,7 +56,7 @@ class DBObject{
 		    if(!$this->id)
 			    $this->id = (int)$this->db->insert_id();
 			log_message('debug',"new id: ".$this->id);
-			$this->history->createEvent('insert',$this);
+			$this->history->createEvent('insert',$this,$silent);
 			$this->clearNamespace();
 		}
 		return $this->id;
@@ -151,12 +153,12 @@ class DBObject{
 			$this->oh->dbcache->clearNamespace($this->element_id);
     }
 
-    function delete(){
+    function delete($silent=false){
     	if(!$this->id){
 			$this->load();
     	}
 		if($this->id){
-			$this->history->createEvent('delete',$this);
+			$this->history->createEvent('delete',$this,$silent);
 			$this->clearNamespace();
 			$this->db->delete($this->table,array("id"=>$this->id));
 			$this->id = 0;
