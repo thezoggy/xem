@@ -30,6 +30,7 @@
                         <?=form_hidden("element_id",$fullelement->id)?>
                         <div class="btnWrapper"><i class='icon-lock'></i> Lock Level at
                             <select name="lvl" onchange="this.form.submit();">
+                                <option value="">Choose</option>
                                 <?for($i = 1; $i <= 3; $i++):?>
                                 <option value="<?=$i?>" <?if($fullelement->status == $i){ echo 'selected="selected"';} ?>><?=$i?></option>
                                 <?endfor?>

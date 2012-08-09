@@ -388,9 +388,10 @@ class Xem extends SuperController {
 		$newName = $_POST['main_name'];
 		if($newName != ""){
 		    $show = getShows($this->db, $newName);
-		    if(count($show) > 0 && $show != false){ // we allready have a show with that name
+		    if(count($show) > 0 && $show != false && !isset($_POST['forceAdd'])){ // we allready have a show with that name
 				$this->out['searchQeuery'] = $newName;
-				$this->out['curShows'] = $shows;
+				$this->out['curShows'] = $show;
+				$this->out['forceAdd'] = true;
 				$this->_loadView('showList',false);
 				return false;
 		    }else{

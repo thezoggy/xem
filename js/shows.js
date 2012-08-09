@@ -1305,7 +1305,7 @@ function showInit() {
             saveNewName(value);
             return (value);
         }, {
-            submit  : '<button class="btn btn-primary btn-large">Set New Name</button>',
+            submit  : '<button type="submit" class="btn btn-primary btn-large">Set New Name</button>',
             style: "display: inline"
         });
         // main name qtip
@@ -1335,8 +1335,8 @@ function showInit() {
             }
             return (value);
         }, {
-            submit  : '<button class="btn btn-primary">Change Name</button>',
-            style: "inline",
+            submit  : '<button type="submit" class="btn btn-primary">Change Name</button>',
+            style: "display:inline;",
             cssclass: "alternativeNamesInlineEdit"
         });
 
