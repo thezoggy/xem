@@ -32,7 +32,7 @@ class Baseproxy{
         passthruCall($this->url);
     }
 
-    protected function passthruCall($url) {
+    public function passthruCall($url) {
     	header('Cache-Control: max-age=900');
     	header("Location: ".$this->proxyAdress.$url);
     	exit;
