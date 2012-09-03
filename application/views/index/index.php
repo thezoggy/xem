@@ -1,5 +1,8 @@
 
-<h1>Welcome to XEM</h1>
+<div class="page-header">
+    <h1>Welcome to XEM</h1>
+</div>
+
 <h2>The Xross Entity Map for TV shows*</h2>
 <p>
     xem helps you keep an overview of your shows on different websites.<br/>
