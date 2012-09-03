@@ -159,7 +159,7 @@ class Changelog{
 	            elseif($old['entity_order'] != $new['entity_order'])
 	                return 'changed the entity order from <strong>'.$old['entity_order'].'</strong> to <strong>'.$new['entity_order'].'</strong>';
 	            else
-	                return "A save without data change.<!-- old:".print_r($old, true).' vs new:'.print_r($new, true)."-->";
+	                return "saved without changing data <!-- old:".print_r($old, true).' vs new:'.print_r($new, true)."-->";
 	        case 'Name':
 	            if($old['name'] != $new['name'])
 	                return 'changed alias name from <b>'.$old['name'].'</b> to <b>'.$new['name'].'</b>';
@@ -170,7 +170,7 @@ class Changelog{
 	        case 'Passthru':
 	            $des = $this->locN($new['destination_id']);
                 $or = $this->locN($new['origin_id']);
-	            return 'changed the passtruhe between <span class="'.$des.'">'.$des.'</span> and <span class="'.$or.'">'.$or.'</span> from <span class="'.$old['type'].'">'.$old['type'].'</span> to <span class="'.$new['type'].'">'.$new['type'].'</span>';
+	            return 'changed the passthru between <span class="'.$des.'">'.$des.'</span> and <span class="'.$or.'">'.$or.'</span> from <span class="'.$old['type'].'">'.$old['type'].'</span> to <span class="'.$new['type'].'">'.$new['type'].'</span>';
 	        case 'Season':
 	            $loc = $this->locN($new['location_id']);
 	            $diff = $event['diff'];
@@ -188,13 +188,13 @@ class Changelog{
 	    $new = $event['new'];
 	    switch ($event['type']) {
 	        case 'Element':
-                return 'elements dont get deleted';
+                return 'elements do not get deleted';
 	        case 'Name':
 	            return 'deleted the alias <b>'.$new['name'].'</b>';
 	        case 'Directrule':
 	            $des = $this->locN($new['destination_id']);
                 $or = $this->locN($new['origin_id']);
-	            return 'disconected <span class="'.$or.'">'.$or.'\'s</span> s'.zero_pad($new['origin_season']).'e'.zero_pad($new['origin_episode']).' from <span class="'.$des.'">'.$des.'\'s</span> s'.zero_pad($new['destination_season']).'e'.zero_pad($new['destination_episode']);
+	            return 'disconnected <span class="'.$or.'">'.$or.'\'s</span> s'.zero_pad($new['origin_season']).'e'.zero_pad($new['origin_episode']).' from <span class="'.$des.'">'.$des.'\'s</span> s'.zero_pad($new['destination_season']).'e'.zero_pad($new['destination_episode']);
 	        case 'Passthru':
 	            $des = $this->locN($new['destination_id']);
                 $or = $this->locN($new['origin_id']);

@@ -8,9 +8,6 @@ body {
 table a {
   color: #000;
 }
-table a:hover {
-  color: #fff;
-}
 a:hover {
   text-decoration: underline;
 }
@@ -527,7 +524,7 @@ li.episode .episode_number {
   color: #fff;
   background: #525252;
 }
-#changelog span,
+td span,
 .shadow {
   text-shadow: -1px 0 #000, 0 1px #000,1px 0 #000, 0 -1px #000;
 }
