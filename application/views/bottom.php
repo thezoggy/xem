@@ -16,16 +16,7 @@
         //-->
         </script>
         <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
-        <script type='text/javascript'>
-        (function () { 
-        var scriptProto = 'https:' == document.location.protocol ? 'https://' : 'http://'; 
-        var script = document.createElement('script');
-        script.type = 'text/javascript';
-        script.async = true;
-        script.src = scriptProto+'api.yieldkit.com/v1/js?api_key=373b21a29848d65f8b586ecb368b6d3d&source='+encodeURIComponent(document.location.href);
-        (document.getElementsByTagName('head')[0] || document.body).appendChild(script);
-        })();
-        </script>
+
     </div>
 
     <footer class="footer">
@@ -46,12 +37,6 @@
                 <input type="hidden" name="bn" value="PP-DonationsBF:btn_donate_SM.gif:NonHostedGuest">
                 <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" name="submit" alt="PayPal - The safer, easier way to pay online!">
             </form>
-        </div>
-        <div class="share" style="margin-top: -1px;">
-            <span  class='st_twitter_hcount'></span>
-            <span  class='st_facebook_hcount'></span>
-            <!--<span  class='st_fblike_hcount' ></span>-->
-            <span  class='st_plusone_hcount' ></span>
         </div>
     </footer>
 

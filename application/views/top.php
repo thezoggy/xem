@@ -60,10 +60,6 @@ made at http://patorjk.com/software/taag/ with font Georgia11
         <!-- own stuff -->
         <script type="text/javascript" src="<?php echo base_url();?>js/main.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>js/xem.logo.js"></script>
-        <!-- share this -->
-        <script type="text/javascript">var switchTo5x=true;</script>
-        <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
-        <script type="text/javascript">stLight.options({publisher:'15e087b2-55e2-44be-bda6-54e3ee00d766'});</script>
 
     </head>
 <body class="<?if(isset($fullelement)){if($fullelement->isDraft) echo 'draft';} ?>">
