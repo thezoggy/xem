@@ -45,12 +45,14 @@ made at http://patorjk.com/software/taag/ with font Georgia11
         <? echo link_tag('css/bootstrap.css', 'stylesheet', 'text/css'); ?>
         <? echo link_tag('css/smoothness/jquery-ui-1.8.16.custom.css', 'stylesheet', 'text/css'); ?>
         <? echo link_tag('css/jquery.qtip.min.css', 'stylesheet', 'text/css'); ?>
+        <? echo link_tag('css/chosen.css', 'stylesheet', 'text/css'); ?>
         <? echo link_tag('css/main.css', 'stylesheet', 'text/css'); ?>
 
         <script type="text/javascript" src="<?php echo base_url();?>js/jquery-1.7.2.min.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>js/jquery-ui-1.8.16.custom.min.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>js/html5boilerplate.consolewrapper.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="<?php echo base_url();?>js/chosen.jquery.min.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>js/jquery.transition.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>js/jquery.dataset.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>js/jquery.jeditable.mini.js"></script>
@@ -95,11 +97,8 @@ made at http://patorjk.com/software/taag/ with font Georgia11
                             <a class="dropdown-toggle" href="#" data-toggle="dropdown"><? echo $user_nick ?> <strong class="caret"></strong></a>
                             <ul class="dropdown-menu">
                                 <li><?=anchor("user","<i class='icon-user'></i> Profile (Level $user_lvl)")?></li>
-                                <li><?=anchor("user/logout/".$uri, "<i class='icon-off'></i> Log Out")?></li>
-                            <?if(grantAcces(4)):?>
                                 <li class="divider"></li>
-                                <li><?=anchor("xem/adminShows","<i class='icon-fire'></i> Admin View")?></li>
-                            <?endif?>
+                                <li><?=anchor("user/logout/".$uri, "<i class='icon-off'></i> Log Out")?></li>
                             </ul>
                             <?else:?>
                             <a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign In <strong class="caret"></strong></a>
@@ -141,36 +140,26 @@ made at http://patorjk.com/software/taag/ with font Georgia11
                             <?=anchor("faq","FAQ")?>
                         </li>
                         <li class="divider-vertical"></li>
+                        <?if(grantAcces(4)):?>
+                        <li>
+                            <?=anchor("xem/adminShows","<i class='icon-fire icon-white'></i>", array('style'=>'padding-left: 5px; padding-right: 0;'))?>
+                        </li>
+                        <li>
+                            <?=anchor("xem/shows","Shows", array('style'=>'padding-left: 5px;'))?>
+                        </li>
+                        <?else:?>
                         <li>
                             <?=anchor("xem/shows","Shows")?>
                         </li>
+                        <?endif?>
                         <li>
                             <?=form_open("xem/addShow",array('class'=>'navbar-search','id'=>'addShowForm'))?>
-                                <select id="elementSelector">
-                                    <?if($logedIn):?>
-                                        <option value="0">Add New Show</option>
-                                    <?endif?>
-                                    <option value="choose" <?if(!isset($fullelement)){echo 'selected="selected"';} ?>>Choose a Show</option>
+                                <select id="elementSelector" data-placeholder="Select a Show..." class="chzn-select">
+                                    <option value="choose" <?if(!isset($fullelement)){echo 'selected="selected"';} ?>></option>
                                     <?foreach($shows as $row):?>
                                         <option value="<?=$row->id?>"  <?if(isset($fullelement)){if($fullelement->id==$row->id) echo 'selected="selected"';} ?>><?=$row->main_name?></option>
                                     <?endforeach?>
                                 </select>
-                                <div id="newStuff" class="hide">
-                                    <input id="newElementName" name="main_name" class="search-query" <?=$disabled?>/>
-                                    <div class="btn-group pull-right">
-                                        <input type="button" value="Cancel" id="cancelNewElement" class="btn btn-danger btn-mini" <?=$disabled?>/>
-                                        <input type="submit" value="Add" id="addNewElement" class="btn btn-primary btn-mini" <?=$disabled?>/>
-                                    </div>
-                                </div>
-                            </form>
-                        </li>
-                        <li class="divider-vertical"></li>
-                    </ul>
-                    <ul class="nav pull-right">
-                        <li>
-                            <?=form_open("search/",array('method'=>'get','class'=>'navbar-search','id'=>'searchForm'))?>
-                                <input class="search-query" id="search" name="q" <?if(isset($searchQeuery)){echo 'value="'.$searchQeuery.'"';}?>/>
-                                <input id="search-submit" type="submit" value="Search">
                             </form>
                         </li>
                     </ul>
@@ -179,11 +168,6 @@ made at http://patorjk.com/software/taag/ with font Georgia11
             </div><!-- /container -->
         </div><!-- /navbar-inner -->
     </div><!-- /navbar -->
-
-		<div id="header" style="display: none;">
-			<div id="logo">
-			</div>
-		</div>
 
     <div class="alert alert-error hide">
         <button class="close" data-dismiss="alert">×</button>

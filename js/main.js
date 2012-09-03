@@ -67,7 +67,7 @@ function checkForError(response, params, succes_callback, error_callback) {
         RESULT_DENIED:"denied",
         }
 */
-    
+
     if (response.result != "success") {
         console.log("Reg recived for BUT not successful : " + params);
         if (response.result == "denied") {
@@ -138,20 +138,10 @@ var pressTimerLogout;
 
 function mainInit(){
 
+    $(".chzn-select").chosen();
+
     $('#elementSelector').change(function(){
-        if ($(this).val() == "0") {
-            $('#elementSelector').hide();
-            $('#newStuff').show();
-            $('#newElementName').focus();
-        } else if($(this).val() != "choose"){
-            $('#newStuff').hide();
-            document.location.assign("/xem/show/" + $(this).val());
-        }
-    });
-    $('#cancelNewElement').click(function(){
-        $('#newStuff').hide();
-        $('#elementSelector').show();
-        $('#elementSelector').val('choose').focus();
+        document.location.assign("/xem/show/" + $(this).val());
     });
 
 	$("#search").autocomplete({
@@ -179,15 +169,16 @@ function mainInit(){
 		clearTimeout(pressTimerLogout);
 		$(this).text('Profile');
 		// Clear timeout
-		document.location.href='/user';
+		document.location.href = '/user';
 		return false;
 	}).mousedown(function(){
 		// Set timeout
 		var link = $(this)
 		pressTimerText = window.setTimeout(function() { link.text('Logout'); }, 100);
-		pressTimerLogout = window.setTimeout(function() {document.location.href=link.attr('href');},1200);
-		return false; 
+		pressTimerLogout = window.setTimeout(function() {document.location.href=link.attr('href');}, 1200);
+		return false;
 	});
+
 	$(document).ready(function() {
 	    $('label').each(function(){
 	        var curLabel = $(this);
@@ -198,14 +189,14 @@ function mainInit(){
 	            var id = curInput.attr('id');
 	            if(!id){
 	                // remove "0." from the random to get ids without a dot
-	                id = $.now()+((''+Math.random()).split('.')[1]);
-	                curInput.attr('id',id);
+	                id = $.now()+(('' + Math.random()).split('.')[1]);
+	                curInput.attr('id', id);
 	            }
-	            curLabel.attr('for',id);
+	            curLabel.attr('for', id);
 	        }
 	    });
 	});
-	
+
 	console.log('normal init done');
 }
 
