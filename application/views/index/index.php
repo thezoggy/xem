@@ -11,7 +11,7 @@
 </p>
 
 <h2>Entity List</h2>
-<table class="table table-condensed" style="width: auto;">
+<table id="entity" class="table table-condensed" style="width: auto;">
     <thead>
         <tr>
             <th>id</th>
