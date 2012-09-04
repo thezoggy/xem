@@ -14,7 +14,7 @@
                 <?else:?>
                 <li><?=anchor("xem/show/".$fullelement->parent,"<i class='icon-hand-left'></i> Public (".$fullelement->draftChangesCount().") behind")?></li>
                     <?if($fullelement->status<4):?>
-                    <li><div class="btnWrapper"><input type="button" value="Public Request&hellip;" data-toggle="modal" href="#confirmPublicRequest" class="btn btn-inverse" /></div></li>
+                    <li><div class="btnWrapper"><input type="button" value="Public Request&hellip;" data-toggle="modal" href="#confirmPublicRequest" class="btn btn-inverse btn-block" /></div></li>
                     <?else:?>
                     <li><div class="btnWrapper"><input type="button" value="Public Request Pending&hellip;" class="btn btn-success" disabled="disabled"/></div></li>
                     <?endif?>
@@ -51,15 +51,15 @@
                 <?if($fullelement->status > 0):?>
                 <?if(!$fullelement->isDraft):?>
                     <li class="divider"></li>
-                    <li><div class="btnWrapper"><input type="button" value="Delete This Show&hellip;" data-toggle="modal" href="#confirmDeleteMe" class="btn btn-danger" /></div></li>
+                    <li><div class="btnWrapper"><input type="button" value="Delete This Show&hellip;" data-toggle="modal" href="#confirmDeleteMe" class="btn btn-danger btn-block" /></div></li>
                 <?else:?>
                     <li class="divider"></li>
-                    <li><div class="btnWrapper"><input type="button" value="Make Draft Public&hellip;" data-toggle="modal" href="#confirmMakeDraftPublic" class="btn btn-success" /></div></li>
-                    <li><div class="btnWrapper"><input type="button" value="Delete This Draft&hellip;" data-toggle="modal" href="#confirmDeleteMe" class="btn btn-danger" /></div></li>
+                    <li><div class="btnWrapper"><input type="button" value="Make Draft Public&hellip;" data-toggle="modal" href="#confirmMakeDraftPublic" class="btn btn-success btn-block" /></div></li>
+                    <li><div class="btnWrapper"><input type="button" value="Delete This Draft&hellip;" data-toggle="modal" href="#confirmDeleteMe" class="btn btn-danger btn-block" /></div></li>
                 <?endif?>
                 <?else:?>
                     <li class="divider"></li>
-                    <li><div class="btnWrapper"><input type="submit" value="UnDelete This Show&hellip;" data-toggle="modal" href="#confirmUnDeleteMe" class="btn btn-danger" /></div></li>
+                    <li><div class="btnWrapper"><input type="submit" value="UnDelete This Show&hellip;" data-toggle="modal" href="#confirmUnDeleteMe" class="btn btn-danger btn-block" /></div></li>
                 <?endif?>
                 <?endif?>
                 <li class="divider"></li>
@@ -175,7 +175,6 @@
     					<input type="submit" value="Add New Name" class="btn" />
     			</form>
     		</div>
-            <br/>
     		<?endif?>
 		</div>
 

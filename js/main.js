@@ -69,7 +69,7 @@ function checkForError(response, params, succes_callback, error_callback) {
 */
 
     if (response.result != "success") {
-        console.log("Reg recived for BUT not successful : " + params);
+        console.log("Reg received, but not successful : " + params);
         if (response.result == "denied") {
             connectionStatus = false;
             console.log("user has not enough permission");
@@ -138,11 +138,10 @@ var pressTimerLogout;
 
 function mainInit(){
 
-    $(".chzn-select").chosen();
-
-    $('#elementSelector').change(function(){
-        document.location.assign("/xem/show/" + $(this).val());
-    });
+    $('ul.nav').tooltip({
+        selector: "a[rel=tooltip]",
+        placement: 'bottom'
+    })
 
 	$("#search").autocomplete({
 		source: function(request, response){

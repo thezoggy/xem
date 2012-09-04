@@ -56,9 +56,6 @@ ul.no label {
   font-size: 14px;
   font-weight: normal;
 }
-input.fullWidthButton {
-  width: 100%;
-}
 .ui-tooltip-content ul,
 #header ul,
 #element ul,
@@ -215,7 +212,7 @@ ul.no {
 }
 .newSeason:hover form,
 .newSeason.inEdit form{
-    height: 98px;
+    height: 108px;
 }
 
 .seasonHeader.edit{
@@ -454,7 +451,7 @@ li.episode .episode_number {
 }
 
 .seasonConnection .passthru {
-  top: 34px;
+  top: 44px;
   height: 28px;
   background: #333;
   -webkit-transition: all 0.5s;
@@ -669,29 +666,22 @@ input.name {
 }
 
 /* auto complete */
-#header.autocomplete {
-  -webkit-border-bottom-right-radius: 0;
-      -moz-border-radius-bottomright: 0;
-          border-bottom-right-radius: 0;
-}
-
-
 .ui-autocomplete {
-  padding: 0 1px;
+  padding: 0;
   margin: 0;
   margin-top: -2px;
   overflow: hidden;
   background: #525252;
-  border: solid 2px #525252;
+  border: 1px solid #151515;
   -webkit-border-radius: 0;
      -moz-border-radius: 0;
           border-radius: 0;
-  -webkit-border-bottom-right-radius: 10px;
-   -webkit-border-bottom-left-radius: 10px;
-      -moz-border-radius-bottomright: 10px;
-       -moz-border-radius-bottomleft: 10px;
-          border-bottom-right-radius: 10px;
-           border-bottom-left-radius: 10px;
+  -webkit-border-bottom-right-radius: 4px;
+   -webkit-border-bottom-left-radius: 4px;
+      -moz-border-radius-bottomright: 4px;
+       -moz-border-radius-bottomleft: 4px;
+          border-bottom-right-radius: 4px;
+           border-bottom-left-radius: 4px;
 }
 
 .ui-autocomplete .ui-menu-item a {
@@ -714,12 +704,15 @@ input.name {
 }
 
 .ui-autocomplete .ui-menu-item:last-child a {
-  -webkit-border-bottom-right-radius: 8px;
-   -webkit-border-bottom-left-radius: 8px;
-      -moz-border-radius-bottomright: 8px;
-       -moz-border-radius-bottomleft: 8px;
-          border-bottom-right-radius: 8px;
-           border-bottom-left-radius: 8px;
+  -webkit-border-bottom-right-radius: 4px;
+   -webkit-border-bottom-left-radius: 4px;
+      -moz-border-radius-bottomright: 4px;
+       -moz-border-radius-bottomleft: 4px;
+          border-bottom-right-radius: 4px;
+           border-bottom-left-radius: 4px;
+}
+.ui-autocomplete .ui-menu-item:nth-child(odd) {
+  background-color: #656565;
 }
 
 .address span {
@@ -734,9 +727,7 @@ input.name {
   font-weight: normal;
 }
 
-.ui-tooltip-content input.fullWidthButton {
-  margin: 3px 0;
-}
+
 /* -- zoggy */
 /* .show is a reserved class for bootstrap.. */
 .list span.show {
@@ -796,16 +787,38 @@ select:focus,
 .navbar label {
   color: #333;
 }
-.navbar .btn-group {
-  padding-top: 1px;
-}
 input[type="image"] {
   width: auto;
 }
-input.search-query {
+.breadcrumb {
+  background-color: #fbfbfb;
+  background-image: -moz-linear-gradient(top, #ffffff, #f5f5f5);
+  background-image: -ms-linear-gradient(top, #ffffff, #f5f5f5);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#f5f5f5));
+  background-image: -webkit-linear-gradient(top, #ffffff, #f5f5f5);
+  background-image: -o-linear-gradient(top, #ffffff, #f5f5f5);
+  background-image: linear-gradient(top, #ffffff, #f5f5f5);
+  background-repeat: repeat-x;
+  border: 1px solid #ddd;
+  -webkit-border-radius: 3px;
+     -moz-border-radius: 3px;
+          border-radius: 3px;
+  filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ffffffff', endColorstr='#fff5f5f5', GradientType=0);
+  -webkit-box-shadow: inset 0 1px 0 #ffffff;
+     -moz-box-shadow: inset 0 1px 0 #ffffff;
+          box-shadow: inset 0 1px 0 #ffffff;
+}
+.breadcrumb .divider {
+  color: #666;
+}
+.navbar-search {
+    margin-top: 7px;
+}
+.navbar-search .search-query {
   -webkit-border-radius: 4px;
      -moz-border-radius: 4px;
           border-radius: 4px;
+  border: 1px solid #151515;
 }
 #search-submit {
   position: absolute;
@@ -826,7 +839,24 @@ input.search-query {
   border: 0 none;
   opacity: 0.75;
 }
-
+.navbar-inverse .navbar-inner {
+  background-color: #2c2c2c;
+  background-image: -moz-linear-gradient(top, #333333, #222222);
+  background-image: -ms-linear-gradient(top, #333333, #222222);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#333333), to(#222222));
+  background-image: -webkit-linear-gradient(top, #333333, #222222);
+  background-image: -o-linear-gradient(top, #333333, #222222);
+  background-image: linear-gradient(top, #333333, #222222);
+  background-repeat: repeat-x;
+  filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ff333333', endColorstr='#ff222222', GradientType=0);
+}
+.navbar-inverse .divider-vertical {
+  border-right-color: #333333;
+  border-left-color: #222222;
+}
+.navbar .nav > li > a {
+  padding: 10px;
+}
 /*footer inkl "add this"*/
 
 .footer div {

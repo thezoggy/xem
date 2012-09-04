@@ -45,14 +45,12 @@ made at http://patorjk.com/software/taag/ with font Georgia11
         <? echo link_tag('css/bootstrap.css', 'stylesheet', 'text/css'); ?>
         <? echo link_tag('css/smoothness/jquery-ui-1.8.16.custom.css', 'stylesheet', 'text/css'); ?>
         <? echo link_tag('css/jquery.qtip.min.css', 'stylesheet', 'text/css'); ?>
-        <? echo link_tag('css/chosen.css', 'stylesheet', 'text/css'); ?>
         <? echo link_tag('css/main.css', 'stylesheet', 'text/css'); ?>
 
         <script type="text/javascript" src="<?php echo base_url();?>js/jquery-1.7.2.min.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>js/jquery-ui-1.8.16.custom.min.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>js/html5boilerplate.consolewrapper.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="<?php echo base_url();?>js/chosen.jquery.min.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>js/jquery.transition.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>js/jquery.dataset.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>js/jquery.jeditable.mini.js"></script>
@@ -78,7 +76,7 @@ made at http://patorjk.com/software/taag/ with font Georgia11
     <?endif?>
     <?endif?>
 
-    <div class="navbar">
+    <div class="navbar navbar-inverse">
         <div class="navbar-inner">
             <div class="container">
                 <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -124,7 +122,7 @@ made at http://patorjk.com/software/taag/ with font Georgia11
                                         </div>
                                     </div>
                                     <div class="pull-right">
-                                        <input class="btn btn-large" type="submit" value="Sign In">
+                                        <input class="btn btn-primary" type="submit" value="Sign In">
                                     </div>
                                 </fieldset>
                                 </form>
@@ -142,7 +140,7 @@ made at http://patorjk.com/software/taag/ with font Georgia11
                         <li class="divider-vertical"></li>
                         <?if(grantAcces(4)):?>
                         <li>
-                            <?=anchor("xem/adminShows","<i class='icon-fire icon-white'></i>", array('style'=>'padding-left: 5px; padding-right: 0;'))?>
+                            <?=anchor("xem/adminShows","<i class='icon-fire icon-white'></i>", array('style'=>'padding-left: 5px; padding-right: 0;','rel'=>'tooltip','data-original-title'=>'Admin View'))?>
                         </li>
                         <li>
                             <?=anchor("xem/shows","Shows", array('style'=>'padding-left: 5px;'))?>
@@ -152,14 +150,11 @@ made at http://patorjk.com/software/taag/ with font Georgia11
                             <?=anchor("xem/shows","Shows")?>
                         </li>
                         <?endif?>
+                        <li class="divider-vertical"></li>
                         <li>
-                            <?=form_open("xem/addShow",array('class'=>'navbar-search','id'=>'addShowForm'))?>
-                                <select id="elementSelector" data-placeholder="Select a Show..." class="chzn-select">
-                                    <option value="choose" <?if(!isset($fullelement)){echo 'selected="selected"';} ?>></option>
-                                    <?foreach($shows as $row):?>
-                                        <option value="<?=$row->id?>"  <?if(isset($fullelement)){if($fullelement->id==$row->id) echo 'selected="selected"';} ?>><?=$row->main_name?></option>
-                                    <?endforeach?>
-                                </select>
+                            <?=form_open("search/",array('method'=>'get','class'=>'navbar-search','id'=>'searchForm'))?>
+                                <input class="search-query input-xlarge" placeholder="Search for show..." id="search" name="q" <?if(isset($searchQeuery)){echo 'value="'.$searchQeuery.'"';}?>/>
+                                <input id="search-submit" type="submit" value="Search">
                             </form>
                         </li>
                     </ul>
