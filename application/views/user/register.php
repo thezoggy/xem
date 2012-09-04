@@ -1,16 +1,55 @@
+<div class="page-header">
+    <h1>Register</h1>
+</div>
 
-<h1>Register</h1>
-<?=form_open("user/register/")?>
-<ul class="no">
-<?if(isset($register_unsuccessfull)): ?><li><strong style="color:red;"><?=$reson ?></strong></li><? endif;?>
-    <li><label>User</label><input name="user" value="<?=set_value('user')?>"/></li>
-    <li><label>Email</label><input name="email" value="<?=set_value('email')?>"/></li>
-    <li><label>Password</label><input name="pw" type="password"/></li>
-    <li><label>Pw Again</label><input name="pw_check" type="password"/></li>
-    <li>
-        <?=$recaptcha?>
-    </li>
-</ul>
-<input type="submit" value="Register">
+<?=form_open("user/register/", array('class'=>'form-horizontal'))?>
+
+    <?if(isset($register_unsuccessfull)): ?>
+    <div class="alert alert-error">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>Error!</strong> <?=$reason ?>
+    </div>
+    <? endif;?>
+
+    <div class="control-group">
+        <label class="control-label" for="email">Username</label>
+        <div class="controls">
+            <div class="input-prepend">
+                <span class="add-on"><i class="icon-user"></i></span>
+                <input class="span12" name="user" id="user" type="text" value="<?=set_value('user')?>">
+            </div>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="email">Email</label>
+        <div class="controls">
+            <div class="input-prepend">
+                <span class="add-on"><i class="icon-envelope"></i></span>
+                <input class="span12" name="email" id="email" type="text" value="<?=set_value('email')?>">
+            </div>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="pw">Password</label>
+        <div class="controls">
+            <input class="span2" type="password" id="pw" name="pw" placeholder="Password">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="pw_check">Verify Password</label>
+        <div class="controls">
+            <input class="span2" type="password" id="pw_check" name="pw_check" placeholder="Verify Password">
+        </div>
+    </div>
+    <div class="control-group">
+        <div class="controls">
+            <?=$recaptcha?>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Register</button>
+        <button type="button" class="btn">Cancel</button>
+    </div>
+
 </form>
-

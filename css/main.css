@@ -750,6 +750,9 @@ input, textarea, select, .uneditable-input {
 legend, label, .dropdown-menu form, .ui-tooltip-content form {
   margin-bottom: 0;
 }
+.form-horizontal .control-group {
+  margin-bottom: 10px;
+}
 .newSeason label, .ui-tooltip-content label {
   margin-bottom: 6px;
 }
@@ -856,6 +859,9 @@ input[type="image"] {
 }
 .navbar .nav > li > a {
   padding: 10px;
+}
+.navbar-inverse .nav li.dropdown.open > .dropdown-toggle, .navbar-inverse .nav li.dropdown.active > .dropdown-toggle, .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle {
+  background-color: transparent;
 }
 /*footer inkl "add this"*/
 

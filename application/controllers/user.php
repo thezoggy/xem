@@ -1,9 +1,9 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class User extends SuperController {
-    var $humanReadableErrors = array('insuficentData'=>'You missed to provide importent information',
-	                                 'emailInUse'=>'This email is assotiated with another account',
-	                                 'nickInUse'=>'This username is allready in use',
+    var $humanReadableErrors = array('insuficentData'=>'You missed to provide important information',
+	                                 'emailInUse'=>'This email is associated with another account',
+	                                 'nickInUse'=>'This username is already in use',
 	                                 'lvlZero'=>'Account not activated or banned!',
 	                                 'usernameOrPasswordWrong'=>'Wrong combination of username and password');
 
@@ -44,7 +44,7 @@ class User extends SuperController {
 
 		if(!$this->session->userdata('logged_in')){
 		    if (isset($this->out['login_unsuccessfull'])) {
-		        $this->out['reson'] = $this->humanReadableErrors[$this->simpleloginsecure->last_error];
+		        $this->out['reason'] = $this->humanReadableErrors[$this->simpleloginsecure->last_error];
 		    }
 
 
@@ -79,20 +79,20 @@ class User extends SuperController {
             		return true;
     	        }else{
     				$this->out['register_unsuccessfull'] = true;
-    		        $this->out['reson'] = $this->humanReadableErrors[$this->simpleloginsecure->last_error];
+    		        $this->out['reason'] = $this->humanReadableErrors[$this->simpleloginsecure->last_error];
     	        }
     	    }else{
                 $this->out['register_unsuccessfull'] = true;
-		        $this->out['reson'] = 'That is not a valid email';
+		        $this->out['reason'] = 'That is not a valid email';
     	    }
 	    }elseif(isset($_POST['user']) && isset($_POST['email']) && isset($_POST['pw'])){
             $this->out['register_unsuccessfull'] = true;
-	        $this->out['reson'] = 'Wrong Capcha';
+	        $this->out['reason'] = 'Wrong Capcha';
 	        //echo validation_errors();
 	    }
 	    if(!$registration_open){
             $this->out['register_unsuccessfull'] = true;
-            $this->out['reson'] = 'Registration closed!!';
+            $this->out['reason'] = 'Registration closed!!';
 	    }
 	    $this->out['recaptcha'] = $this->recaptcha->get_html();
 		$this->_loadView('register');

@@ -107,22 +107,22 @@ made at http://patorjk.com/software/taag/ with font Georgia11
                                     <div class="control-group">
                                         <label class="control-label" for="user">User:</label>
                                         <div class="controls">
-                                            <input type="text" name="user" class="input-large">
+                                            <input type="text" name="user" class="span3">
                                         </div>
                                     </div>
                                     <div class="control-group">
                                         <label class="control-label" for="user">Password:</label>
                                         <div class="controls">
-                                            <input type="password" name="pw" class="input-large">
+                                            <input type="password" name="pw" class="span3">
                                         </div>
                                     </div>
-                                    <div class="pull-left">
-                                        <div style="padding-top: 6px;">
-                                            <?=anchor("user/register","Need an account?")?>
+                                    <div class="control-group">
+                                        <div class="pull-left">
+                                            <?=anchor("user/register","Need an account?", array('style'=>'padding-top: 8px; padding-left: 0;'))?>
                                         </div>
-                                    </div>
-                                    <div class="pull-right">
-                                        <input class="btn btn-primary" type="submit" value="Sign In">
+                                        <div class="pull-right">
+                                            <input class="btn btn-primary" type="submit" value="Sign In">
+                                        </div>
                                     </div>
                                 </fieldset>
                                 </form>
@@ -165,7 +165,7 @@ made at http://patorjk.com/software/taag/ with font Georgia11
     </div><!-- /navbar -->
 
     <div class="alert alert-error hide">
-        <button class="close" data-dismiss="alert">×</button>
+        <button class="close" data-dismiss="alert">&times;</button>
         <strong>Warning!</strong> Development : This site could break at any moment, be aware!
     </div>
 
