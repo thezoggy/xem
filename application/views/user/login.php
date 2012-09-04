@@ -25,7 +25,6 @@
 
     <div class="form-actions">
         <button type="submit" class="btn btn-primary">Login</button>
-        <button type="button" class="btn">Cancel</button>
     </div>
 
     <p>Need an account <?=anchor('user/register','Register!')?></p>
