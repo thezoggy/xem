@@ -58,7 +58,9 @@ ul.no label {
 }
 .ui-tooltip-content ul,
 #header ul,
-#element ul,
+ul.ui-sortable,
+ul.ui-sortable li ul,
+ul.names,
 ul.no {
   padding: 0;
   margin: 0;

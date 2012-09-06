@@ -143,14 +143,17 @@ function mainInit(){
         placement: 'bottom'
     })
 
+    var query = '';
 	$("#search").autocomplete({
 		source: function(request, response){
+            query = $.ui.autocomplete.escapeRegex(request.term);
 			var params = new Params();
 			params.term = request.term;
 			genericRequest("autocomplete", params, response, response);
 		},
 		select: function( event, ui ) {
 			//console.log( ui.item ? "Selected: " + ui.item.value + " aka " + ui.item.id : "Nothing selected, input was " + this.value );
+            // just need to serve up the show id in the autocomplete.. insert that in the a href below in the .data
 			$('#searchForm').submit();
 		},
 		open: function(event, ui) {
@@ -161,7 +164,19 @@ function mainInit(){
 		},
 		position: { my : "right top", at: "right bottom" },
 		minLength: 2
-	});
+	})
+    .data("autocomplete")._renderItem = function (ul, item) {
+        //highlight the matched search term from the item -- note that this is global and will match anywhere
+        var result_item = item.label;
+        var x = new RegExp("(?![^&;]+;)(?!<[^<>]*)(" + query + ")(?![^<>]*>)(?![^&;]+;)", "gi");
+        result_item = result_item.replace(x, function (FullMatch, n) {
+            return '<b>' + FullMatch + '</b>';
+        });
+        return $("<li></li>")
+            .data("item.autocomplete", item)
+            .append("<a class='nowrap'>" + result_item + "</a>")
+            .appendTo(ul);
+    };
 
 	$("#logout").mouseup(function(){
 		clearTimeout(pressTimerText);
