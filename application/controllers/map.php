@@ -121,6 +121,7 @@ class Map extends CI_Controller {
         }
 
         $this->_fullOut('success', $names);
+        return false;
     }
 
 
@@ -203,8 +204,10 @@ class Map extends CI_Controller {
 		}
 		$out = array();
 
-		$elements = $this->db->get_where('elements');
+        // only process the parent (not drafts to prevent leaking of info)
+		$elements = $this->db->get_where('elements', array('parent'=>0));
         foreach($elements->result() as $curElement){
+            // only proceed if the show is not deleted (status 0)
             if($curElement->status < 1)
                 continue;
 
@@ -269,6 +272,7 @@ class Map extends CI_Controller {
 		}
 
         $this->_fullOut('success', $out);
+        return false;
     }
     function _allNames_helper_name_season($nameObj, $includeSeasonNumbers){
         if($includeSeasonNumbers){
