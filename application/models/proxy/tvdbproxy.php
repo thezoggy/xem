@@ -1,7 +1,7 @@
 <?
 class TvdbProxy extends Baseproxy {
     protected $proxyAdress = 'http://www.thetvdb.com'; #http://www.thetvdb.com
-    private $apiKey = '9DAF49C96CBF8DAC';
+    private $apiKey = '4CE423C53F065488';
 
     private $callType = "";
 
