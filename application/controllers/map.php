@@ -171,7 +171,7 @@ class Map extends CI_Controller {
                         $seasonFilterType = 'le';
                         break;
                     case 'eq': // is equal to
-                        $seasonFilterType = 'qe';
+                        $seasonFilterType = 'eq';
                         break;
                     default:
                         $this->_fullOut('failure', array(), 'did not understand season string');
@@ -191,8 +191,6 @@ class Map extends CI_Controller {
             if(!is_numeric($seasonFilterSeason) && !is_array($seasonFilterSeason)){
                 $this->_fullOut('failure', array(), 'did not understand season string');
                 return false;
-            }else{
-                $seasonFilterSeason = (int)$seasonFilterSeason;
             }
         }
 		$origin_id = 0;
@@ -214,6 +212,7 @@ class Map extends CI_Controller {
 		    $names = $this->db->get_where('names', array('element_id'=>$curElement->id));
 			$namesStrings = array();
 			if($includeDefaultNames)
+                // TODO: respect season filter/language filter data?
     			$namesStrings[] = $curElement->main_name;
 			if(rows($names)){
 				foreach($names->result() as $name){
@@ -221,7 +220,7 @@ class Map extends CI_Controller {
 
                         if(is_array($seasonFilterSeason)){
                             if(in_array($name->season, $seasonFilterSeason)){
-                                $namesStrings[] = $name->name;
+                                $namesStrings[] = $this->_allNames_helper_name_season($name, $includeSeasonNumbers);
                             }
                         }else{
                             switch ($seasonFilterType) {
