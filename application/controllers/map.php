@@ -334,16 +334,20 @@ class Map extends CI_Controller {
 			}
 		}
         $ids = array();
-        $elements = $this->db->get('elements');
+        // only process the parent (not drafts to prevent leaking of info)
+        $elements = $this->db->get_where('elements', array('parent'=>0));
         foreach($elements->result() as $element){
+            // only proceed if the show is not deleted (status 0)
+            if($element->status < 1)
+                continue;
             $seasons = $this->db->get_where('seasons', array('element_id'=>$element->id, 'location_id'=>$curLocationID));
-
 
             foreach($seasons->result() as $curRow){
                 if($curRow->identifier && !in_array($curRow->identifier, $ids))
                     $ids[] = $curRow->identifier;
             }
         }
+        sort($ids); // sort output so it is easier to find bad data
         $this->_fullOut('success', $ids, 'These shows have some kind of mapping');
     }
     /*
