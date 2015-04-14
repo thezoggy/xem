@@ -142,7 +142,7 @@ class FullElement{
         return print_r($out, true);
     }
     /*
-     * this was a try to incoperrate urls that use identifiers from different locations then itself but it has an error
+     * this was a try to incorporate urls that use identifiers from different locations then itself but it has an error
      * when the last current season identifier is not set it will use the identifier from the previous location
 	public function getdirectLink_old($location_id, $season){
 		$url = $this->locations[$location_id]->show_url;
@@ -267,9 +267,9 @@ class FullElement{
 
 	private function getDraft(){
 	    $id = 0;
-	    $darfts = $this->db->get_where('elements',array('parent'=>$this->id));
-		if(rows($darfts)){
-		    foreach ($darfts->result_array() as $cur_draft) {
+	    $drafts = $this->db->get_where('elements',array('parent'=>$this->id));
+		if(rows($drafts)){
+		    foreach ($drafts->result_array() as $cur_draft) {
 		        if($cur_draft['status'] > 0){
 					$id = $cur_draft['id'];
 					break;

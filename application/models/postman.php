@@ -129,32 +129,32 @@ class Postman{
 	        $newAbsolute = array();
 
 	        $newSeason[1] = $season;
-	        $newEpsiode[1] = $episode;
+	        $newEpisode[1] = $episode;
 	        $newAbsolute[1] = $absolute;
 
 	        $lastWaypoint = $this->origin;
 
-            log_message('debug', "start: ".$this->origin->name.": ".$newSeason[1]."x".$newEpsiode[1]."a".$newAbsolute[1]);
+            log_message('debug', "start: ".$this->origin->name.": ".$newSeason[1]."x".$newEpisode[1]."a".$newAbsolute[1]);
 
             foreach ($route as $curWaypoint) {
                 for($i = 1; $i <= count($newSeason); $i++){
                     //log_message('debug', 'current index '.$i);
 
                     $beforeSeason = $newSeason[$i];
-                    $beforeEpisode = $newEpsiode[$i];
+                    $beforeEpisode = $newEpisode[$i];
                     $beforeAbsolute = $newAbsolute[$i];
 
                     $directMaster = false;
                     if ($curWaypoint->name == 'master') {
-    	                $directMaster = $this->getDirectConObj($lastWaypoint, $this->master, $newSeason[$i], $newEpsiode[$i]);
+    	                $directMaster = $this->getDirectConObj($lastWaypoint, $this->master, $newSeason[$i], $newEpisode[$i]);
                     }elseif ($lastWaypoint->name == 'master'){
-    	                $directMaster = $this->getDirectConObj($this->master, $curWaypoint, $newSeason[$i], $newEpsiode[$i]);
+    	                $directMaster = $this->getDirectConObj($this->master, $curWaypoint, $newSeason[$i], $newEpisode[$i]);
                     }
 
                     $createdNewIndex = false;
                     if($directMaster){
                         $first = true;
-                        log_message('debug', 'found '.count($directMaster).' direct conection(s)');
+                        log_message('debug', 'found '.count($directMaster).' direct connection(s)');
                         $first = true;
                         foreach ($directMaster as $curDirectMaster) {
 
@@ -166,20 +166,20 @@ class Postman{
     	                        $createdNewIndex = true;
                             }
             	            $newSeason[$n] = (int)$curDirectMaster['destination_season'];
-            	            $newEpsiode[$n] = (int)$curDirectMaster['destination_episode'];
-        	                $newAbsolute[$n] = (int)$this->getAbsolute($curWaypoint, $newSeason[$n], $newEpsiode[$n]);
+            	            $newEpisode[$n] = (int)$curDirectMaster['destination_episode'];
+        	                $newAbsolute[$n] = (int)$this->getAbsolute($curWaypoint, $newSeason[$n], $newEpisode[$n]);
         	                $first = false;
                         }
                     }else{
         	            $passthru = $this->getPassthruType($lastWaypoint, $curWaypoint);
 
-    	                //$newAbsolute = (int)$this->getAbsolute($curWaypoint, $newSeason, $newEpsiode);
-        	            $finals = $this->passthruResolver($lastWaypoint, $curWaypoint, $passthru, $newSeason[$i], $newEpsiode[$i], $newAbsolute[$i]);
+    	                //$newAbsolute = (int)$this->getAbsolute($curWaypoint, $newSeason, $newEpisode);
+        	            $finals = $this->passthruResolver($lastWaypoint, $curWaypoint, $passthru, $newSeason[$i], $newEpisode[$i], $newAbsolute[$i]);
                         $newSeason[$i] = $finals['season'];
-                        $newEpsiode[$i] = $finals['episode'];
+                        $newEpisode[$i] = $finals['episode'];
                         $newAbsolute[$i] = $finals['absolute'];
                     }
-                    log_message('debug', "waypoint: ".$curWaypoint->name."[".$i."] lastAdress(".$beforeSeason."x".$beforeEpisode."a".$beforeAbsolute.") now: ".$newSeason[$i]."x".$newEpsiode[$i]."a".$newAbsolute[$i]);
+                    log_message('debug', "waypoint: ".$curWaypoint->name."[".$i."] lastAdress(".$beforeSeason."x".$beforeEpisode."a".$beforeAbsolute.") now: ".$newSeason[$i]."x".$newEpisode[$i]."a".$newAbsolute[$i]);
                     if($createdNewIndex)
                         break;
 
@@ -190,14 +190,14 @@ class Postman{
             }
             for($i = 1; $i <= count($newSeason); $i++){
 
-                $final = $this->buildFinals($newSeason[$i], $newEpsiode[$i], $newAbsolute[$i]);
+                $final = $this->buildFinals($newSeason[$i], $newEpisode[$i], $newAbsolute[$i]);
                 if($i > 1)
                     $out[$curDestination->name.'_'.$i] = $final;
                 else
                     $out[$curDestination->name] = $final;
             }
 
-            //log_message('debug', "address at ".$curDestination->name.": ".$newSeason."x".$newEpsiode."a".$newAbsolute);
+            //log_message('debug', "address at ".$curDestination->name.": ".$newSeason."x".$newEpisode."a".$newAbsolute);
             continue;
 	    }
         /*
@@ -247,7 +247,7 @@ class Postman{
 	    if(!$allZero)
 	        return $locationSeasons;
 	    else
-            false;
+            return false;
     }
 
 	private function getDirectConObj($oringin, $destination, $season, $episode){

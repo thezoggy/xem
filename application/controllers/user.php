@@ -1,9 +1,9 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class User extends SuperController {
-    var $humanReadableErrors = array('insuficentData'=>'You missed to provide importent information',
-	                                 'emailInUse'=>'This email is assotiated with another account',
-	                                 'nickInUse'=>'This username is allready in use',
+    var $humanReadableErrors = array('insuficentData'=>'You missed to provide important information',
+	                                 'emailInUse'=>'This email is associated with another account',
+	                                 'nickInUse'=>'This username is already in use',
 	                                 'lvlZero'=>'Account not activated or banned!',
 	                                 'usernameOrPasswordWrong'=>'Wrong combination of username and password');
 
@@ -16,7 +16,7 @@ class User extends SuperController {
 
 
 	    //email stuff
-        $this->load->helper('email'); // only needed to validate the emai adress
+        $this->load->helper('email'); // only needed to validate the email address
 	    $this->load->library('email');
         $this->email->from('info@thexem.de', 'XEM');
 	}
@@ -34,7 +34,7 @@ class User extends SuperController {
 
 		if(isset($_POST['user'])&&isset($_POST['pw'])){
 			if($this->simpleloginsecure->login($_POST['user'],$_POST['pw'])){
-			    if(!$this->session->userdata('user_last_login')) // if there is no last login data thisis the first login -> redirect to faq
+			    if(!$this->session->userdata('user_last_login')) // if there is no last login data this is the first login -> redirect to faq
 			        redirect('/faq');
 
 				redirect($this->out['uri2']);
@@ -96,6 +96,7 @@ class User extends SuperController {
 	    }
 	    $this->out['recaptcha'] = $this->recaptcha->get_html();
 		$this->_loadView('register');
+        return false;
     }
 
     function activate() {

@@ -47,7 +47,7 @@ class Xem extends SuperController {
     		$this->out['editRight'] = ($this->session->userdata('logged_in') && ($this->user_lvl >=  $fullElement->status) && ($this->user_lvl >= 5 || $fullElement->isDraft));
 		}
 
-		$this->out['title'] = $fullElement->main_name.' | Maping';
+		$this->out['title'] = $fullElement->main_name.' | Mapping';
 		$this->_loadView('show');
 	}
 
@@ -60,7 +60,7 @@ class Xem extends SuperController {
         $fullElement = new FullElement($this->oh,$id);
 		$this->out['fullelement'] = $fullElement;
 		$this->out['editRight'] = ($this->session->userdata('logged_in') && ($this->user_lvl >=  $fullElement->status) && ($this->user_lvl >= 5 || $fullElement->isDraft));
-		$this->out['title'] = $fullElement->main_name.' | Maping';
+		$this->out['title'] = $fullElement->main_name.' | Mapping';
 		$this->_loadView('show');
 	}
 
@@ -70,9 +70,9 @@ class Xem extends SuperController {
 	    # we have to get the draft id
 		if($id = $this->uri->segment(3)){
 			if(is_numeric($id)){
-			    $darfts = $this->db->get_where('elements',array('parent'=>$id));
-				if(rows($darfts)){
-				    foreach ($darfts->result_array() as $cur_draft) {
+			    $drafts = $this->db->get_where('elements',array('parent'=>$id));
+				if(rows($drafts)){
+				    foreach ($drafts->result_array() as $cur_draft) {
 				        if($cur_draft['status'] > 0){
         					$fullElement = new FullElement($this->oh, $cur_draft['id']);
 				        }
@@ -97,7 +97,7 @@ class Xem extends SuperController {
     		$this->out['editRight'] = ($this->session->userdata('logged_in') && ($this->user_lvl >=  $fullElement->status));
 		}
 
-		$this->out['title'] = $fullElement->main_name.' | Maping';
+		$this->out['title'] = $fullElement->main_name.' | Mapping';
 		$this->_loadView('show');
 	}
 
@@ -113,11 +113,11 @@ class Xem extends SuperController {
 			    if(!$e->status > 0){ // dont allow creation of drafts for deleted stuff
     				redirect('xem/shows');
 			    }
-			    if($e->parent){ // check if this is allready a draft
+			    if($e->parent){ // check if this is already a draft
     				redirect('xem/draft/'.$e->parent);
     				return false;
 			    }
-                log_message('debug', "Initiating creat draft for ".$id);
+                log_message('debug', "Initiating create draft for ".$id);
 				$fullElement = new FullElement($this->oh, $id);
 				$new_draft = $fullElement->createDraft();
 				redirect('xem/draft/'.$id);
@@ -388,7 +388,7 @@ class Xem extends SuperController {
 		$newName = $_POST['main_name'];
 		if($newName != ""){
 		    $show = getShows($this->db, $newName);
-		    if(count($show) > 0 && $show != false && !isset($_POST['forceAdd'])){ // we allready have a show with that name
+		    if(count($show) > 0 && $show != false && !isset($_POST['forceAdd'])){ // we already have a show with that name
 				$this->out['searchQeuery'] = $newName;
 				$this->out['curShows'] = $show;
 				$this->out['forceAdd'] = true;
@@ -438,9 +438,3 @@ class Xem extends SuperController {
 
 
 }
-
-
-
-
-/* End of file welcome.php */
-/* Location: ./application/controllers/welcome.php */

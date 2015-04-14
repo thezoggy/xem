@@ -54,11 +54,11 @@ class Index extends SuperController {
 	}
 
 	function imprint(){
-		$this->out['title'] = 'Imprint / Impressum';
+		$this->out['title'] = 'Imprint / Impression';
 		$this->_loadView('imprint');
 	}
 	function faq(){
-		$this->out['title'] = 'Frequently Asked Quesions';
+		$this->out['title'] = 'Frequently Asked Questions';
 		$this->_loadView('faq');
 	}
 	function doc(){
