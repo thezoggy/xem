@@ -236,9 +236,9 @@ class Xem extends SuperController {
 		if(!$this->session->userdata('logged_in')) {
 			redirect('user/login');
 		}
-		if($_POST['name']){
+        if(isset($_POST['name'])) {
     		$name = new Name($this->oh);
-    		$name->name = $_POST['name'];
+    		$name->name = trim($_POST['name']);
     		$name->language = $_POST['language'];
     		$name->element_id = $_POST['element_id'];
 

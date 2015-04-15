@@ -22,7 +22,7 @@
                 <?if($editRight):?>
                     <li class="divider"></li>
                     <li><?=anchor("#","<i class='icon-retweet'></i> Save Entities Order", array('onclick'=>'saveEntityOrder(); return false;') )?></li>
-                    <li><?=anchor("#","<i class='icon-minus-sign'></i> QuickConnect OFF", array('id'=>'toggleQC', 'title'=>'If QuickConnet is ON a direct connection will be made as soon two episodes are marked.', 'onclick'=>'toggleQC(); return false;') )?></li>
+                    <li><?=anchor("#","<i class='icon-minus-sign'></i> QuickConnect OFF", array('id'=>'toggleQC', 'title'=>'If QuickConnect is ON a direct connection will be made as soon two episodes are marked.', 'onclick'=>'toggleQC(); return false;') )?></li>
                 <?endif?>
                 <?if(grantAcces(3)):?>
                     <li>

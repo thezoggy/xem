@@ -658,7 +658,7 @@ function updatePassthruIcons() {
                 a.attr('fill', '#ff0000');
             }
             if (curPassthruObj.type == "sxxexx") {
-                a.attr('fill', '#f7ff29');
+                a.attr('fill', '#faa732');
             }
             if (curPassthruObj.type == "full") {
                 a.attr('fill', '#00ff00');
@@ -692,7 +692,7 @@ function updatePassthruIcons() {
                     var absoluteB = $('<input type="button" value="Absolute Passthru" class="fullWidthButton btn btn-danger">');
                     absoluteB.click(function () {
                         passthruContainer.addClass('active absolute');
-                        a.animate({'fill': 'red'}, 200);
+                        a.animate({'fill': '#ff0000'}, 200);
                         passthruConObjs['passthru_' + curfName + '_' + curtName] = {'fid': curfName, 'tid': curtName, 'type': 'absolute'};
                         passthruConObjs['passthru_' + curtName + '_' + curfName] = {'fid': curtName, 'tid': curfName, 'type': 'absolute'};
                         conPassthru(passthruConObjs['passthru_' + curfName + '_' + curtName], 'absolute');
@@ -700,7 +700,7 @@ function updatePassthruIcons() {
                     var seasonepisodeB = $('<input type="button" value="SxxExx Passthru" class="fullWidthButton btn btn-warning">');
                     seasonepisodeB.click(function () {
                         passthruContainer.addClass('active sxxexx');
-                        a.animate({'fill': '#f7ff29'}, 200);
+                        a.animate({'fill': '#faa732'}, 200);
                         passthruConObjs['passthru_' + curfName + '_' + curtName] = {'fid': curfName, 'tid': curtName, 'type': 'sxxexx'};
                         passthruConObjs['passthru_' + curtName + '_' + curfName] = {'fid': curtName, 'tid': curfName, 'type': 'sxxexx'};
                         conPassthru(passthruConObjs['passthru_' + curfName + '_' + curtName], 'sxxexx');
@@ -725,16 +725,15 @@ function updatePassthruIcons() {
                         delete passthruConObjs['passthru_' + curfName + '_' + curtName];
                         delete passthruConObjs['passthru_' + curtName + '_' + curfName];
                     });
-                    container.append('<p style="width:170px;">' + absoluteText + '<p>');
+                    container.append('<p">' + absoluteText + '</p>');
                     container.append(absoluteB);
-                    container.append('<br/>');
-                    container.append('<p style="width:170px;">' + sxxexxText + '</p>');
+                    container.append('<br/><br/>');
+                    container.append('<p">' + sxxexxText + '</p>');
                     container.append(seasonepisodeB);
-                    container.append('<br/>');
-                    container.append('<p style="width:170px;">' + fullText + '</p>');
+                    container.append('<br/><br/>');
+                    container.append('<p>' + fullText + '</p>');
                     container.append(fulleB);
-                    container.append('<br/>');
-                    container.append('<br/>');
+                    container.append('<br/><br/>');
                     container.append(deleteB);
                     return container;
                 },
@@ -752,6 +751,9 @@ function updatePassthruIcons() {
                     show: function (event, api) {
                         passthruContainer.addClass('userAction');
                     }
+                },
+                style: {
+                    width: 250
                 }
             });
         } else {
@@ -760,16 +762,25 @@ function updatePassthruIcons() {
             $('.passthru.absolute').qtip({
                 content: {
                     text: absoluteText
+                },
+                style: {
+                    width: 250
                 }
             });
             $('.passthru.sxxexx').qtip({
                 content: {
                     text: sxxexxText
+                },
+                style: {
+                    width: 250
                 }
             });
             $('.passthru.full').qtip({
                 content: {
                     text: fullText
+                },
+                style: {
+                    width: 250
                 }
             });
         }
@@ -1300,8 +1311,9 @@ function showInit() {
                 });
             }
         });
-        // mein name edit
-        $("#element h1").editable(function (value, settings) {
+        // main name edit
+        $("#element h1").editable(function (nvalue, settings) {
+            var value = $.trim(nvalue);
             saveNewName(value);
             return (value);
         }, {
@@ -1318,9 +1330,9 @@ function showInit() {
             }
         });
 
-        $('.names li span.name').editable(function (value, settings) {
+        $('.names li span.name').editable(function (nvalue, settings) {
             var nameID = $(this).dataset('id');
-
+            var value = $.trim(nvalue);
             if (value == "") {
                 deleteAltenativeName(nameID);
                 var otherli = $(this).parent().parent().find('li'); // get other name li's
