@@ -22,7 +22,7 @@ class Changelog{
 	    if($element_id)
     		$result = $this->db->query("SELECT * FROM `history` WHERE `element_id` = '".$element_id."' ORDER BY `time` DESC");
 		else
-		    $result = $this->db->query("SELECT * FROM `history` WHERE `silent` = 0 ORDER BY `time` DESC LIMIT 0,".$limit);
+		    $result = $this->db->query("SELECT * FROM `history` WHERE `element_id` IS NOT NULL AND `silent` = 0 ORDER BY `time` DESC LIMIT 0,".$limit);
 
         log_message('debug',$this->db->last_query());
     	if(rows($result)){
@@ -194,7 +194,7 @@ class Changelog{
 	        case 'Directrule':
 	            $des = $this->locN($new['destination_id']);
                 $or = $this->locN($new['origin_id']);
-	            return 'disconected <span class="'.$or.'">'.$or.'\'s</span> s'.zero_pad($new['origin_season']).'e'.zero_pad($new['origin_episode']).' from <span class="'.$des.'">'.$des.'\'s</span> s'.zero_pad($new['destination_season']).'e'.zero_pad($new['destination_episode']);
+	            return 'disconnected <span class="'.$or.'">'.$or.'\'s</span> s'.zero_pad($new['origin_season']).'e'.zero_pad($new['origin_episode']).' from <span class="'.$des.'">'.$des.'\'s</span> s'.zero_pad($new['destination_season']).'e'.zero_pad($new['destination_episode']);
 	        case 'Passthru':
 	            $des = $this->locN($new['destination_id']);
                 $or = $this->locN($new['origin_id']);

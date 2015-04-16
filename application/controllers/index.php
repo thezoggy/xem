@@ -10,7 +10,7 @@ class Index extends SuperController {
 		$this->out['locations'] = $this->db->get_where('locations',array('status'=>1));
 
 		$changelog = new Changelog($this->oh);
-		$changelog->init(0,8);
+		$changelog->init(0,10);
 		$this->out['events'] = $changelog->events;
 
 		$this->_loadView('index');
