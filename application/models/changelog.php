@@ -190,7 +190,7 @@ class Changelog{
 	        case 'Element':
                 return 'elements dont get deleted';
 	        case 'Name':
-	            return 'deleted the alias <b>'.$new['name'].'</b>';
+                return 'deleted the alias <b>'.$new['name'].'</b> in language '.img(array('src'=>'images/flags/'.$new['language'].'.png','title'=>$new['language'],'alt'=>$new['language']));
 	        case 'Directrule':
 	            $des = $this->locN($new['destination_id']);
                 $or = $this->locN($new['origin_id']);
