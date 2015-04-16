@@ -120,7 +120,7 @@ class Changelog{
 	        case 'Element':
                 return 'created <b>'.$new['main_name'].'</b>';
 	        case 'Name':
-	            return 'created a new alias <b>'.$new['name'].'</b> in language '.img(array('src'=>'images/flags/'.$new['language'].'.png','title'=>$new['language']));
+	            return 'created a new alias <b>'.$new['name'].'</b> in language '.img(array('src'=>'images/flags/'.$new['language'].'.png','title'=>$new['language'],'alt'=>$new['language']));
 	        case 'Directrule':
 	            $des = $this->locN($new['destination_id']);
                 $or = $this->locN($new['origin_id']);
@@ -164,7 +164,7 @@ class Changelog{
 	            if($old['name'] != $new['name'])
 	                return 'changed alias name from <b>'.$old['name'].'</b> to <b>'.$new['name'].'</b>';
 	            else
-	                return 'changed the language of <b>'.$old['name'].'</b> from '.img(array('src'=>'images/flags/'.$old['language'].'.png','title'=>$old['language'])).' to '.img(array('src'=>'images/flags/'.$new['language'].'.png','title'=>$new['language']));
+	                return 'changed the language of <b>'.$old['name'].'</b> from '.img(array('src'=>'images/flags/'.$old['language'].'.png','title'=>$old['language'],'alt'=>$old['language'])).' to '.img(array('src'=>'images/flags/'.$new['language'].'.png','title'=>$new['language'],'alt'=>$new['language']));
 	        case 'Directrule':
 	            return 'i dont thing this can happen';
 	        case 'Passthru':
