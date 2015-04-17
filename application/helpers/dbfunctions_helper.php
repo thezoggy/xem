@@ -53,18 +53,14 @@ function buildLocations($oh, $all=false){
 	return $locationsArray;
 }
 
-
 function buildSimpleLanguageArray($langs){
     $out = array();
-    // i will let this crash when no languages are set a check does not make sence in running env
+    // i will let this crash when no languages are set a check does not make sense in running env
     foreach ($langs->result() as $curLang) {
         $out[$curLang->id] = $curLang->name;
     }
     return $out;
 }
-
-
-
 
 function getFirst($row){
 	$row = $row->result_array();
@@ -80,7 +76,6 @@ function print_query($db){
 	print_r($db->last_query());
 	print "</pre>";
 }
-
 
 function pretty_locations($locations){
 	$spans = array();
@@ -113,8 +108,8 @@ function anchorEncode($url,$toLink=false,$attr=false){
 }
 
 
-function zero_pad($input, $lenght=2){
-	return str_pad($input, $lenght , "0", STR_PAD_LEFT);
+function zero_pad($input, $length=2){
+	return str_pad($input, $length , "0", STR_PAD_LEFT);
 }
 
 function curPageURL() {
@@ -133,11 +128,9 @@ function curPageURL() {
 	return $pageURL;
 }
 
-
 function seasonSort($seasonA,$seasonB) {
    	return $seasonA->season > $seasonB->season;
 }
-
 
 function showSort($showA,$showB) {
    	return $showA->main_name > $showB->main_name;
