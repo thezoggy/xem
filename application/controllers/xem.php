@@ -385,7 +385,7 @@ class Xem extends SuperController {
 			redirect('user/login');
             return false;
 		}
-		$newName = $_POST['main_name'];
+		$newName = trim($_POST['main_name']);
 		if($newName != ""){
 		    $show = getShows($this->db, $newName);
 		    if(count($show) > 0 && $show != false && !isset($_POST['forceAdd'])){ // we already have a show with that name
