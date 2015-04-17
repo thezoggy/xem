@@ -165,11 +165,11 @@ function displayConnectTip(fromLi, toLi) {
                 var connectB = $('<input type="button">');
                 connectB.attr('value', 'Connect');
                 connectB.attr('class', 'btn btn-primary btn-mini');
-                connectB.click(function () {$('.ui-tooltip').remove(); connect(); });
+                connectB.click(function () {$('.qtip').remove(); connect(); });
                 var cancelB = $('<input type="button">');
                 cancelB.attr('value', 'Cancel');
                 cancelB.attr('class', 'btn btn-danger btn-mini');
-                cancelB.click(function () {$('.hover').removeClass('hover'); $('.selected').removeClass('selected'); $('.ui-tooltip').remove(); });
+                cancelB.click(function () {$('.hover').removeClass('hover'); $('.selected').removeClass('selected'); $('.qtip').remove(); });
                 container.append(text);
                 button_container.append(cancelB);
                 button_container.append(connectB);
@@ -190,7 +190,7 @@ function displayConnectTip(fromLi, toLi) {
             events: {
                 blur: function (event, api) {
                     // For more information on the API object, check-out the API documentation
-                    $('.ui-tooltip').remove();
+                    $('.qtip').remove();
                 }
             }
         });
@@ -1147,7 +1147,7 @@ function showAdresses(data, params) {
                         ready: true
                     },
                     style: {
-                        classes: 'ui-tooltip-shadow ui-tooltip-tipsy address'
+                        classes: 'qtip-shadow qtip-tipsy address'
                     },
                     position: {
                         target: curTarget,
@@ -1196,7 +1196,7 @@ function markHover(id, unmark) {
 
 
 function showInit() {
-    $.fn.qtip.defaults.style.classes = 'ui-tooltip-shadow ui-tooltip-tipsy';
+    $.fn.qtip.defaults.style.classes = 'qtip-shadow qtip-tipsy';
     $.fn.qtip.defaults.position.my = 'top center';
     $.fn.qtip.defaults.position.at = 'bottom center';
 
@@ -1249,7 +1249,7 @@ function showInit() {
                 event: 'click'
             },
             style: {
-                classes: 'ui-tooltip-shadow ui-tooltip-tipsy'
+                classes: 'qtip-shadow qtip-tipsy'
             },
             events: {
                 show: function (event, api) {
@@ -1356,16 +1356,15 @@ function showInit() {
             content: function (api) {
                 var curImg = $(api.currentTarget);
                 var nameID = curImg.dataset('id');
-                var curLang = curImg.dataset('lang');
                 var con = $('<ul>');
                 jQuery.each(languages, function (langID, human) {
-                    var li = $('<li style="cursor: pointer;"><img width=17 src="/images/flags/' + langID + '.png" style="margin-top:2px;"/> ' + human + '</li>');
+                    var li = $('<li style="cursor: pointer;"><img width=17 src="/images/flags/' + langID + '.png" style="margin-top:2px;" title="' + langID + '" /> ' + human + '</li>');
                     li.click(function () {
                         var params = new Params();
                         params.name_id = nameID;
                         params.language = langID;
                         genericRequest("nameUpdate", params, fakeResHandler, genericResponseError);
-                        $('#flag_' + nameID).attr('src', '/images/flags/' + langID + '.png');
+                        $('#flag_' + nameID).attr({alt: langID, src: '/images/flags/' + langID + '.png'});
                     });
 
                     con.append(li);

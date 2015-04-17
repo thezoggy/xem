@@ -62,7 +62,7 @@ ul.no label {
 input.fullWidthButton {
   width: 100%;
 }
-.ui-tooltip-content ul,
+.qtip-content ul,
 #header ul,
 #element ul,
 ul.no {
@@ -71,7 +71,7 @@ ul.no {
   list-style: none;
 }
 
-.ui-tooltip-content ul,
+.qtip-content ul,
 #header ul li,
 #element ul li,
 ul.no {
@@ -517,7 +517,7 @@ li.episode .episode_number {
   font-size: 22px;
   line-height: 22px;
 }
-.ui-tooltip {
+.qtip {
   max-width: none;
 }
 
@@ -737,7 +737,7 @@ input.name {
   font-weight: normal;
 }
 
-.ui-tooltip-content input.fullWidthButton {
+.qtip-content input.fullWidthButton {
   margin: 3px 0;
 }
 /* -- zoggy */
@@ -759,10 +759,10 @@ input, textarea, select, .uneditable-input {
   width: auto;
   color: #000;
 }
-legend, label, .dropdown-menu form, .ui-tooltip-content form {
+legend, label, .dropdown-menu form, .qtip-content form {
   margin-bottom: 0;
 }
-.newSeason label, .ui-tooltip-content label {
+.newSeason label, .qtip-content label {
   margin-bottom: 6px;
 }
 .page-header {
