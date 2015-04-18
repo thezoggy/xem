@@ -156,25 +156,35 @@ function displayConnectTip(fromLi, toLi) {
     if (!quickConnet) {
 
         $('.seasonConnection.edit').qtip({
-            content: function () {
-                var container = $('<div>');
-                var text = '<p>Click connect to create a direct link between<br/>';
-                text += fromName + ':<br/>- Season ' + fromSeason + ' Episode ' + fromEpisode + '<br/>';
-                text += toName + ':<br/>- Season ' + toSeason + ' Episode ' + toEpisode + '<br/>';
-                var button_container = $('<div class="btn-group">');
-                var connectB = $('<input type="button">');
-                connectB.attr('value', 'Connect');
-                connectB.attr('class', 'btn btn-primary btn-mini');
-                connectB.click(function () {$('.qtip').remove(); connect(); });
-                var cancelB = $('<input type="button">');
-                cancelB.attr('value', 'Cancel');
-                cancelB.attr('class', 'btn btn-danger btn-mini');
-                cancelB.click(function () {$('.hover').removeClass('hover'); $('.selected').removeClass('selected'); $('.qtip').remove(); });
-                container.append(text);
-                button_container.append(cancelB);
-                button_container.append(connectB);
-                container.append(button_container);
-                return container;
+            content: {
+                title: 'Create a direct link between:',
+                text: function (event, api) {
+                    var container = $('<div>');
+                    var text = '<p>';
+                    text += '<b>' + fromName + '</b>:<br/>- Season ' + fromSeason + ' Episode ' + fromEpisode + '<br/>';
+                    text += '<b>' + toName + '</b>:<br/>- Season ' + toSeason + ' Episode ' + toEpisode + '<br/></p>';
+                    var button_container = $('<div class="btn-group">');
+                    var connectB = $('<input type="button">');
+                    connectB.attr('value', 'Connect');
+                    connectB.attr('class', 'btn btn-primary btn-mini');
+                    connectB.click(function () {
+                        $('.qtip').remove();
+                        connect();
+                    });
+                    var cancelB = $('<input type="button">');
+                    cancelB.attr('value', 'Cancel');
+                    cancelB.attr('class', 'btn btn-danger btn-mini');
+                    cancelB.click(function () {
+                        $('.hover').removeClass('hover');
+                        $('.selected').removeClass('selected');
+                        $('.qtip').remove();
+                    });
+                    container.append(text);
+                    button_container.append(cancelB);
+                    button_container.append(connectB);
+                    container.append(button_container);
+                    return container;
+                }
             },
             show: {
                 solo: true,
@@ -182,7 +192,13 @@ function displayConnectTip(fromLi, toLi) {
             },
             position: {
                 my: my_pos,
-                target: [averagex, averagey]
+                target: [averagex, averagey],
+                viewport: $(window),
+                adjust: {method: 'shift none'}
+            },
+            style: {
+                width: 205,
+                classes: 'qtip-dark qtip-shadow qtip-rounded'
             },
             hide: {
                 event: 'click'
@@ -1271,6 +1287,14 @@ function showInit() {
                 $(this).qtip({
                     content: function (api) {
                         var container = $('<div class="btn-group pull-right">');
+                        var cancelB = $('<input type="button">');
+                        cancelB.attr('value', 'Cancel');
+                        cancelB.attr('class', 'btn btn-primary btn-mini');
+                        cancelB.click(function () {
+                            $('.hover').removeClass('hover');
+                            $('.selected').removeClass('selected');
+                            $('.qtip').remove();
+                        });
                         var cancelButton = $('<input type="button" class="btn btn-primary btn-mini" value="Cancel"/>');
                         cancelButton.bind('click',function(event){
                             curFirerer.click(); // workaround to hide this qtip
@@ -1278,11 +1302,12 @@ function showInit() {
                         var delButton = $('<input type="button" class="btn btn-danger btn-mini" value="Delete"/>');
                         delButton.bind('click', function (event) {
                             // curFirerer.click();
-                            $('.editConncetion').remove();
+                            $('.editConnection').remove();
                             disconnect(id, el);
                         });
                         markBySVGElement(id, el);
-                        container.append(cancelButton);
+                        //container.append(cancelButton);
+                        container.append(cancelB);
                         container.append(delButton);
                         return container;
                     },
@@ -1291,8 +1316,11 @@ function showInit() {
                         ready: true
                     },
                     position: {
-                        my: 'bottom left',
+                        my: 'bottom center',
                         target: [event.pageX, event.pageY]
+                    },
+                    style: {
+                        classes: 'qtip-light qtip-shadow qtip-rounded'
                     },
                     hide: {
                         delay: 300,
@@ -1305,7 +1333,7 @@ function showInit() {
                             unmarkALLLIELements();
                         },
                         show: function (event, api) {
-                            $(this).addClass('editConncetion');
+                            $(this).addClass('editConnection');
                         }
                     }
                 });
