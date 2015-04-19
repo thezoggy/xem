@@ -835,6 +835,10 @@ function pass_con_fail(data, params) {
 }
 
 function delPassthru(passthruConObj) {
+    // catch trying to set passthru to none when it is already none
+    if (typeof (passthruConObj) == "undefined") {
+        return true;
+    }
     var params = new Params();
     params.origin = passthruConObj.fid;
     params.destination = passthruConObj.tid;

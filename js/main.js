@@ -16,10 +16,10 @@ function getApiUrl() {
  * issue a request to sickbeard api keeps log of requests
  * 
  * @param params
- * @param succes_callback
+ * @param success_callback
  * @param error_callback
  */
-function genericRequest(curFunction, params, succes_callback, error_callback) {
+function genericRequest(curFunction, params, success_callback, error_callback) {
 
     var apiUrl = getApiUrl() + curFunction;
     $.ajax( { type : "POST",
@@ -27,14 +27,14 @@ function genericRequest(curFunction, params, succes_callback, error_callback) {
 		    data : params,
 		    dataType : 'json',
 		    success : function(data) {
-		        checkForError(data, params, succes_callback, error_callback);
+		        checkForError(data, params, success_callback, error_callback);
 		    }, error : function(data) {
 		        genricRequestError(data, params);
     		}
     });
 }
 // TODO: refactor !!!
-function genericMapRequest(curFunction, params, succes_callback, error_callback) {
+function genericMapRequest(curFunction, params, success_callback, error_callback) {
 
     var apiUrl = '/map/' + curFunction;
     $.ajax( { type : "POST",
@@ -42,7 +42,7 @@ function genericMapRequest(curFunction, params, succes_callback, error_callback)
             data : params,
             dataType : 'json',
             success : function(data) {
-                checkForError(data, params, succes_callback, error_callback);
+                checkForError(data, params, success_callback, error_callback);
             }, error : function(data) {
                 genricRequestError(data, params);
             }
@@ -56,9 +56,9 @@ function fakeResHandler(){}
  * 
  * @param response
  * @param paramString
- * @param succes_callback
+ * @param success_callback
  */
-function checkForError(response, params, succes_callback, error_callback) {
+function checkForError(response, params, success_callback, error_callback) {
     /*
     {RESULT_SUCCESS:"success",
         RESULT_FAILURE:"failure",
@@ -69,7 +69,7 @@ function checkForError(response, params, succes_callback, error_callback) {
 */
     
     if (response.result != "success") {
-        console.log("Reg recived for BUT not successful : " + params);
+        console.log("Reg received for BUT not successful : " + params);
         if (response.result == "denied") {
             connectionStatus = false;
             console.log("user has not enough permission");
@@ -83,8 +83,8 @@ function checkForError(response, params, succes_callback, error_callback) {
         console.log("Reg successful for: " + params);
         connectionStatus = true;
         console.log(response);
-        if (succes_callback)
-            succes_callback(response.data, params);
+        if (success_callback)
+            success_callback(response.data, params);
     }
 }
 
