@@ -702,7 +702,7 @@ input.name {
 }
 
 .ui-autocomplete .ui-menu-item a,
-.ui-autocomplete .ui-menu-item a.ui-state-hover {
+.ui-autocomplete .ui-menu-item a.ui-state-focus {
   margin-top: 0;
   margin-bottom: 0;
   font-size: 12px;
@@ -711,7 +711,7 @@ input.name {
      -moz-border-radius: 0;
           border-radius: 0;
 }
-.ui-autocomplete .ui-menu-item .ui-state-hover {
+.ui-autocomplete .ui-menu-item .ui-state-focus {
   color: #000;
   background: #ddd;
 }
