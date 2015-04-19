@@ -805,6 +805,9 @@ select:focus,
 .navbar .btn-group {
   padding-top: 1px;
 }
+.navbar .divider-vertical {
+  margin: 0 5px;
+}
 input[type="image"] {
   width: auto;
 }
