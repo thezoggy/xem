@@ -29,7 +29,7 @@ function genericRequest(curFunction, params, success_callback, error_callback) {
 		    success : function(data) {
 		        checkForError(data, params, success_callback, error_callback);
 		    }, error : function(data) {
-		        genricRequestError(data, params);
+		        genericRequestError(data, params);
     		}
     });
 }
@@ -44,7 +44,7 @@ function genericMapRequest(curFunction, params, success_callback, error_callback
             success : function(data) {
                 checkForError(data, params, success_callback, error_callback);
             }, error : function(data) {
-                genricRequestError(data, params);
+                genericRequestError(data, params);
             }
     });
 }
@@ -67,7 +67,7 @@ function checkForError(response, params, success_callback, error_callback) {
         RESULT_DENIED:"denied",
         }
 */
-    
+    var connectionStatus = false;
     if (response.result != "success") {
         console.log("Reg received for BUT not successful : " + params);
         if (response.result == "denied") {
@@ -88,7 +88,7 @@ function checkForError(response, params, success_callback, error_callback) {
     }
 }
 
-function genricRequestError(data, params) {
+function genericRequestError(data, params) {
     console.log(params, data);
 }
 
@@ -160,8 +160,9 @@ function mainInit(){
 			params.term = request.term;
 			genericRequest("autocomplete", params, response, response);
 		},
-		select: function( event, ui ) {
-			//console.log( ui.item ? "Selected: " + ui.item.value + " aka " + ui.item.id : "Nothing selected, input was " + this.value );
+		select: function(event, ui ) {
+            // update input with selected name before searching
+            $('#search').val(ui.item.value);
 			$('#searchForm').submit();
 		},
 		open: function(event, ui) {
@@ -183,7 +184,7 @@ function mainInit(){
 		return false;
 	}).mousedown(function(){
 		// Set timeout
-		var link = $(this)
+		var link = $(this);
 		pressTimerText = window.setTimeout(function() { link.text('Logout'); }, 100);
 		pressTimerLogout = window.setTimeout(function() {document.location.href=link.attr('href');},1200);
 		return false; 
@@ -192,8 +193,8 @@ function mainInit(){
 	    $('label').each(function(){
 	        var curLabel = $(this);
 	        var curInput = curLabel.next('input');
-	        var parent = curLabel.parents('#toolbox'); // disabeld for all labels that have these as parents
-	        // check for the for attr to not beeing invasive
+	        var parent = curLabel.parents('#toolbox'); // disabled for all labels that have these as parents
+	        // check for the for attr to not being invasive
 	        if(typeof(curLabel.attr('for')) == "undefined" && curInput.length && parent.length == 0){
 	            var id = curInput.attr('id');
 	            if(!id){
