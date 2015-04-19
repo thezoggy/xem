@@ -43,12 +43,12 @@ made at http://patorjk.com/software/taag/ with font Georgia11
 -->
 
         <? echo link_tag('css/bootstrap.css', 'stylesheet', 'text/css'); ?>
-        <? echo link_tag('css/smoothness/jquery-ui-1.9.2.custom.css', 'stylesheet', 'text/css'); ?>
+        <? echo link_tag('css/smoothness/jquery-ui-1.10.4.custom.css', 'stylesheet', 'text/css'); ?>
         <? echo link_tag('css/jquery.qtip.min.css', 'stylesheet', 'text/css'); ?>
         <? echo link_tag('css/main.css', 'stylesheet', 'text/css'); ?>
 
         <script type="text/javascript" src="<?php echo base_url();?>js/jquery-1.7.2.min.js"></script>
-        <script type="text/javascript" src="<?php echo base_url();?>js/jquery-ui-1.9.2.custom.min.js"></script>
+        <script type="text/javascript" src="<?php echo base_url();?>js/jquery-ui-1.10.4.custom.min.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>js/html5boilerplate.consolewrapper.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>js/bootstrap.min.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>js/jquery.transition.js"></script>
