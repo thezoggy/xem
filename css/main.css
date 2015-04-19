@@ -700,12 +700,12 @@ input.name {
            border-bottom-left-radius: 10px;
 }
 
-.ui-autocomplete .ui-menu-item a {
+.ui-autocomplete .ui-menu-item {
   color: #fff;
 }
 
-.ui-autocomplete .ui-menu-item a,
-.ui-autocomplete .ui-menu-item a.ui-state-focus {
+.ui-autocomplete .ui-menu-item,
+.ui-autocomplete .ui-menu-item .ui-state-focus {
   margin-top: 0;
   margin-bottom: 0;
   font-size: 12px;
@@ -714,12 +714,12 @@ input.name {
      -moz-border-radius: 0;
           border-radius: 0;
 }
-.ui-autocomplete .ui-menu-item .ui-state-focus {
+.ui-autocomplete .ui-menu-item.ui-state-focus {
   color: #000;
   background: #ddd;
 }
 
-.ui-autocomplete .ui-menu-item:last-child a {
+.ui-autocomplete .ui-menu-item:last-child {
   -webkit-border-bottom-right-radius: 8px;
    -webkit-border-bottom-left-radius: 8px;
       -moz-border-radius-bottomright: 8px;
