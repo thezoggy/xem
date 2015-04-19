@@ -79,6 +79,7 @@ ul.no {
 }
 
 #element h1 {
+  cursor: pointer;
   display: inline;
 }
 
@@ -128,6 +129,7 @@ ul.no {
 
 #alternativeNames li.name span,
 #alternativeNames li.name img {
+  cursor: pointer;
   float: left;
 }
 
@@ -457,6 +459,7 @@ li.episode .episode_number {
 }
 
 .seasonConnection .passthru {
+  cursor: pointer;
   top: 34px;
   height: 28px;
   background: #333;
