@@ -138,7 +138,7 @@ made at http://patorjk.com/software/taag/ with font Georgia11
                         </li>
                         <li style="padding-right: 5px;">
                             <?=form_open("xem/addShow",array('class'=>'navbar-search','id'=>'addShowForm'))?>
-                                <select id="elementSelector">
+                                <select id="elementSelector" style="margin-bottom: 0;">
                                     <?if($logedIn):?>
                                         <option value="0">Add New Show</option>
                                     <?endif?>
