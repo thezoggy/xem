@@ -44,10 +44,12 @@
   * @param String  options[submit]    submit button value, empty means no button **
   * @param String  options[cancel]    cancel button value, empty means no button **
   * @param String  options[cssclass]  CSS class to apply to input form. 'inherit' to copy from parent. **
+  * @param String  options[inputcssclass]  CSS class to apply to input. 'inherit' to copy from parent. ** // **hack** [132] css input
   * @param String  options[style]     Style to apply to input form 'inherit' to copy from parent. **
   * @param String  options[select]    true or false, when true text is highlighted ??
   * @param String  options[placeholder] Placeholder text or html to insert when element is empty. **
   * @param String  options[onblur]    'cancel', 'submit', 'ignore' or function ??
+  * @param String  options[maxlength] the maximum number of character in the text field // **hack** maxlength on input
   *
   * @param Function options[onsubmit] function(settings, original) { ... } called before submit
   * @param Function options[onreset]  function(settings, original) { ... } called before reset
@@ -198,6 +200,15 @@
 
                 /* Add main input element to form and store it in input. */
                 var input = element.apply(form, [settings, self]);
+
+                // **hack** [132] css input
+                if (settings.inputcssclass) {
+                    if ('inherit' == settings.inputcssclass) {
+                        input.attr('class', $(self).attr('class'));
+                    } else {
+                        input.attr('class', settings.inputcssclass);
+                    }
+                }
 
                 /* Set input content via POST, GET, given data or existing value. */
                 var input_content;
@@ -452,8 +463,10 @@
             text: {
                 element : function(settings, original) {
                     var input = $('<input />');
-                    if (settings.width  != 'none') { input.attr('width', settings.width);  }
-                    if (settings.height != 'none') { input.attr('height', settings.height); }
+                     // **hack** revert cf681b5049dff245f3cecc62ba48d160aa13d223
+                    if (settings.width  != 'none') { input.width(settings.width); }
+                    if (settings.height != 'none') { input.height(settings.height); }
+                    if (settings.maxlength) { input.attr('maxlength', settings.maxlength); } // **hack** add maxlength
                     /* https://bugzilla.mozilla.org/show_bug.cgi?id=236791 */
                     //input[0].setAttribute('autocomplete','off');
                     input.attr('autocomplete','off');
