@@ -741,15 +741,15 @@ function updatePassthruIcons() {
                         delete passthruConObjs['passthru_' + curfName + '_' + curtName];
                         delete passthruConObjs['passthru_' + curtName + '_' + curfName];
                     });
-                    container.append('<p">' + absoluteText + '</p>');
+                    container.append('<p>' + absoluteText + '</p>');
                     container.append(absoluteB);
-                    container.append('<br/><br/>');
-                    container.append('<p">' + sxxexxText + '</p>');
+                    container.append('<br/>');
+                    container.append('<p>' + sxxexxText + '</p>');
                     container.append(seasonepisodeB);
-                    container.append('<br/><br/>');
+                    container.append('<br/>');
                     container.append('<p>' + fullText + '</p>');
                     container.append(fulleB);
-                    container.append('<br/><br/>');
+                    container.append('<br/>');
                     container.append(deleteB);
                     return container;
                 },
