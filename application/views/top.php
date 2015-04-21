@@ -72,7 +72,7 @@ made at http://patorjk.com/software/taag/ with font Georgia11
     <?endif?>
     <?endif?>
 
-    <div class="navbar">
+    <div class="navbar navbar-inverse">
         <div class="navbar-inner">
             <div class="container">
                 <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -99,7 +99,7 @@ made at http://patorjk.com/software/taag/ with font Georgia11
                             </ul>
                             <?else:?>
                             <a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign In <strong class="caret"></strong></a>
-                            <div class="dropdown-menu" style="padding: 15px;">
+                            <div class="dropdown-menu" style="padding: 10px 15px;">
                                 <?=form_open("user/login/".$uri, array('class'=>'form-inline'))?>
                                 <fieldset>
                                     <legend>Sign In</legend>
@@ -115,13 +115,9 @@ made at http://patorjk.com/software/taag/ with font Georgia11
                                             <input type="password" name="pw" class="input-large">
                                         </div>
                                     </div>
-                                    <div class="pull-left">
-                                        <div style="padding-top: 6px;">
-                                            <?=anchor("user/register","Need an account?")?>
-                                        </div>
-                                    </div>
-                                    <div class="pull-right">
-                                        <input class="btn btn-large" type="submit" value="Sign In">
+                                    <div class="control-group">
+                                        <?=anchor("user/register","Need an account?", array('class' => 'btn btn-warning btn-block disabled'))?>
+                                        <input class="btn btn-success btn-block" type="submit" value="Sign In">
                                     </div>
                                 </fieldset>
                                 </form>
@@ -140,7 +136,7 @@ made at http://patorjk.com/software/taag/ with font Georgia11
                         <li>
                             <?=anchor("xem/shows","Shows")?>
                         </li>
-                        <li>
+                        <li style="padding-right: 5px;">
                             <?=form_open("xem/addShow",array('class'=>'navbar-search','id'=>'addShowForm'))?>
                                 <select id="elementSelector">
                                     <?if($logedIn):?>
@@ -151,11 +147,11 @@ made at http://patorjk.com/software/taag/ with font Georgia11
                                         <option value="<?=$row->id?>"  <?if(isset($fullelement)){if($fullelement->id==$row->id) echo 'selected="selected"';} ?>><?=$row->main_name?></option>
                                     <?endforeach?>
                                 </select>
-                                <div id="newStuff" class="hide">
-                                    <input id="newElementName" name="main_name" class="search-query" <?=$disabled?>/>
-                                    <div class="btn-group pull-right">
-                                        <input type="button" value="Cancel" id="cancelNewElement" class="btn btn-danger btn-mini" <?=$disabled?>/>
-                                        <input type="submit" value="Add" id="addNewElement" class="btn btn-primary btn-mini" <?=$disabled?>/>
+                                <div id="newStuff" class="hide form-inline">
+                                    <input id="newElementName" type="text" name="main_name" class="search-query" <?=$disabled?>/>
+                                    <div class="btn-group">
+                                        <input type="button" value="Cancel" id="cancelNewElement" class="btn btn-danger" <?=$disabled?>/>
+                                        <input type="submit" value="Add" id="addNewElement" class="btn btn-primary" <?=$disabled?>/>
                                     </div>
                                 </div>
                             </form>
@@ -165,7 +161,7 @@ made at http://patorjk.com/software/taag/ with font Georgia11
                     <ul class="nav pull-right">
                         <li>
                             <?=form_open("search/",array('method'=>'get','class'=>'navbar-search','id'=>'searchForm'))?>
-                                <input class="search-query" id="search" name="q" <?if(isset($searchQeuery)){echo 'value="'.$searchQeuery.'"';}?>/>
+                                <input class="search-query" id="search" type="text" name="q" <?if(isset($searchQeuery)){echo 'value="'.$searchQeuery.'"';}?>/>
                                 <input id="search-submit" type="submit" value="Search">
                             </form>
                         </li>

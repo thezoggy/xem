@@ -59,9 +59,6 @@ ul.no label {
   font-size: 14px;
   font-weight: normal;
 }
-input.fullWidthButton {
-  width: 100%;
-}
 .qtip-content ul,
 #header ul,
 #element ul,
@@ -220,7 +217,7 @@ ul.no {
 }
 .newSeason:hover form,
 .newSeason.inEdit form{
-    height: 98px;
+    height: 114px;
 }
 
 .seasonHeader.edit{
@@ -307,7 +304,7 @@ li.episode{
     -webkit-transition-duration: 0.5s;
     transition-property: margin-right, margin-left;
     transition-duration: 0.5s;
-    line-height: 16px;
+    line-height: 18px;
     margin-bottom: 1px;
 }
 
@@ -460,7 +457,7 @@ li.episode .episode_number {
 
 .seasonConnection .passthru {
   cursor: pointer;
-  top: 34px;
+  top: 44px;
   height: 28px;
   background: #333;
   -webkit-transition: all 0.5s;
@@ -740,7 +737,7 @@ input.name {
   font-weight: normal;
 }
 
-.qtip-content input.fullWidthButton {
+.qtip-content input.btn-block {
   margin: 3px 0;
 }
 /* -- zoggy */
@@ -796,22 +793,22 @@ select:focus,
   text-align: center;
 }
 .navbar .brand {
-  padding: 6px 15px;
-  margin-left: -15px;
+  padding: 6px 10px;
 }
 .navbar label {
   color: #333;
 }
 .navbar .btn-group {
   padding-top: 1px;
+  margin-top: 0;
 }
 .navbar .divider-vertical {
-  margin: 0 5px;
+  margin: 0 3px;
 }
 input[type="image"] {
   width: auto;
 }
-input.search-query {
+.navbar-search .search-query {
   -webkit-border-radius: 4px;
      -moz-border-radius: 4px;
           border-radius: 4px;

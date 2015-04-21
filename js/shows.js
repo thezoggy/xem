@@ -705,7 +705,7 @@ function updatePassthruIcons() {
 
                     // passthruContainer.addClass('userAction');
                     var container = $('<div>');
-                    var absoluteB = $('<input type="button" value="Absolute Passthru" class="fullWidthButton btn btn-danger">');
+                    var absoluteB = $('<input type="button" value="Absolute Passthru" class="btn btn-danger btn-block">');
                     absoluteB.click(function () {
                         passthruContainer.addClass('active absolute');
                         a.animate({'fill': '#ff0000'}, 200);
@@ -713,7 +713,7 @@ function updatePassthruIcons() {
                         passthruConObjs['passthru_' + curtName + '_' + curfName] = {'fid': curtName, 'tid': curfName, 'type': 'absolute'};
                         conPassthru(passthruConObjs['passthru_' + curfName + '_' + curtName], 'absolute');
                     });
-                    var seasonepisodeB = $('<input type="button" value="SxxExx Passthru" class="fullWidthButton btn btn-warning">');
+                    var seasonepisodeB = $('<input type="button" value="SxxExx Passthru" class="btn btn-warning btn-block">');
                     seasonepisodeB.click(function () {
                         passthruContainer.addClass('active sxxexx');
                         a.animate({'fill': '#faa732'}, 200);
@@ -721,7 +721,7 @@ function updatePassthruIcons() {
                         passthruConObjs['passthru_' + curtName + '_' + curfName] = {'fid': curtName, 'tid': curfName, 'type': 'sxxexx'};
                         conPassthru(passthruConObjs['passthru_' + curfName + '_' + curtName], 'sxxexx');
                     });
-                    var fulleB = $('<input type="button" value="Full Passthru" class="fullWidthButton btn btn-success">');
+                    var fulleB = $('<input type="button" value="Full Passthru" class="btn btn-success btn-block">');
                     fulleB.click(function () {
                         passthruContainer.addClass('active full');
                         a.animate({'fill': '#00ff00'}, 200);
@@ -729,7 +729,7 @@ function updatePassthruIcons() {
                         passthruConObjs['passthru_' + curtName + '_' + curfName] = {'fid': curtName, 'tid': curfName, 'type': 'full'};
                         conPassthru(passthruConObjs['passthru_' + curfName + '_' + curtName], 'full');
                     });
-                    var deleteB = $('<input type="button" value="No Passthru" class="fullWidthButton btn">');
+                    var deleteB = $('<input type="button" value="No Passthru" class="btn btn-block">');
                     deleteB.click(function () {
                         a.animate({'fill': '#fff'}, 200);
                         window.setTimeout(function () { passthruContainer.removeClass('active sxxexx absolute'); }, 230);
