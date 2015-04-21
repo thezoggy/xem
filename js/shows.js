@@ -1349,16 +1349,24 @@ function showInit() {
             saveNewName(value);
             return (value);
         }, {
-            submit  : '<button type="submit" class="btn btn-primary btn-large">Set New Name</button>',
-            style: "display: inline"
+            submit: '<button type="submit" class="btn btn-primary">Modify</button>',
+            cancel: '<button type="cancel" class="btn btn-danger">Cancel</button>',
+            style: "display: inline;",
+            type: 'text',
+            height: 24,
+            maxlength: 64,
+            event: "dblclick"
         });
         // main name qtip
         $("#element h1").qtip({
             content: {
-                text: 'Click to Edit'
+                text: 'Doubleclick to Edit'
             },
             hide: {
                 event: 'click mouseleave'
+            },
+            show: {
+                delay: 500
             }
         });
 
@@ -1379,8 +1387,10 @@ function showInit() {
             }
             return (value);
         }, {
-            submit  : '<button type="submit" class="btn btn-primary">Change Name</button>',
-            style: "display:inline;",
+            submit  : '<button type="submit" class="btn btn-primary btn-small">Modify</button>',
+            cancel: '<button type="cancel" class="btn btn-danger btn-small">Cancel</button>',
+            style: "display: inline;",
+            maxlength: 128,
             cssclass: "alternativeNamesInlineEdit"
         });
 
