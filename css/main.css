@@ -872,3 +872,7 @@ input[type="image"] {
   line-height: 18px;
   white-space: nowrap;
 }
+
+h1 {
+  font-size: 36px;
+}
