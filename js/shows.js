@@ -1355,6 +1355,7 @@ function showInit() {
             type: 'text',
             height: 24,
             maxlength: 64,
+            inputcssclass: 'editable',
             event: "dblclick"
         });
         // main name qtip
@@ -1391,6 +1392,7 @@ function showInit() {
             cancel: '<button type="cancel" class="btn btn-danger btn-small">Cancel</button>',
             style: "display: inline;",
             maxlength: 128,
+            inputcssclass: 'editable',
             cssclass: "alternativeNamesInlineEdit"
         });
 

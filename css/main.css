@@ -736,7 +736,10 @@ input.name {
   font-size: 14px;
   font-weight: normal;
 }
-
+/* IE10+ hack to remove X */
+input.editable::-ms-clear {
+    display: none;
+}
 .qtip-content input.btn-block {
   margin: 3px 0;
 }
