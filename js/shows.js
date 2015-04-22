@@ -1346,8 +1346,13 @@ function showInit() {
         // main name edit
         $("#element h1").editable(function (nvalue, settings) {
             var value = $.trim(nvalue);
-            saveNewName(value);
-            return (value);
+            // abort saving empty name
+            if (value == "") {
+                $(this)[0].reset();
+            } else {
+                saveNewName(value);
+                return (value);
+            }
         }, {
             submit: '<button type="submit" class="btn btn-primary">Modify</button>',
             cancel: '<button type="cancel" class="btn btn-danger">Cancel</button>',
