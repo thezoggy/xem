@@ -255,65 +255,98 @@ class Xem extends SuperController {
     		redirect('xem/show/'.$_POST['element_id']);
 	}
 
-	public function newSeason(){
+	public function newSeason() {
 		if(!$this->session->userdata('logged_in')) {
 			redirect('user/login');
 		}
+        // trim all post data
+        if(!empty($_POST)) {
+            $_POST = array_map("trim", $_POST);
+        }
+        $valid = true;
+
 		$newSeason = new Season($this->oh);
 		$newSeason->element_id = $_POST['element_id'];
 		$newSeason->location_id = $_POST['location_id'];
 		$season = $_POST['season'];
-		if($season == "all")
-			$season = -1;
+		if($season == "all") {
+            $season = -1;
+        }
 		$newSeason->season = $season;
 		$newSeason->season_size = $_POST['season_size'];
-		if(isset($_POST['identifier']))
-    		$newSeason->identifier = $_POST['identifier'];
-		$newSeason->save();
+        if(!preg_match('/^\d+$/', $_POST['season_size'])) {
+            $valid = false;
+        }
+		if(isset($_POST['identifier'])) {
+            $newSeason->identifier = $_POST['identifier'];
+            if(!preg_match('/^\d+$/', $_POST['identifier'])) {
+                $valid = false;
+            }
+        }
+        // make sure our data is safe to safe
+        if($valid) {
+            $newSeason->save();
+        }
 
         $e = new Element($this->oh, $_POST['element_id']);
-        if($e->isDraft())
-    		redirect('xem/draft/'.$e->parent);
-        else
-    		redirect('xem/show/'.$_POST['element_id']);
+        if($e->isDraft()) {
+            redirect('xem/draft/' . $e->parent);
+        } else {
+            redirect('xem/show/' . $_POST['element_id']);
+        }
 	}
 
 
-	public function editSeason(){
+	public function editSeason() {
 		if(!$this->session->userdata('logged_in')) {
 			redirect('user/login');
 		}
-		/*
-		print "<pre>";
-		print_r($_POST);
-		print "</pre>";
-		*/
+        // trim all post data
+        if(!empty($_POST)) {
+            $_POST = array_map("trim", $_POST);
+        }
+        $valid = true;
+
 		$season = new Season($this->oh, $_POST['season_id']);
 
-		if($_POST['delete'] != true){
+		if($_POST['delete'] != true) {
 			$seasonNumber = $_POST['season'];
-			if($seasonNumber == "all" || $seasonNumber == "*")
-				$seasonNumber = -1;
+			if($seasonNumber == "all" || $seasonNumber == "*") {
+                $seasonNumber = -1;
+            }
 			$season->season = $seasonNumber;
 			$season->season_size = $_POST['size'];
-			if(isset($_POST['identifier'])) // is not set on master
-    			$season->identifier = $_POST['identifier'];
+            if(!preg_match('/^\d+$/', $_POST['size'])) {
+                $valid = false;
+            }
+            if(isset($_POST['identifier'])) {
+                $season->identifier = $_POST['identifier'];
+                if(!preg_match('/^\d+$/', $_POST['identifier'])) {
+                    $valid = false;
+                }
+            }
 			$absolute_start = $_POST['absolute_start'];
-			if($absolute_start == "auto" || $seasonNumber == 0)
-				$absolute_start = 0;
+			if($absolute_start == "auto" || $seasonNumber == 0) {
+                $absolute_start = 0;
+            }
 			$season->absolute_start = $absolute_start;
 			$season->episode_start = $_POST['episode_start'];
-			$season->save();
 
-		}else if($_POST['delete'] == true){
+            // make sure our data is safe to safe
+            if($valid) {
+                $season->save();
+            }
+
+		} else if($_POST['delete'] == true) {
 			$season->delete();
 		}
 		// print_o($season);
         $e = new Element($this->oh, $_POST['element_id']);
-        if($e->isDraft())
-    		redirect('xem/draft/'.$e->parent);
-        else
-    		redirect('xem/show/'.$_POST['element_id']);
+        if($e->isDraft()) {
+            redirect('xem/draft/' . $e->parent);
+        } else {
+            redirect('xem/show/' . $_POST['element_id']);
+        }
 	}
 
 	function deleteShow(){
