@@ -279,7 +279,7 @@ class Xem extends SuperController {
         }
         if(isset($_POST['identifier'])) {
             $newSeason->identifier = $_POST['identifier'];
-            if(!preg_match('/^\d+$/', $_POST['identifier'])) {
+            if(($_POST['identifier'] != "") && (!preg_match('/^\d+$/', $_POST['identifier']))) {
                 $valid = false;
             }
         }
@@ -321,7 +321,7 @@ class Xem extends SuperController {
             }
             if(isset($_POST['identifier'])) {
                 $season->identifier = $_POST['identifier'];
-                if(!preg_match('/^\d+$/', $_POST['identifier'])) {
+                if(($_POST['identifier'] != "") && (!preg_match('/^\d+$/', $_POST['identifier']))) {
                     $valid = false;
                 }
             }
