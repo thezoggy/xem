@@ -47,18 +47,18 @@ made at http://patorjk.com/software/taag/ with font Georgia11
         <? echo link_tag('css/jquery.qtip.min.css', 'stylesheet', 'text/css'); ?>
         <? echo link_tag('css/main.css', 'stylesheet', 'text/css'); ?>
 
-        <script type="text/javascript" src="<?php echo base_url();?>js/jquery-1.7.2.min.js"></script>
-        <script type="text/javascript" src="<?php echo base_url();?>js/jquery-ui-1.11.4.custom.min.js"></script>
-        <script type="text/javascript" src="<?php echo base_url();?>js/html5boilerplate.consolewrapper.js"></script>
-        <script type="text/javascript" src="<?php echo base_url();?>js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="<?php echo base_url();?>js/jquery.dataset.js"></script>
-        <script type="text/javascript" src="<?php echo base_url();?>js/jquery.jeditable-1.7.3-custom.js"></script>
-        <script type="text/javascript" src="<?php echo base_url();?>js/jquery.qtip.min.js"></script>
-        <script type="text/javascript" src="<?php echo base_url();?>js/raphael-min.js"></script>
+        <script src="<?php echo base_url();?>js/jquery-1.7.2.min.js"></script>
+        <script src="<?php echo base_url();?>js/html5boilerplate.consolewrapper.js"></script>
+        <script src="<?php echo base_url();?>js/jquery-ui-1.11.4.custom.min.js"></script>
+        <script src="<?php echo base_url();?>js/bootstrap.min.js"></script>
+        <script src="<?php echo base_url();?>js/jquery.dataset.js"></script>
+        <script src="<?php echo base_url();?>js/jquery.jeditable-1.7.3-custom.js"></script>
+        <script src="<?php echo base_url();?>js/jquery.qtip-2.0.1.min.js"></script>
+        <script src="<?php echo base_url();?>js/raphael-2.1.4-min.js"></script>
 
         <!-- own stuff -->
-        <script type="text/javascript" src="<?php echo base_url();?>js/main.js"></script>
-        <script type="text/javascript" src="<?php echo base_url();?>js/xem.logo.js"></script>
+        <script src="<?php echo base_url();?>js/main.js"></script>
+        <script src="<?php echo base_url();?>js/xem.logo.js"></script>
 
     </head>
 <body class="<?if(isset($fullelement)){if($fullelement->isDraft) echo 'draft';} ?>">
