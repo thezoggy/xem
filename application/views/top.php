@@ -50,7 +50,7 @@ made at http://patorjk.com/software/taag/ with font Georgia11
         <script src="<?php echo base_url();?>js/jquery-1.7.2.min.js"></script>
         <script src="<?php echo base_url();?>js/html5boilerplate.consolewrapper.js"></script>
         <script src="<?php echo base_url();?>js/jquery-ui-1.11.4.custom.min.js"></script>
-        <script src="<?php echo base_url();?>js/bootstrap.min.js"></script>
+        <script src="<?php echo base_url();?>js/bootstrap-2.2.2.min.js"></script>
         <script src="<?php echo base_url();?>js/jquery.dataset.js"></script>
         <script src="<?php echo base_url();?>js/jquery.jeditable-1.7.3-custom.js"></script>
         <script src="<?php echo base_url();?>js/jquery.qtip-2.0.1.min.js"></script>
