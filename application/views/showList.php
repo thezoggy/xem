@@ -1,7 +1,7 @@
 <div class="well">
     <?if($curShows):?>
     <?if(isset($forceAdd)):?>
-    <h2>We allready have shows that contain that name</h2>
+    <h2>We already have shows that contain that name</h2>
     <?endif;?>
     <ul>
         <?foreach($curShows as $show):?>

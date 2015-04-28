@@ -24,7 +24,6 @@
         <div><strong>{elapsed_time}</strong>s says <?=anchor('http://codeigniter.com/', img( array('src'=>'images/social-codeigniter.png', 'title'=>'CodeIgniter', 'class'=>'social') ));?></div>
         <div><?=anchor('https://github.com/lad1337/xem', img( array('src'=>'images/social-github.png', 'title'=>'GitHub', 'class'=>'social') ));?></div>
         <div><?=anchor('imprint', img( array('src'=>'images/social-imprint.png', 'title'=>'Imprint', 'class'=>'social') ));?></div>
-        <div><?=anchor('contact', img( array('src'=>'images/social-contact.png', 'title'=>'Contact', 'class'=>'social', 'height'=>'22') ));?></div>
         <div><?=anchor('http://validator.w3.org/check?uri='.curPageURL(), img( array('src'=>'images/html5_bw_badge22.png', 'title'=>'HTML5 Powered with CSS3 / Styling, Graphics, 3D &amp; Effects, and Semantics', 'class'=>'social') ));?></div>
         <div>
             <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
