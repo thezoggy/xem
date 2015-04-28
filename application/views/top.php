@@ -42,7 +42,7 @@ made at http://patorjk.com/software/taag/ with font Georgia11
         <link rel="apple-touch-icon-precomposed" href="./images/apple-touch-icon-57x57-precomposed.png">
 -->
 
-        <? echo link_tag('css/bootstrap.css', 'stylesheet', 'text/css'); ?>
+        <? echo link_tag('css/bootstrap-2.3.2.css', 'stylesheet', 'text/css'); ?>
         <? echo link_tag('css/smoothness/jquery-ui-1.11.4.custom.css', 'stylesheet', 'text/css'); ?>
         <? echo link_tag('css/jquery.qtip.min.css', 'stylesheet', 'text/css'); ?>
         <? echo link_tag('css/main.css', 'stylesheet', 'text/css'); ?>
@@ -50,7 +50,7 @@ made at http://patorjk.com/software/taag/ with font Georgia11
         <script src="<?php echo base_url();?>js/jquery-1.7.2.min.js"></script>
         <script src="<?php echo base_url();?>js/html5boilerplate.consolewrapper.js"></script>
         <script src="<?php echo base_url();?>js/jquery-ui-1.11.4.custom.min.js"></script>
-        <script src="<?php echo base_url();?>js/bootstrap-2.2.2.min.js"></script>
+        <script src="<?php echo base_url();?>js/bootstrap-2.3.2.min.js"></script>
         <script src="<?php echo base_url();?>js/jquery.dataset.js"></script>
         <script src="<?php echo base_url();?>js/jquery.jeditable-1.7.3-custom.js"></script>
         <script src="<?php echo base_url();?>js/jquery.qtip-2.0.1.min.js"></script>
