@@ -66,10 +66,10 @@ class User extends SuperController {
 
     function register() {
         $this->out['title'] = 'Registration';
-        $this->form_validation->set_rules('user', 'User', 'trim|required|min_length[2]|max_length[20]|xss_clean');
-        $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
-        $this->form_validation->set_rules('pw', 'Password', 'trim|required|matches[pw_check]');
-        $this->form_validation->set_rules('pw_check', 'PW Again', 'trim|required');
+        $this->form_validation->set_rules('user', 'Username', 'trim|required|min_length[2]|max_length[20]|xss_clean');
+        $this->form_validation->set_rules('email', 'E-mail', 'trim|required|valid_email');
+        $this->form_validation->set_rules('pw', 'Password', 'trim|required');
+        $this->form_validation->set_rules('pw_check', 'Password Confirm', 'trim|required|matches[pw]');
         $this->form_validation->set_rules('g-recaptcha-response', 'reCaptcha', 'required|callback_check_captcha');
 
         $registration_open = true;
