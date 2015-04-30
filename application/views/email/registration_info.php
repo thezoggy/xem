@@ -2,7 +2,7 @@
 <html lang="en">
 <head></head>
 <body>
-<h1><?=$user_nick?> just activaed his account... horray</h1>
+<h1><?=$user_nick?> just activated his account... hooray</h1>
 
 <hr/>
 <p style="font-size: 90%;">

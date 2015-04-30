@@ -1,16 +1,13 @@
-<?
-/*
-The reCaptcha server keys and API locations
+<?php
 
-Obtain your own keys from:
-http://www.recaptcha.net
-*/
-$config['recaptcha'] = array(
-  'public'=>'xxx',
-  'private'=>'xxx',
-  'RECAPTCHA_API_SERVER' =>'http://www.google.com/recaptcha/api',
-  'RECAPTCHA_API_SECURE_SERVER'=>'https://www.google.com/recaptcha/api',
-  'RECAPTCHA_VERIFY_SERVER' =>'www.google.com',
-  'RECAPTCHA_SIGNUP_URL' => 'https://www.google.com/recaptcha/admin/create',
-  'theme' => 'white'
-);
+// To use reCAPTCHA, you need to sign up for an API key pair for your site.
+// link: http://www.google.com/recaptcha/admin
+$config['recaptcha_site_key'] = '';
+$config['recaptcha_secret_key'] = '';
+
+// reCAPTCHA supported 40+ languages listed here:
+// https://developers.google.com/recaptcha/docs/language
+$config['recaptcha_lang'] = 'en';
+
+/* End of file recaptcha.php */
+/* Location: ./application/config/recaptcha.php */

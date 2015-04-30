@@ -12,8 +12,6 @@ class User extends SuperController {
 	    $this->load->library('recaptcha');
 	    $this->load->library('form_validation');
 	    $this->load->helper('form');
-	    $this->lang->load('recaptcha');
-
 
 	    //email stuff
         $this->load->helper('email'); // only needed to validate the email address
@@ -44,7 +42,7 @@ class User extends SuperController {
 
 		if(!$this->session->userdata('logged_in')){
 		    if (isset($this->out['login_unsuccessfull'])) {
-		        $this->out['reson'] = $this->humanReadableErrors[$this->simpleloginsecure->last_error];
+		        $this->out['reason'] = $this->humanReadableErrors[$this->simpleloginsecure->last_error];
 		    }
 
 
@@ -53,49 +51,61 @@ class User extends SuperController {
 			redirect($this->out['uri2']);
 		}
 	}
+
+    function check_captcha($recaptcha) {
+        if(!empty($recaptcha)) {
+            $response = $this->recaptcha->verifyResponse($recaptcha);
+            if(isset($response['success']) and $response['success'] === true) {
+                return true;
+            } else {
+                $this->form_validation->set_message('check_captcha', 'The reCaptcha is invalid.');
+                return false;
+            }
+        }
+    }
+
     function register() {
-		$this->out['title'] = 'Registration';
-		// recapcha stuff
-		$this->form_validation->set_rules('user', 'user', 'required');
-		$this->form_validation->set_rules('pw', 'pw', 'required|matches[pw_check]');
-		$this->form_validation->set_rules('pw_check', 'pw_check', 'required');
-		$this->form_validation->set_rules('email', 'email', 'required');
-		$this->form_validation->set_rules('recaptcha_response_field', 'lang:recaptcha_field_name', 'required|callback_check_captcha');
+        $this->out['title'] = 'Registration';
+        $this->form_validation->set_rules('user', 'User', 'trim|required|min_length[2]|max_length[20]|xss_clean');
+        $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
+        $this->form_validation->set_rules('pw', 'Password', 'trim|required|matches[pw_check]');
+        $this->form_validation->set_rules('pw_check', 'PW Again', 'trim|required');
+        $this->form_validation->set_rules('g-recaptcha-response', 'reCaptcha', 'required|callback_check_captcha');
 
         $registration_open = true;
 
-	    if ($this->form_validation->run() && $registration_open){
-    	    if(valid_email($_POST['email'])){
-    	        $userdata = $this->simpleloginsecure->create($_POST['user'], $_POST['email'], $_POST['pw']);
-    	        if($userdata){
-    	            // user activation code
-    	            $this->email->to($_POST['email']);
+        $recaptcha = $this->input->post('g-recaptcha-response');
+        if($this->form_validation->run() && $registration_open) {
+            if(valid_email($_POST['email'])) {
+                $userdata = $this->simpleloginsecure->create($_POST['user'], $_POST['email'], $_POST['pw']);
+                if($userdata) {
+                    // user activation code
+                    $this->email->to($_POST['email']);
                     $this->email->subject('Registration at XEM');
                     $emailBody = $this->load->view('email/registration_code', $userdata, true);
                     $this->email->message($emailBody);
                     $this->email->send();
                     //echo $this->email->print_debugger();
-            		$this->_loadView('registerConfirm');
-            		return true;
-    	        }else{
-    				$this->out['register_unsuccessfull'] = true;
-    		        $this->out['reson'] = $this->humanReadableErrors[$this->simpleloginsecure->last_error];
-    	        }
-    	    }else{
+                    $this->_loadView('registerConfirm');
+                    return true;
+                } else {
+                    $this->out['register_unsuccessfull'] = true;
+                    $this->out['reason'] = $this->humanReadableErrors[$this->simpleloginsecure->last_error];
+                }
+            } else {
                 $this->out['register_unsuccessfull'] = true;
-		        $this->out['reson'] = 'That is not a valid email';
-    	    }
-	    }elseif(isset($_POST['user']) && isset($_POST['email']) && isset($_POST['pw'])){
+                $this->out['reason'] = 'That is not a valid email.';
+            }
+        } elseif(isset($_POST['user']) && isset($_POST['email']) && isset($_POST['pw'])) {
             $this->out['register_unsuccessfull'] = true;
-	        $this->out['reson'] = 'Wrong Capcha';
-	        //echo validation_errors();
-	    }
-	    if(!$registration_open){
+            $this->out['reason'] = 'Required fields are incomplete.';
+        }
+        if(!$registration_open) {
             $this->out['register_unsuccessfull'] = true;
-            $this->out['reson'] = 'Registration closed!!';
-	    }
-	    $this->out['recaptcha'] = $this->recaptcha->get_html();
-		$this->_loadView('register');
+            $this->out['reason'] = 'Registration closed!!';
+        }
+
+        $this->_loadView('register');
         return false;
     }
 

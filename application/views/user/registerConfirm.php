@@ -1,4 +1,5 @@
+<div class="page-header">
+    <h1>Activate</h1>
+</div>
 
-<h1>Wait for an Email</h1>
-
-<p>Click on the link in the Email...</p>
+<p>Thanks for signing up for XEM! Click on the link in the Email to activate your account...</p>

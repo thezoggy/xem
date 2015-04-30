@@ -1,16 +1,38 @@
-
-<h1>Register</h1>
-<?=form_open("user/register/")?>
-<ul class="no">
-<?if(isset($register_unsuccessfull)): ?><li><strong style="color:red;"><?=$reson ?></strong></li><? endif;?>
-    <li><label>User</label><input name="user" value="<?=set_value('user')?>"/></li>
-    <li><label>Email</label><input name="email" value="<?=set_value('email')?>"/></li>
-    <li><label>Password</label><input name="pw" type="password"/></li>
-    <li><label>Pw Again</label><input name="pw_check" type="password"/></li>
-    <li>
-        <?=$recaptcha?>
-    </li>
-</ul>
-<input type="submit" value="Register">
+<div class="page-header">
+    <h1>Register</h1>
+</div>
+<?=form_open("user/register/", array('class' => 'form-horizontal'))?>
+<?if(isset($register_unsuccessfull)): ?><div class="alert alert-error"><? echo validation_errors(); ?><?=$reason ?></div><? endif;?>
+    <div class="control-group">
+        <label class="control-label" for="user">Username</label>
+        <div class="controls">
+            <input class="input-large" name="user" type="text" value="<?=set_value('user')?>">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="email">E-mail</label>
+        <div class="controls">
+            <input class="input-large" name="email" type="text" value="<?=set_value('email')?>">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="pw">Password</label>
+        <div class="controls">
+            <input class="input-large" type="password" name="pw">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="pw_check">Password (Confirm)</label>
+        <div class="controls">
+            <input class="input-large" type="password" name="pw_check">
+        </div>
+    </div>
+    <div class="control-group" style="padding-left: 125px;">
+        <?php echo $this->recaptcha->getWidget(); ?>
+        <?php echo $this->recaptcha->getScriptTag(); ?>
+    </div>
+    <div class="form-actions">
+        <button type="submit" class="btn btn-success">Register</button>
+        <button type="button" class="btn">Cancel</button>
+    </div>
 </form>
-
