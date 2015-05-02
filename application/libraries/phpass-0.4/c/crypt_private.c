@@ -49,7 +49,7 @@ static void encode64(char *dst, char *src, int count)
 
 char *crypt_private(char *password, char *setting)
 {
-	static char output[32];
+	static char output[35];
 	MD5_CTX ctx;
 	char hash[MD5_DIGEST_LENGTH];
 	char *p, *salt;
@@ -66,7 +66,7 @@ char *crypt_private(char *password, char *setting)
 	if (!p)
 		return output;
 	count_log2 = p - itoa64;
-	if (count_log2 < 7 || count_log2 > 31)
+	if (count_log2 < 7 || count_log2 > 30)
 		return output;
 
 	salt = setting + 4;
