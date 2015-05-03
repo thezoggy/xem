@@ -6,25 +6,25 @@
     <div class="control-group">
         <label class="control-label" for="user">Username</label>
         <div class="controls">
-            <input class="input-large" name="user" type="text" value="<?=set_value('user')?>">
+            <input class="input-large" name="user" type="text" value="<?=set_value('user')?>" id="user">
         </div>
     </div>
     <div class="control-group">
         <label class="control-label" for="email">E-mail</label>
         <div class="controls">
-            <input class="input-large" name="email" type="text" value="<?=set_value('email')?>">
+            <input class="input-large" name="email" type="text" value="<?=set_value('email')?>" id="email">
         </div>
     </div>
     <div class="control-group">
         <label class="control-label" for="pw">Password</label>
         <div class="controls">
-            <input class="input-large" type="password" name="pw">
+            <input class="input-large" type="password" name="pw" id="pw">
         </div>
     </div>
     <div class="control-group">
         <label class="control-label" for="pw_check">Password (Confirm)</label>
         <div class="controls">
-            <input class="input-large" type="password" name="pw_check">
+            <input class="input-large" type="password" name="pw_check" id="pw_check">
         </div>
     </div>
     <div class="control-group" style="padding-left: 125px;">

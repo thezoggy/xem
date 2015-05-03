@@ -106,15 +106,15 @@ made at http://patorjk.com/software/taag/ with font Georgia11
                                 <fieldset>
                                     <legend>Sign In</legend>
                                     <div class="control-group">
-                                        <label class="control-label" for="user">User:</label>
+                                        <label class="control-label" for="signin_user">Username:</label>
                                         <div class="controls">
-                                            <input type="text" name="user" class="input-large">
+                                            <input type="text" id="signin_user" name="user" class="input-large" maxlength="20">
                                         </div>
                                     </div>
                                     <div class="control-group">
-                                        <label class="control-label" for="user">Password:</label>
+                                        <label class="control-label" for="signin_pw">Password:</label>
                                         <div class="controls">
-                                            <input type="password" name="pw" class="input-large">
+                                            <input type="password" id="signin_pw" name="pw" class="input-large">
                                         </div>
                                     </div>
                                     <div class="control-group">

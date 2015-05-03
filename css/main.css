@@ -886,3 +886,5 @@ input[type="image"] {
 h1 {
   font-size: 36px;
 }
+
+.alert > p:last-child { margin-bottom: 0; }

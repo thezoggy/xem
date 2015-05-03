@@ -1,11 +1,13 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class User extends SuperController {
-    var $humanReadableErrors = array('insuficentData'=>'You missed to provide important information',
-	                                 'emailInUse'=>'This email is associated with another account',
-	                                 'nickInUse'=>'This username is already in use',
-	                                 'lvlZero'=>'Account not activated or banned!',
-	                                 'usernameOrPasswordWrong'=>'Wrong combination of username and password');
+    var $humanReadableErrors = array('insuficentData'=>'You missed to provide important information.',
+                                     'emailInUse'=>'This email is associated with another account.',
+                                     'nickInUse'=>'This username is already in use.',
+                                     'lvlZero'=>'Account not activated or is banned!',
+                                     'usernameOrPasswordWrong'=>'Wrong combination of username and password.',
+                                     'oldMatchesNew'=>'New password matches current password.',
+                                     'unknown'=>'Unknown error, contact an admin to investigate.');
 
 	function __construct(){
 		parent::__construct();
@@ -72,6 +74,7 @@ class User extends SuperController {
         $this->form_validation->set_rules('pw_check', 'Password Confirm', 'trim|required|matches[pw]');
         $this->form_validation->set_rules('g-recaptcha-response', 'reCaptcha', 'required|callback_check_captcha');
 
+        // TODO: Make this a config variable?
         $registration_open = true;
 
         $recaptcha = $this->input->post('g-recaptcha-response');
@@ -94,15 +97,15 @@ class User extends SuperController {
                 }
             } else {
                 $this->out['register_unsuccessfull'] = true;
-                $this->out['reason'] = 'That is not a valid email.';
+                $this->out['reason'] = '<p>That is not a valid email.</p>';
             }
         } elseif(isset($_POST['user']) && isset($_POST['email']) && isset($_POST['pw'])) {
             $this->out['register_unsuccessfull'] = true;
-            $this->out['reason'] = 'Required fields are incomplete.';
+            $this->out['reason'] = '<p>Required fields are incomplete.</p>';
         }
         if(!$registration_open) {
             $this->out['register_unsuccessfull'] = true;
-            $this->out['reason'] = 'Registration closed!!';
+            $this->out['reason'] = '<p>Registration closed!!</p>';
         }
 
         $this->_loadView('register');
@@ -122,9 +125,10 @@ class User extends SuperController {
                 log_message('debug', 'Sending email_new_account to '. $cur_user['user_email']);
             }
 
-			redirect('user/login');
-        }else
-    		$this->_loadView('register');
+            redirect('user/login');
+        } else {
+            $this->_loadView('register');
+        }
     }
 
 	function logout(){
@@ -136,22 +140,32 @@ class User extends SuperController {
 		}
 	}
 
-	function changePW(){
-		if(!$this->session->userdata('logged_in')){
-			$this->_loadView('login');
-		}else{
-			if($_POST['new_pw']==$_POST['new_pw_check']){
-				if($this->simpleloginsecure->changePassword($this->session->userdata('user_id'), $_POST['old_pw'], $_POST['new_pw'])){
-					$this->simpleloginsecure->logout();
-					$this->_loadView('login');
-				}else{
-					$this->_loadView();
-				}
-			}else{
-				$this->_loadView();
-			}
-		}
-	}
+    function changePW() {
+        $this->form_validation->set_rules('old_pw', 'Current Password', 'trim|required');
+        $this->form_validation->set_rules('new_pw', 'New Password', 'trim|required');
+        $this->form_validation->set_rules('new_pw_check', 'New Password Confirm', 'trim|required|matches[new_pw]');
+        // if user is not logged in, take them to login
+        if(!$this->session->userdata('logged_in')) {
+            $this->_loadView('login');
+        } else {
+            if($this->form_validation->run()) {
+                if($this->simpleloginsecure->edit_password($this->session->userdata('user_email'), $_POST['old_pw'], $_POST['new_pw'])) {
+                    // upon changing pw, we redirect them to homepage and kill their session
+                    $this->simpleloginsecure->logout();
+                    redirect('user/login');
+                    return true;
+                } else {
+                    $this->out['error'] = true;
+                    $this->out['reason'] = $this->humanReadableErrors[$this->simpleloginsecure->last_error];
+                }
+            } else {
+                $this->out['error'] = true;
+                $this->out['reason'] = ''; // not needed due to validation errors being used
+            }
+            $this->_loadView();
+            return false;
+        }
+    }
 
 	function emailSettings() {
 	    if (grantAcces(4)) {
