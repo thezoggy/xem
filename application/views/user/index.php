@@ -13,7 +13,7 @@
     </ul>
     <input type="submit" value="Save New Password" class="btn btn-danger" />
     <br/>
-    <small>Note: Upon changing your password, you must log back in</small>
+    <span class="help-block">Note: Upon changing your password, you must log back in!</span>
 </form>
 
 <?if(grantAcces(4)):?>

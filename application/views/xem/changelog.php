@@ -1,10 +1,7 @@
+<div class="page-header">
+    <h1>Changelog: <small><?if($element->isDraft()):?><?=anchor('xem/draft/'.$element->parent, $element->main_name)?><?else:?><?=anchor('xem/show/'.$element->id, $element->main_name)?><?endif?></small></h1>
+</div>
 
-<h1>Changelog:</h1>
-<?if($element->isDraft()):?>
-<h2><?=anchor('xem/draft/'.$element->parent, $element->main_name)?></h2>
-<?else:?>
-<h2><?=anchor('xem/show/'.$element->id, $element->main_name)?></h2>
-<?endif?>
 <table id="changelog">
     <!--
     <tr>
