@@ -30,37 +30,40 @@ class DBObject{
 			$this->load();
 	}
 
-	public function save($load=true,$silent=false){
-		if(!$this->id && $load)
-			$this->load();
-	    $updateted = false;
-	    $dbEntry = $this->db->get_where($this->table, array('id'=>$this->id));
-		log_message('debug',$this->db->last_query());
-		if(rows($dbEntry)){
-		    $valueArray = $this->buildNameValueArray($this->dataFields);
-		    log_message('debug', 'valueArray while saving '.print_r($valueArray,true));
-		    $this->diff = array_diff_assoc($valueArray, $this->initialData); // create diff to see if something realy changed
-		    log_message('debug', 'array_diff while saving '.print_r($this->diff,true));
-            if($this->diff){
-    			$this->history->createEvent('update',$this,$silent);
-    			$this->clearNamespace();
-    			log_message('debug',"updating a ".$this->className." id:".$this->id);
-    			$this->db->update($this->table, $valueArray, array("id"=>$this->id));
-		        log_message('debug',$this->db->last_query());
+    public function save($load = true, $silent = false) {
+        if(!$this->id && $load) {
+            $this->load();
+        }
+        $updateted = false;
+        $dbEntry = $this->db->get_where($this->table, array('id' => $this->id));
+        log_message('debug', $this->db->last_query());
+        if(rows($dbEntry)) {
+            $valueArray = $this->buildNameValueArray($this->dataFields);
+            log_message('debug', 'valueArray while saving '.print_r($valueArray,true));
+            $this->diff = array_diff_assoc($valueArray,
+                $this->initialData); // create diff to see if something really changed
+            log_message('debug', 'array_diff while saving '.print_r($this->diff,true));
+            if($this->diff) {
+                $this->history->createEvent('update', $this, $silent);
+                $this->clearNamespace();
+                log_message('debug', "updating a " . $this->className . " id:" . $this->id);
+                $this->db->update($this->table, $valueArray, array("id" => $this->id));
+                log_message('debug', $this->db->last_query());
             }
             $updateted = true;
-		}else{
-			log_message('debug',"inserting new ".$this->className."... ");
-			$this->db->insert($this->table, $this->buildNameValueArray($this->dataFields, $this->id));
-		    log_message('debug',$this->db->last_query());
-		    if(!$this->id)
-			    $this->id = (int)$this->db->insert_id();
-			log_message('debug',"new id: ".$this->id);
-			$this->history->createEvent('insert',$this,$silent);
-			$this->clearNamespace();
-		}
-		return $this->id;
-	}
+        } else {
+            log_message('debug', "inserting new " . $this->className . "... ");
+            $this->db->insert($this->table, $this->buildNameValueArray($this->dataFields, $this->id));
+            log_message('debug', $this->db->last_query());
+            if(!$this->id) {
+                $this->id = (int)$this->db->insert_id();
+            }
+            log_message('debug', "new id: " . $this->id);
+            $this->history->createEvent('insert', $this, $silent);
+            $this->clearNamespace();
+        }
+        return $this->id;
+    }
 
 	public function load(){
 		if(!$this->id){
@@ -146,11 +149,12 @@ class DBObject{
     }
 
     protected function clearNamespace() {
-        //print "clear namespace for ".$this->className;
-        if($this->className == 'plement')
-			$this->oh->dbcache->clearNamespace($this->id);
-	    elseif ($this->className == 'season' OR $this->className == 'name' OR $this->className == 'directrule' OR $this->className == 'passthru')
-			$this->oh->dbcache->clearNamespace($this->element_id);
+        // log_message('debug', "clear namespace for " . $this->className);
+        if($this->className == 'element') {
+            $this->oh->dbcache->clearNamespace($this->id);
+        } elseif($this->className == 'season' OR $this->className == 'name' OR $this->className == 'directrule' OR $this->className == 'passthru') {
+            $this->oh->dbcache->clearNamespace($this->element_id);
+        }
     }
 
     function delete($silent=false){
