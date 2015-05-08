@@ -128,7 +128,7 @@ class Changelog{
 	        case 'Passthru':
 	            $des = $this->locN($new['destination_id']);
                 $or = $this->locN($new['origin_id']);
-	            return 'created passthru between <span class="'.$des.'">'.$des.'</span> to <span class="'.$or.'">'.$or.'</span> with an <span class="'.$new['type'].'">'.$new['type'].'</span>';
+	            return 'created <span class="'.$new['type'].'">'.$new['type'].'</span> passthru from <span class="'.$des.'">'.$des.'</span> to <span class="'.$or.'">'.$or.'</span>';
 	        case 'Season':
 	            $loc = $this->locN($new['location_id']);
     			$seasonNumber = $new['season'];
