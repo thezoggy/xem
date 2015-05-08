@@ -30,19 +30,17 @@ class DBObject{
 			$this->load();
 	}
 
-    public function save($load = true, $silent = false) {
+    public function save($load=true, $silent=false) {
         if(!$this->id && $load) {
             $this->load();
         }
-        $updateted = false;
         $dbEntry = $this->db->get_where($this->table, array('id' => $this->id));
         log_message('debug', $this->db->last_query());
         if(rows($dbEntry)) {
             $valueArray = $this->buildNameValueArray($this->dataFields);
-            log_message('debug', 'valueArray while saving '.print_r($valueArray,true));
-            $this->diff = array_diff_assoc($valueArray,
-                $this->initialData); // create diff to see if something really changed
-            log_message('debug', 'array_diff while saving '.print_r($this->diff,true));
+            log_message('debug', 'valueArray while saving ' . print_r($valueArray, true));
+            $this->diff = array_diff_assoc($valueArray, $this->initialData); // create diff to verify there was a change
+            log_message('debug', 'array_diff while saving ' . print_r($this->diff, true));
             if($this->diff) {
                 $this->history->createEvent('update', $this, $silent);
                 $this->clearNamespace();
@@ -50,7 +48,6 @@ class DBObject{
                 $this->db->update($this->table, $valueArray, array("id" => $this->id));
                 log_message('debug', $this->db->last_query());
             }
-            $updateted = true;
         } else {
             log_message('debug', "inserting new " . $this->className . "... ");
             $this->db->insert($this->table, $this->buildNameValueArray($this->dataFields, $this->id));
