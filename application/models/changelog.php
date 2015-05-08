@@ -128,7 +128,7 @@ class Changelog{
 	        case 'Passthru':
 	            $des = $this->locN($new['destination_id']);
                 $or = $this->locN($new['origin_id']);
-	            return 'connected <span class="'.$des.'">'.$des.'</span> to <span class="'.$or.'">'.$or.'</span> with an <span class="'.$new['type'].'">'.$new['type'].'</span> passthru';
+	            return 'created passthru between <span class="'.$des.'">'.$des.'</span> to <span class="'.$or.'">'.$or.'</span> with an <span class="'.$new['type'].'">'.$new['type'].'</span>';
 	        case 'Season':
 	            $loc = $this->locN($new['location_id']);
     			$seasonNumber = $new['season'];
@@ -159,18 +159,18 @@ class Changelog{
 	            elseif($old['entity_order'] != $new['entity_order'])
 	                return 'changed the entity order from <strong>'.$old['entity_order'].'</strong> to <strong>'.$new['entity_order'].'</strong>';
 	            else
-	                return "A save without data change.<!-- old:".print_r($old, true).' vs new:'.print_r($new, true)."-->";
+	                return "saved without changing data"; // ."<!-- old:".print_r($old, true).' vs new:'.print_r($new, true)."-->";
 	        case 'Name':
 	            if($old['name'] != $new['name'])
 	                return 'changed alias name from <b>'.$old['name'].'</b> to <b>'.$new['name'].'</b>';
 	            else
 	                return 'changed the language of <b>'.$old['name'].'</b> from '.img(array('src'=>'images/flags/'.$old['language'].'.png','title'=>$old['language'],'alt'=>$old['language'])).' to '.img(array('src'=>'images/flags/'.$new['language'].'.png','title'=>$new['language'],'alt'=>$new['language']));
 	        case 'Directrule':
-	            return 'i dont thing this can happen';
+	            return 'i dont think this can happen';
 	        case 'Passthru':
 	            $des = $this->locN($new['destination_id']);
                 $or = $this->locN($new['origin_id']);
-	            return 'changed the passtruhe between <span class="'.$des.'">'.$des.'</span> and <span class="'.$or.'">'.$or.'</span> from <span class="'.$old['type'].'">'.$old['type'].'</span> to <span class="'.$new['type'].'">'.$new['type'].'</span>';
+	            return 'changed passthru between <span class="'.$des.'">'.$des.'</span> and <span class="'.$or.'">'.$or.'</span> from <span class="'.$old['type'].'">'.$old['type'].'</span> to <span class="'.$new['type'].'">'.$new['type'].'</span>';
 	        case 'Season':
 	            $loc = $this->locN($new['location_id']);
 	            $diff = $event['diff'];
@@ -188,7 +188,7 @@ class Changelog{
 	    $new = $event['new'];
 	    switch ($event['type']) {
 	        case 'Element':
-                return 'elements dont get deleted';
+                return 'elements do not get deleted';
 	        case 'Name':
                 return 'deleted the alias <b>'.$new['name'].'</b> in language '.img(array('src'=>'images/flags/'.$new['language'].'.png','title'=>$new['language'],'alt'=>$new['language']));
 	        case 'Directrule':
@@ -198,7 +198,7 @@ class Changelog{
 	        case 'Passthru':
 	            $des = $this->locN($new['destination_id']);
                 $or = $this->locN($new['origin_id']);
-	            return 'removed the passthru <span class="'.$des.'">'.$des.'</span> and <span class="'.$or.'">'.$or.'</span>';
+	            return 'removed passthru <span class="'.$des.'">'.$des.'</span> and <span class="'.$or.'">'.$or.'</span>';
 	        case 'Season':
 	            $loc = $this->locN($new['location_id']);
     			$seasonNumber = $new['season'];
