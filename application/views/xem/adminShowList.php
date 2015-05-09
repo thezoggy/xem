@@ -6,13 +6,12 @@
 <!--
 .adminShows .draft.lvl_-1,
 .adminShows .draft.lvl_-1 a {
-    color: white;
+    color: tan;
 }
 .adminShows .lvl_0,
 .adminShows .lvl_0 a {
     color: grey;
 }
-
 .adminShows .draft.lvl_1,
 .adminShows .draft.lvl_1 a {
     color: green;
@@ -21,18 +20,21 @@
 .adminShows .draft.lvl_4 a{
     color: red;
 }
+.adminShows .show.lvl_1 {
+    color: #0088CC;
+}
 -->
 </style>
 
 <div class="adminShows">
     <input type="button" class="btn" value="Toggle" onclick="$('.list .show.lvl_1,.list .show.lvl_2,.list .show.lvl_3,.list .show.lvl_4').toggle()"/>
-    <label>Black<span class="list"><span class="show lvl_1">√</span></span></label><span>Public Show</span><br/>
+    <label>Blue<span class="list"><span class="show lvl_1">√</span></span></label><span>Public Show</span><br/>
 
     <input type="button" class="btn" value="Toggle" onclick="$('.list .lvl_0').toggle()"/>
     <label>Grey<span class="list"><span class="lvl_0">√</span></span></label><span class="lvl_0">Deleted</span><br/>
 
     <input type="button" class="btn" value="Toggle" onclick="$('.list .draft.lvl_-1').toggle()"/>
-    <label>White<span class="list"><span class="draft lvl_-1">√</span></span></label><span class="draft lvl_-1">Old Public</span><br/>
+    <label>Tan<span class="list"><span class="draft lvl_-1">√</span></span></label><span class="draft lvl_-1">Old Public</span><br/>
 
     <input type="button" class="btn" value="Toggle" onclick="$('.list .draft.lvl_1').toggle()"/>
     <label>Green<span class="list"><span class="draft lvl_1">√</span></span></label><span class="draft lvl_1">Current Draft</span><br/>
@@ -65,7 +67,7 @@
                 <ul class="oldDrafts">
                     <?foreach($curShows[$id]['draft'] as $id=>$draft):?>
                     <li class="draft lvl_<?=$draft->status?>">
-                        prevoius <?=anchor('xem/adminShow/'.$id, 'draft '.$id)?>
+                        previous <?=anchor('xem/adminShow/'.$id, 'draft '.$id)?>
                     </li>
                     <?endforeach;?>
                 </ul>
