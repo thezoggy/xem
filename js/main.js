@@ -154,26 +154,41 @@ function mainInit(){
         $('#elementSelector').val('choose').focus();
     });
 
-	$("#search").autocomplete({
-		source: function(request, response){
-			var params = new Params();
-			params.term = request.term;
-			genericRequest("autocomplete", params, response, response);
-		},
-		select: function(event, ui ) {
+    var query = '';
+    $("#search").autocomplete({
+        source: function (request, response) {
+            //keep track of user submitted search term
+            query = $.ui.autocomplete.escapeRegex(request.term);
+            var params = new Params();
+            params.term = request.term;
+            genericRequest("autocomplete", params, response, response);
+        },
+        select: function (event, ui) {
             // update input with selected name before searching
             $('#search').val(ui.item.value);
-			$('#searchForm').submit();
-		},
-		open: function(event, ui) {
-			$('#header').addClass('autocomplete');
-		},
-		close: function(event, ui) {
-			$('#header').removeClass('autocomplete');
-		},
-		position: { my : "right top", at: "right bottom" },
-		minLength: 2
-	});
+            $('#searchForm').submit();
+        },
+        open: function (event, ui) {
+            $('#header').addClass('autocomplete');
+        },
+        close: function (event, ui) {
+            $('#header').removeClass('autocomplete');
+        },
+        position: {my: "right top", at: "right bottom"},
+        minLength: 2
+    })
+        .data("ui-autocomplete")._renderItem = function (ul, item) {
+        //highlight the matched search term from the item -- note that this is global and will match anywhere
+        var result_item = item.label;
+        var x = new RegExp("(?![^&;]+;)(?!<[^<>]*)(" + query + ")(?![^<>]*>)(?![^&;]+;)", "gi");
+        result_item = result_item.replace(x, function (FullMatch, n) {
+            return '<b>' + FullMatch + '</b>';
+        });
+        return $("<li></li>")
+            .data("ui-autocomplete-item", item)
+            .append(result_item)
+            .appendTo(ul);
+    };
 
 	$("#logout").mouseup(function(){
 		clearTimeout(pressTimerText);
