@@ -5,20 +5,6 @@
         </div><!-- /row-fluid -->
     </div><!-- /span12 -->
 
-    <div id="adds" class="clear-keep-height">
-        <br/>
-        <script type="text/javascript"><!--
-        google_ad_client = "ca-pub-8047294342495073";
-        /* xem_unten */
-        google_ad_slot = "6026161732";
-        google_ad_width = 728;
-        google_ad_height = 90;
-        //-->
-        </script>
-        <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
-
-    </div>
-
     <footer class="footer">
         <p class="pull-right"><a href="#"><img src="<?php echo base_url();?>images/top.gif"></a></p>
         <div><strong>{elapsed_time}</strong>s says <?=anchor('http://codeigniter.com/', img( array('src'=>'images/social-codeigniter.png', 'title'=>'CodeIgniter', 'class'=>'social') ));?></div>
