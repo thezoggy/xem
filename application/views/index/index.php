@@ -9,7 +9,7 @@
     xem lets you create a map for an easy overview of all the different counting and naming systems.
 </p>
 
-<table class="table table-condensed table-bordered" style="width: auto;">
+<table id="entity" class="table table-condensed table-bordered" style="width: auto;">
     <thead>
         <tr>
             <th>id</th>
@@ -46,5 +46,4 @@
         <td><?=$curEvent['human_form']?><?if($curEvent['element_id']):?> &rarr; <b><?=anchor("xem/show/".$curEvent['element_id'], "element ".$curEvent['element_id'])?></b><?endif;?></td>
     </tr>
     <?endforeach?>
-
 </table>

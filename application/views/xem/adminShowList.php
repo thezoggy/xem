@@ -17,7 +17,7 @@
     color: green;
 }
 .adminShows .draft.lvl_4,
-.adminShows .draft.lvl_4 a{
+.adminShows .draft.lvl_4 a {
     color: red;
 }
 .adminShows .show.lvl_1 {
@@ -28,7 +28,7 @@
 
 <div class="adminShows">
     <input type="button" class="btn" value="Toggle" onclick="$('.list .show.lvl_1,.list .show.lvl_2,.list .show.lvl_3,.list .show.lvl_4').toggle()"/>
-    <label>Blue<span class="list"><span class="show lvl_1">√</span></span></label><span>Public Show</span><br/>
+    <label>Blue<span class="list"><span class="show lvl_1">√</span></span></label><span style="color: #0088CC">Public Show</span><br/>
 
     <input type="button" class="btn" value="Toggle" onclick="$('.list .lvl_0').toggle()"/>
     <label>Grey<span class="list"><span class="lvl_0">√</span></span></label><span class="lvl_0">Deleted</span><br/>

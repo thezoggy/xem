@@ -5,6 +5,7 @@
         </div><!-- /row-fluid -->
     </div><!-- /span12 -->
 
+    <br>
     <footer class="footer">
         <p class="pull-right"><a href="#"><img src="<?php echo base_url();?>images/top.gif"></a></p>
         <div><strong>{elapsed_time}</strong>s says <?=anchor('http://codeigniter.com/', img( array('src'=>'images/social-codeigniter.png', 'title'=>'CodeIgniter', 'class'=>'social') ));?></div>
