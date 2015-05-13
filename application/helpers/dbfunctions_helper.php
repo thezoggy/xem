@@ -22,7 +22,7 @@ function grantAcces($lvl=0){
 function getShows($db,$term=false){
 	$query = "SELECT `id`, `main_name` FROM `elements` WHERE `type` = 'show' AND `status` > 0 AND `parent` = 0 ORDER BY `main_name`";
 	if($term)
-		$query = "SELECT  e.id, e.main_name, n.name FROM `elements` AS e LEFT JOIN `names` AS n ON n.element_id = e.id WHERE (n.name LIKE '%".$term."%' OR e.main_name LIKE '%".$term."%' OR n.name SOUNDS LIKE '".$term."' OR e.main_name SOUNDS LIKE '".$term."' ) AND n.language = 'us' AND `status` > 0  AND `parent` = 0 GROUP BY e.main_name ORDER BY e.main_name";
+		$query = "SELECT  e.id, e.main_name, n.name FROM `elements` AS e LEFT JOIN `names` AS n ON n.element_id = e.id WHERE (n.name LIKE '%".$term."%' OR e.main_name LIKE '%".$term."%' OR n.name SOUNDS LIKE '".$term."' AND n.language = 'us' OR e.main_name SOUNDS LIKE '".$term."' AND n.language = 'us' ) AND `status` > 0  AND `parent` = 0 GROUP BY e.main_name ORDER BY e.main_name";
 
 	$shows = $db->query($query);
     // log_message('debug', $db->last_query());
