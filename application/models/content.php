@@ -1,29 +1,30 @@
 <?
 
-class Content extends DBObject{
+class Content extends DBObject {
 
     private $CI = null;
-    private $allowedSites = array('index');
+    private $editablePages = array('index/faq', 'index/doc', 'index/imprint');
 
-	function __construct($oh, $id=0){
-		$dataFields = array("content");
+    function __construct($oh, $id=0) {
+        $dataFields = array("content");
         $this->CI =& get_instance();
 
-      	parent::__construct($oh, $dataFields, $id);
-	}
+        parent::__construct($oh, $dataFields, $id);
+    }
 
-	function getEdit() {
-	   $editPageButtons = false;
-	   foreach($this->allowedSites as $item){
-	       if(startswith($this->id, $item))
-	           $editPageButtons = true;
-	   }
+    function getEdit() {
+        $editPageButtons = false;
+        foreach ($this->editablePages as $item) {
+            if(strtolower($this->id) == $item) {
+                $editPageButtons = true;
+            }
+        }
 
-
-	   if($this->CI->session->userdata('user_lvl') >= 4 && $editPageButtons)
-    	   return $this->CI->load->view('cms_edit', array('page'=>$this->id), true);
+        if($this->CI->session->userdata('user_lvl') >= 4 && $editPageButtons) {
+            return $this->CI->load->view('cms_edit', array('page' => $this->id), true);
+        }
         return '';
-	}
+    }
 }
 
 ?>

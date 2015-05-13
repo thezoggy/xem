@@ -1,10 +1,21 @@
-<br>
-<br>
-<script type="text/javascript">
+<script>
+$(document).ready(function() {
+    // initialize button states
+    resetControls();
 
-var currentPage = <?=json_encode($page) ?>;
-var originalContent = '';
+    var currentPage = <?=json_encode($page) ?>;
+    var originalContent = '';
+});
+
+function resetControls() {
+    $('#cmsEdit').prop('disabled', false);
+    $('#cmsPreview').prop('disabled', true);
+    $('#cmsRestore').prop('disabled', true);
+    $('#savePage').prop('disabled', true);
+}
+
 function editPage(){
+    $('#cmsEdit').prop('disabled', true);
     var height = $('#content').height();
 
     var theHtml = $('#content').html();
@@ -15,11 +26,15 @@ function editPage(){
 
     $('#content').html('');
     $('#content').append(textArea);
-    $('#savePage').removeAttr('disabled');
+
+    $('#cmsPreview').prop('disabled', false);
+    $('#cmsRestore').prop('disabled', false);
+    $('#savePage').prop('disabled', false);
 }
 
 function preview(){
     setNewContent($('#pageHtml').val());
+    resetControls();
 }
 
 function setNewContent(c){
@@ -27,9 +42,10 @@ function setNewContent(c){
 }
 
 function restore(){
-    if(originalContent)
+    if(originalContent) {
         setNewContent(originalContent);
-    $('#savePage').attr('disabled','disabled');
+    }
+    resetControls();
 }
 
 function save(){
@@ -49,15 +65,15 @@ function save(){
     genericRequest("savePage", params, fakeResHandler, genericResponseError);
 
     setNewContent(newContent);
-    $('#savePage').attr('disabled','disabled');
+    resetControls();
 }
-
 </script>
+<br>
 <div class="btn-toolbar">
     <div class="btn-group">
-        <input onclick="editPage()" value="Edit" type="button" class="btn" />
-        <input onclick="preview()" value="Preview" type="button" class="btn" />
-        <input onclick="restore()" value="Restore" type="button" class="btn" />
+        <input id="cmsEdit" onclick="editPage()" value="Edit" type="button" class="btn" />
+        <input id="cmsPreview" onclick="preview()" value="Preview" type="button" class="btn" />
+        <input id="cmsRestore" onclick="restore()" value="Restore" type="button" class="btn" />
     </div>
     <div class="btn-group">
         <input id="savePage" onclick="save()" value="Save" type="button" disabled="disabled" class="btn" />
