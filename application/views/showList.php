@@ -21,7 +21,7 @@
                         <?endif?>
                     </td>
                     <td>
-                        <span title="<?=$show->created?> UTC"><? echo explode(' ', $show->created)[0]; ?></span>
+                        <span title="<?=$show->created?> UTC"><? $data = explode(' ', $show->created); echo $data[0] ?></span>
                     </td>
                     <td>
                         <?=$show->last_modified?> UTC
