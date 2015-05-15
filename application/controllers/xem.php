@@ -433,6 +433,7 @@ class Xem extends SuperController {
 		        $element = new Element($this->oh);
     			$element->status = 1;
     			$element->main_name = $newName;
+                $element->created = date('c');
     			$element->save();
 
                 $emailBody = $this->load->view('email/show_new', array('show'=>$element,'user_nick'=>$this->out['user_nick']), true);

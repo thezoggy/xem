@@ -195,7 +195,7 @@
                 <?endif?>
                 <?if($editRight):?>
                 <li><label>Save entity order</label><input type="button" value="Save" onclick="saveEntityOrder()" class="btn btn-mini" /></li>
-                <li><label title="If QuickConnet is ON a direct connection will be made as soon two episodes are marked.">QuickConnet</label><input type="button" value="OFF" onclick="if(quickConnet){quickConnet = false; $(this).val('OFF')}else{quickConnet = true; $(this).val('ON')}" class="btn btn-mini" /></li>
+                <li><label title="If QuickConnect is ON a direct connection will be made as soon two episodes are marked.">QuickConnect</label><input type="button" value="OFF" onclick="if(quickConnet){quickConnet = false; $(this).val('OFF')}else{quickConnet = true; $(this).val('ON')}" class="btn btn-mini" /></li>
                 <?endif?>
                 <?if(grantAcces(3)):?>
                 <li>
@@ -261,7 +261,14 @@
 			</ul>
 			<div class="clear"></div>
 		</div>
+        <br>
+        <div class="well well-small text-info">
+            <span title="created"><i class="icon-ok-circle"></i> <?=$fullelement->created?> UTC</span>
+            <span class="divider muted">/</span>
+            <span title="last modified"><i class="icon-edit"></i> <?=$fullelement->last_modified?> UTC</span>
+        </div>
 </div>
+
 <!-- show script and functions -->
 <script type="text/javascript">
 var logedIn = <?=json_encode($logedIn)?>;

@@ -46,6 +46,8 @@ class FullElement{
 			$this->entity_order = $elementRow['entity_order'];
 			$this->status = (int)$elementRow['status'];
 			$this->parent = (int)$elementRow['parent'];
+            $this->last_modified = $elementRow['last_modified'];
+            $this->created = $elementRow['created'];
 
 			$this->seasons = $this->build("seasons",$this->id);
 			$this->names = $this->build("names",$this->id);

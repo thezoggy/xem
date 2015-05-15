@@ -44,14 +44,23 @@ class DBObject{
             if($this->diff) {
                 $this->history->createEvent('update', $this, $silent);
                 $this->clearNamespace();
-                log_message('debug', "updating a " . $this->className . " id:" . $this->id);
+                log_message('debug', "updating " . $this->className . " id:" . $this->id);
+                // set last_modified value here for element changes
+                if($this->className == 'element') {
+                    $valueArray['last_modified'] = date('c');
+                }
                 $this->db->update($this->table, $valueArray, array("id" => $this->id));
                 log_message('debug', $this->db->last_query());
             }
         } else {
             log_message('debug', "inserting new " . $this->className . "... ");
-            $this->db->insert($this->table, $this->buildNameValueArray($this->dataFields, $this->id));
+            $valueArray = $this->buildNameValueArray($this->dataFields, $this->id);
+            if($this->className == 'element') {
+                $valueArray['last_modified'] = date('c');
+            }
+            $this->db->insert($this->table, $valueArray);
             log_message('debug', $this->db->last_query());
+            // TODO: update element_id last_modified to reflect change in names?
             if(!$this->id) {
                 $this->id = (int)$this->db->insert_id();
             }
@@ -77,14 +86,14 @@ class DBObject{
 			if($cachedObj = $this->cache->hasCache(get_class($this),$this->id)){
 
 				log_message('debug',"loading a ".$this->className." from cache with id: ".$this->id);
-				$this->setAtributes($cachedObj->buildNameValueArray());
+				$this->setAttributes($cachedObj->buildNameValueArray());
 
 			}else{
 
 				log_message('debug',"loading a ".$this->className." with id: ".$this->id);
 				$testRes = $this->db->get_where($this->table, array("id"=>$this->id));
 				if(rows($testRes)){
-					$this->setAtributes($testRes->row_array());
+					$this->setAttributes($testRes->row_array());
 					$this->cache->add($this);
 				}
 			}
@@ -107,7 +116,7 @@ class DBObject{
 		return $result;
 	}
 
-	private function setAtributes($array){
+	private function setAttributes($array){
 		foreach($array as $name=>$value){
 		    if(is_numeric($value))
     			$this->$name = (int)$value;
@@ -163,6 +172,7 @@ class DBObject{
 			$this->clearNamespace();
 			$this->db->delete($this->table,array("id"=>$this->id));
 			$this->id = 0;
+            // TODO: update element_id last_modified to reflect change in names?
 			return true;
 		}
 		else
