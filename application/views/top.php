@@ -45,6 +45,7 @@ made at http://patorjk.com/software/taag/ with font Georgia11
         <? echo link_tag('css/bootstrap-2.3.2.css', 'stylesheet', 'text/css'); ?>
         <? echo link_tag('css/smoothness/jquery-ui-1.11.4.custom.css', 'stylesheet', 'text/css'); ?>
         <? echo link_tag('css/jquery.qtip.min.css', 'stylesheet', 'text/css'); ?>
+        <? echo link_tag('css/theme.bootstrap_2.css', 'stylesheet', 'text/css'); ?>
         <? echo link_tag('css/main.css', 'stylesheet', 'text/css'); ?>
 
         <script src="<?php echo base_url();?>js/jquery-1.7.2.min.js"></script>

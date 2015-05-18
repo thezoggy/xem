@@ -1,13 +1,13 @@
-<div class="well">
+<div>
     <?if($curShows):?>
     <?if(isset($forceAdd)):?>
         <h2>We already have shows that contain that name</h2>
     <?endif;?>
-        <table class="table table-striped table-condensed" style="width: auto; margin-bottom: 0;">
+        <table style="width: auto; margin-bottom: 0;">
             <thead>
                 <tr>
                     <th>show name</th>
-                    <th>created</th>
+                    <th class="input-small">created</th>
                     <th>last modified</th>
                 </tr>
             </thead>
@@ -43,3 +43,36 @@
         </form>
     <?endif;?>
 </div>
+
+<script src="<?php echo base_url();?>js/jquery.tablesorter.combined-2.21.5.min.js"></script>
+<script>
+    $(function() {
+        $.tablesorter.filter.types.start = function( config, data ) {
+            if ( /^\^/.test( data.iFilter ) ) {
+                return data.iExact.indexOf( data.iFilter.substring(1) ) === 0;
+            }
+            return null;
+        };
+        $.tablesorter.filter.types.end = function( config, data ) {
+            if ( /\$$/.test( data.iFilter ) ) {
+                var filter = data.iFilter,
+                    filterLength = filter.length - 1,
+                    removedSymbol = filter.substring(0, filterLength),
+                    exactLength = data.iExact.length;
+                return data.iExact.lastIndexOf(removedSymbol) + filterLength === exactLength;
+            }
+            return null;
+        };
+        $("table").tablesorter({
+            theme : "bootstrap",
+            headerTemplate : '{content} {icon}',
+            sortLocaleCompare : true,
+            widgets : [ "uitheme", "filter", "zebra" ],
+            widgetOptions : {
+                zebra : ["even", "odd"],
+                filter_hideEmpty : true,
+                filter_hideFilters : false
+            }
+        });
+    });
+</script>
