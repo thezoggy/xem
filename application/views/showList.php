@@ -49,7 +49,7 @@
     <?endif;?>
 </div>
 
-<script src="<?php echo base_url();?>js/jquery.tablesorter.combined-2.21.5.min.js"></script>
+<script src="<?php echo base_url();?>js/jquery.tablesorter.combined-2.22.1.min.js"></script>
 <script>
     $(function() {
         $.tablesorter.filter.types.start = function( config, data ) {
