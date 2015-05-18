@@ -2,6 +2,8 @@
     <?if($curShows):?>
     <?if(isset($forceAdd)):?>
         <h2>We already have shows that contain that name</h2>
+    <?else:?>
+        <h3><? echo count($shows); ?> Shows Found</h3>
     <?endif;?>
         <table style="width: auto; margin-bottom: 0;">
             <thead>
@@ -35,12 +37,15 @@
     <?endif;?>
 
     <?if(isset($forceAdd)):?>
+    <br>
+    <div class="well" style="margin-bottom: 0;">
         <h2>Add Show</h2>
         <?=form_open("xem/addShow", array('class' => 'form-horizontal'))?>
             <input id="newElementName" name="main_name" class="input-large">
             <label class="checkbox" for="forceAdd"><input type="checkbox" name="forceAdd" id="forceAdd"> I know what I am doing</label>
             <input type="submit" value="Add" class="btn btn-danger">
         </form>
+    </div>
     <?endif;?>
 </div>
 
