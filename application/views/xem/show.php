@@ -1,5 +1,5 @@
 <?if(isset($fullelement)):?>
-<?if($fullelement->status > 0 || grantAcces(4)):?>
+<?if($fullelement->status > 0 || grantAccess(4)):?>
 <div id="element" data-id="<?=$fullelement->id?>">
         <h1><?=$fullelement->main_name?></h1>
 
@@ -7,7 +7,7 @@
           <button data-toggle="dropdown" class="btn btn-info dropdown-toggle">Toolbox <span class="caret"></span></button>
           <ul class="dropdown-menu">
             <li><?=anchor("xem/changelog/".$fullelement->id,"<i class='icon-pencil'></i> Change Log")?></li>
-            <?if($editRight || grantAcces(1)):?>
+            <?if($editRight || grantAccess(1)):?>
 
                 <?if(!$fullelement->isDraft):?>
                 <li><?=anchor("xem/draft/".$fullelement->id,"<i class='icon-hand-right'></i> Draft (".$fullelement->draftChangesCount().") ahead")?></li>
@@ -24,7 +24,7 @@
                     <li><?=anchor("#","<i class='icon-retweet'></i> Save Entities Order", array('onclick'=>'saveEntityOrder(); return false;') )?></li>
                     <li><?=anchor("#","<i class='icon-minus-sign'></i> QuickConnect OFF", array('id'=>'toggleQC', 'title'=>'If QuickConnect is ON a direct connection will be made as soon two episodes are marked.', 'onclick'=>'toggleQC(); return false;') )?></li>
                 <?endif?>
-                <?if(grantAcces(3)):?>
+                <?if(grantAccess(3)):?>
                     <li>
                         <?=form_open("xem/setLockLevel",array('id'=>'setLockLevelForm'))?>
                         <?=form_hidden("element_id",$fullelement->id)?>
@@ -47,7 +47,7 @@
                 <?endif?>
                 <?endif?>
 
-                <?if(grantAcces(4)):?>
+                <?if(grantAccess(4)):?>
                 <?if($fullelement->status > 0):?>
                 <?if(!$fullelement->isDraft):?>
                     <li class="divider"></li>
@@ -179,7 +179,7 @@
     		<?endif?>
 		</div>
 
-		<?if($editRight || grantAcces(1)):?>
+		<?if($editRight || grantAccess(1)):?>
 		<div id="toolbox" style="display: none;">
 		  <strong>Toolbox</strong>
 		  <ul>
@@ -197,7 +197,7 @@
                 <li><label>Save entity order</label><input type="button" value="Save" onclick="saveEntityOrder()" class="btn btn-mini" /></li>
                 <li><label title="If QuickConnect is ON a direct connection will be made as soon two episodes are marked.">QuickConnect</label><input type="button" value="OFF" onclick="if(quickConnet){quickConnet = false; $(this).val('OFF')}else{quickConnet = true; $(this).val('ON')}" class="btn btn-mini" /></li>
                 <?endif?>
-                <?if(grantAcces(3)):?>
+                <?if(grantAccess(3)):?>
                 <li>
                     <?=form_open("xem/setLockLevel",array('id'=>'deleteShowForm'))?>
                     <?=form_hidden("element_id",$fullelement->id)?>
@@ -221,7 +221,7 @@
                 <?endif?>
                 <?endif?>
 
-              <?if(grantAcces(4)):?>
+              <?if(grantAccess(4)):?>
               <?if($fullelement->status > 0):?>
                 <?if(!$fullelement->isDraft):?>
                 <li><label>Delete</label><input type="button" onclick="deleteMe()" value="Delete This Show&hellip;" class="btn btn-danger btn-mini" /></li>

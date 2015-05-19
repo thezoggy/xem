@@ -52,7 +52,7 @@ class Xem extends SuperController {
 	}
 
 	public function adminShow(){
-		if(!grantAcces(4)) {
+		if(!grantAccess(4)) {
 			redirect('xem/shows');
 			return false;
 		}
@@ -79,7 +79,7 @@ class Xem extends SuperController {
 				    }
 				}
 	            if(!$fullElement){
-            		if(grantAcces(1)) {
+            		if(grantAccess(1)) {
         	    		redirect('xem/createDraft/'.$id);
             		}else{
             			redirect('xem/show/'.$id);
@@ -102,7 +102,7 @@ class Xem extends SuperController {
 	}
 
 	public function createDraft() {
-		if(!grantAcces(1)) {
+		if(!grantAccess(1)) {
 			redirect('user/login');
 			return false;
 		}
@@ -128,7 +128,7 @@ class Xem extends SuperController {
 		}
 	}
     public function makePublic(){
-		if(!grantAcces(4)) {
+		if(!grantAccess(4)) {
 			redirect('user/login');
 			return false;
 		}
@@ -159,7 +159,7 @@ class Xem extends SuperController {
     }
 
     public function requestPublic() {
-        if(!grantAcces(1)) {
+        if(!grantAccess(1)) {
 			redirect('user/login');
 			return false;
 		}
@@ -200,7 +200,7 @@ class Xem extends SuperController {
 	}
 
 	public function adminShows(){
-        if(!grantAcces(4)) {
+        if(!grantAccess(4)) {
 			redirect('xem/shows');
 			return false;
 		}
@@ -352,7 +352,7 @@ class Xem extends SuperController {
     }
 
 	function deleteShow(){
-		if(!grantAcces(4)) {
+		if(!grantAccess(4)) {
 			redirect('user/login');
             return false;
 		}
@@ -375,7 +375,7 @@ class Xem extends SuperController {
             redirect('');
 	}
 	function unDeleteShow(){
-		if(!grantAcces(4)) {
+		if(!grantAccess(4)) {
 			redirect('user/login');
             return false;
 		}
@@ -391,7 +391,7 @@ class Xem extends SuperController {
 	}
 
     function setLockLevel() {
-		if(!grantAcces(3)) {
+		if(!grantAccess(3)) {
 			redirect('user/login');
             return false;
 		}
@@ -404,7 +404,7 @@ class Xem extends SuperController {
     }
 
     function clearCache() {
-        if(!grantAcces(3)) {
+        if(!grantAccess(3)) {
 			redirect('user/login');
             return false;
 		}

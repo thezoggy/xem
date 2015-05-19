@@ -168,7 +168,7 @@ class User extends SuperController {
     }
 
 	function emailSettings() {
-	    if (grantAcces(4)) {
+	    if (grantAccess(4)) {
 	        $config = array();
 
             $config['email_new_account'] = 0;

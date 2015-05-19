@@ -95,7 +95,7 @@ made at http://patorjk.com/software/taag/ with font Georgia11
                             <ul class="dropdown-menu">
                                 <li><?=anchor("user","<i class='icon-user'></i> Profile (Level $user_lvl)")?></li>
                                 <li><?=anchor("user/logout/".$uri, "<i class='icon-off'></i> Log Out")?></li>
-                            <?if(grantAcces(4)):?>
+                            <?if(grantAccess(4)):?>
                                 <li class="divider"></li>
                                 <li><?=anchor("xem/adminShows","<i class='icon-fire'></i> Admin View")?></li>
                             <?endif?>

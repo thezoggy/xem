@@ -16,7 +16,7 @@
     <span class="help-block">Note: Upon changing your password, you must log back in!</span>
 </form>
 
-<?if(grantAcces(4)):?>
+<?if(grantAccess(4)):?>
 <br/>
 <?=form_open("user/emailSettings",array('class'=>'form-inline'))?>
     <legend>E-mail Notifications:</legend>

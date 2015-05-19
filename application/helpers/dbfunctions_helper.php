@@ -9,7 +9,7 @@ function userNameByID($db,$id){
 	return 'unknown';
 }
 
-function grantAcces($lvl=0){
+function grantAccess($lvl=0){
 	if(!$lvl)
 		return true;
 	$CI =& get_instance();
