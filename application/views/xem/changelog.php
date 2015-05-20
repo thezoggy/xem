@@ -7,6 +7,7 @@
     <li class="active">Changelog</li>
 </ul>
 
+<?if($events):?>
 <table id="changelog">
     <!--
     <tr>
@@ -23,6 +24,9 @@
     </tr>
     <?endforeach?>
 </table>
+<?else:?>
+    <h2>No data found</h2>
+<?endif;?>
 
 <script type="text/javascript">
 $('tr:has(.draft_bottom)').addClass('draft_bottom');

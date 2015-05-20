@@ -30,6 +30,7 @@
     </tbody>
 </table>
 
+<?if($events):?>
 <h2>Previously on XEM</h2>
 <table id="changelog">
     <!--
@@ -47,3 +48,4 @@
     </tr>
     <?endforeach?>
 </table>
+<?endif;?>
