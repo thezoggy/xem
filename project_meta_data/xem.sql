@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 02, 2015 at 09:50 PM
+-- Generation Time: May 15, 2015 at 05:05 PM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -106,7 +106,9 @@ CREATE TABLE IF NOT EXISTS `elements` (
   `main_name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `entity_order` varchar(90) COLLATE utf8_unicode_ci NOT NULL,
   `status` int(11) NOT NULL DEFAULT '1',
-  `parent` int(11) NOT NULL DEFAULT '0'
+  `parent` int(11) NOT NULL DEFAULT '0',
+  `last_modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------

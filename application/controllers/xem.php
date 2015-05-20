@@ -415,45 +415,45 @@ class Xem extends SuperController {
             redirect('');
     }
 
-	function addShow(){
-		if(!$this->session->userdata('logged_in')) {
-			redirect('user/login');
+    function addShow() {
+        if(!$this->session->userdata('logged_in')) {
+            redirect('user/login');
             return false;
-		}
-		$newName = trim($_POST['main_name']);
-		if($newName != ""){
-		    $show = getShows($this->db, $newName);
-		    if(count($show) > 0 && $show != false && !isset($_POST['forceAdd'])){ // we already have a show with that name
-				$this->out['searchQeuery'] = $newName;
-				$this->out['curShows'] = $show;
-				$this->out['forceAdd'] = true;
-				$this->_loadView('showList',false);
-				return false;
-		    }else{
-		        $element = new Element($this->oh);
-    			$element->status = 1;
-    			$element->main_name = $newName;
+        }
+        $newName = trim($_POST['main_name']);
+        if($newName != "") {
+            $show = getShows($this->db, $newName);
+            if(count($show) > 0 && $show != false && !isset($_POST['forceAdd'])) { // we already have a show with that name
+                $this->out['searchQeuery'] = $newName;
+                $this->out['curShows'] = $show;
+                $this->out['forceAdd'] = true;
+                $this->_loadView('showList', false);
+                return false;
+            } else {
+                $element = new Element($this->oh);
+                $element->status = 1;
+                $element->main_name = $newName;
                 $element->created = date('c');
-    			$element->save();
+                $element->save();
 
-                $emailBody = $this->load->view('email/show_new', array('show'=>$element,'user_nick'=>$this->out['user_nick']), true);
+                $emailBody = $this->load->view('email/show_new', array('show' => $element, 'user_nick' => $this->out['user_nick']), true);
                 foreach ($this->simpleloginsecure->getUserBasedOn(4, 'email_new_show') as $cur_user) {
                     // info mail
                     $this->email->to($cur_user['user_email']);
-                    $this->email->subject('New Show | '.$element->main_name);
+                    $this->email->subject('New Show | ' . $element->main_name);
                     $this->email->message($emailBody);
                     $this->email->send();
-                    log_message('debug', 'Sending email_new_show to '. $cur_user['user_email']);
+                    log_message('debug', 'Sending email_new_show to ' . $cur_user['user_email']);
                 }
-    			redirect('xem/show/'.$element->id);
-    			return true;
-		    }
-		}else{
-			redirect('xem/shows/');
-			return true;
-		}
+                redirect('xem/show/' . $element->id);
+                return true;
+            }
+        } else {
+            redirect('xem/shows/');
+            return true;
+        }
 
-	}
+    }
 
 	function changelog(){
 
