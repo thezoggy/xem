@@ -9,6 +9,7 @@ application/logs/*.php
 ######################
 *.bak
 *.tmp
+.idea/*
 
 # OS generated files #
 ######################
