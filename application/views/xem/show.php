@@ -39,28 +39,28 @@
                         </form>
                     </li>
 
-                <?if(!$fullelement->isDraft):?>
-                    <li class="divider"></li>
-                    <li>
-                        <li><?=anchor("xem/clearCache/".$fullelement->id,"<i class='icon-remove-sign'></i> Clear Cache (" . $fullelement->cacheSize . ")" )?></li>
-                    </li>
-                <?endif?>
+                    <?if(!$fullelement->isDraft):?>
+                        <li class="divider"></li>
+                        <li>
+                            <li><?=anchor("xem/clearCache/".$fullelement->id,"<i class='icon-remove-sign'></i> Clear Cache (" . $fullelement->cacheSize . ")" )?></li>
+                        </li>
+                    <?endif?>
                 <?endif?>
 
                 <?if(grantAccess(4)):?>
-                <?if($fullelement->status > 0):?>
-                <?if(!$fullelement->isDraft):?>
-                    <li class="divider"></li>
-                    <li><div class="btnWrapper"><input type="button" value="Delete This Show&hellip;" data-toggle="modal" href="#confirmDeleteMe" class="btn btn-danger btn-block" /></div></li>
-                <?else:?>
-                    <li class="divider"></li>
-                    <li><div class="btnWrapper"><input type="button" value="Make Draft Public&hellip;" data-toggle="modal" href="#confirmMakeDraftPublic" class="btn btn-success btn-block" /></div></li>
-                    <li><div class="btnWrapper"><input type="button" value="Delete This Draft&hellip;" data-toggle="modal" href="#confirmDeleteMe" class="btn btn-danger btn-block" /></div></li>
-                <?endif?>
-                <?else:?>
-                    <li class="divider"></li>
-                    <li><div class="btnWrapper"><input type="submit" value="UnDelete This Show&hellip;" data-toggle="modal" href="#confirmUnDeleteMe" class="btn btn-danger btn-block" /></div></li>
-                <?endif?>
+                    <?if($fullelement->status > 0):?>
+                        <?if(!$fullelement->isDraft):?>
+                            <li class="divider"></li>
+                            <li><div class="btnWrapper"><input type="button" value="Delete This Show&hellip;" data-toggle="modal" href="#confirmDeleteMe" class="btn btn-danger btn-block" /></div></li>
+                        <?else:?>
+                            <li class="divider"></li>
+                            <li><div class="btnWrapper"><input type="button" value="Make Draft Public&hellip;" data-toggle="modal" href="#confirmMakeDraftPublic" class="btn btn-success btn-block" /></div></li>
+                            <li><div class="btnWrapper"><input type="button" value="Delete This Draft&hellip;" data-toggle="modal" href="#confirmDeleteMe" class="btn btn-danger btn-block" /></div></li>
+                        <?endif?>
+                    <?else:?>
+                        <li class="divider"></li>
+                        <li><div class="btnWrapper"><input type="submit" value="UnDelete This Show&hellip;" data-toggle="modal" href="#confirmUnDeleteMe" class="btn btn-danger btn-block" /></div></li>
+                    <?endif?>
                 <?endif?>
                 <li class="divider"></li>
             <?endif?>
@@ -73,7 +73,7 @@
                 <h3>Send a request to make this draft public</h3>
             </div>
             <div class="modal-body">
-                <p>If a request is send no new drafts can be created and this one is locked. Be sure you are done and information is correct.</p>
+                <p>If a request is sent no new drafts can be created and this one is locked. Be sure you are done and information is correct.</p>
                 <p>Send public request?</p>
             </div>
             <div class="modal-footer">
@@ -190,7 +190,7 @@
                 <?if($fullelement->status<4):?>
                 <li><label>Public request</label><input type="button" value="Request&hellip;" onclick="requestPublic()" class="btn btn-mini" /></li>
                 <?else:?>
-                <li><label>Public request was send&hellip;</label></li>
+                <li><label>Public request was sent&hellip;</label></li>
                 <?endif;?>
                 <?endif?>
                 <?if($editRight):?>
@@ -279,9 +279,12 @@ var languages = <?=$languagesJS?>;
 </script>
 <script src="/js/shows.js"></script>
 <?else:?>
-<h2><?=$fullelement->main_name?></h2>
-<p>This show was deleted!!</p>
-<p><?=anchor('xem/changelog/'.$fullelement->id,'Changelog')?></p>
-
+    <?if($fullelement->id):?>
+        <h2><?=$fullelement->main_name?></h2>
+        <p>The requested show has been deleted!!</p>
+        <p><?=anchor('xem/changelog/'.$fullelement->id,'Changelog')?></p>
+    <?else:?>
+        <p>The requested show is invalid!!</p>
+    <?endif?>
 <?endif?>
 <?endif?>
