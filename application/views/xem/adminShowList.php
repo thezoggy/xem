@@ -101,7 +101,7 @@
 <?if($curShows):?>
 
     <div id="adminListTB" class="row">
-        <div class="span6">
+        <div style="box-sizing: border-box;display: block;float: left; width: 350px;">
             <h4>Shows:</h4>
             <div class="btn-toolbar" style="margin: 0;">
                 <div id="showGroup" class="btn-group" data-toggle="buttons-radio">
@@ -124,7 +124,7 @@
             </div>
         </div>
 
-        <div class="span6">
+        <div style="box-sizing: border-box;display: block;float: left; width: 350px; margin-left: 15px;">
             <h4>Drafts:</h4>
             <div class="btn-group">
                 <button id="hideDrafts" class="btn btn-warning" title="Hide Drafts"><i class="icon-remove icon-white"></i></button>
