@@ -74,11 +74,8 @@ class User extends SuperController {
         $this->form_validation->set_rules('pw_check', 'Password Confirm', 'trim|required|matches[pw]');
         $this->form_validation->set_rules('g-recaptcha-response', 'reCaptcha', 'required|callback_check_captcha');
 
-        // TODO: Make this a config variable?
-        $registration_open = true;
-
         $recaptcha = $this->input->post('g-recaptcha-response');
-        if($this->form_validation->run() && $registration_open) {
+        if($this->form_validation->run()) {
             if(valid_email($_POST['email'])) {
                 $userdata = $this->simpleloginsecure->create($_POST['user'], $_POST['email'], $_POST['pw']);
                 if($userdata) {
@@ -102,10 +99,6 @@ class User extends SuperController {
         } elseif(isset($_POST['user']) && isset($_POST['email']) && isset($_POST['pw'])) {
             $this->out['register_unsuccessfull'] = true;
             $this->out['reason'] = '<p>Required fields are incomplete.</p>';
-        }
-        if(!$registration_open) {
-            $this->out['register_unsuccessfull'] = true;
-            $this->out['reason'] = '<p>Registration closed!!</p>';
         }
 
         $this->_loadView('register');
