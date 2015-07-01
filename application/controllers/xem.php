@@ -275,7 +275,8 @@ class Xem extends SuperController {
         $newSeason->season = $season;
         $newSeason->season_size = $_POST['season_size'];
         if(!preg_match('/^\d+$/', $_POST['season_size'])) {
-            $valid = false;
+            // if value is not a number, just set to 0
+            $newSeason->season_size = 0;
         }
         if(isset($_POST['identifier'])) {
             $newSeason->identifier = $_POST['identifier'];
