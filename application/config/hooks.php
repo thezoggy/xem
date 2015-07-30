@@ -10,7 +10,13 @@
 |
 */
 
-
+$hook['post_controller'] = array(
+    'class' => 'Http_request_logger',
+    'function' => 'log_all',
+    'filename' => 'Http_request_logger.php',
+    'filepath' => 'hooks',
+    'params' => array()
+);
 
 /* End of file hooks.php */
 /* Location: ./application/config/hooks.php */
