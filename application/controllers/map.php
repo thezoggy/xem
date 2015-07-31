@@ -97,6 +97,12 @@ class Map extends CI_Controller {
         $identifier = $_REQUEST['id'];
         $origin = $_REQUEST['origin'];
         $destination = false;
+
+        // provide way to just return name to track down id...
+        $includeDefaultNames = false;
+        if(isset($_REQUEST['defaultNames']))
+            $includeDefaultNames = (bool) $_REQUEST['defaultNames'];
+
         if(isset($_REQUEST['destination']))
             $destination = $_REQUEST['destination'];
         // i dont need the postman but its an easy way wo get the element id... one might want to refactor that one day
@@ -108,6 +114,10 @@ class Map extends CI_Controller {
         }
         $e = new FullElement($this->oh, $p->element->id);
         $names = $e->groupedNames(true);
+
+        if($includeDefaultNames) {
+            $names[-1] = $e->main_name;
+        }
 
         // make the season -1 nice for everyone else ... change it into 'all'
         if(isset($names[-1])){
@@ -260,6 +270,8 @@ class Map extends CI_Controller {
 				continue;
 
 		    $seasons = $this->db->get_where('seasons', array('element_id'=>$curElement->id,'location_id'=>$origin_id));
+            // $hasAnime = $this->db->get_where('seasons', array('element_id'=>$curElement->id,'location_id'=>'3'));
+            // if(rows($hasAnime)) { continue; }
 		    $cur_identifier = null;
 		    if(rows($seasons)){
 		        $cur_identifier = getFirst($seasons);
