@@ -62,7 +62,6 @@ ul.no label {
   font-weight: normal;
 }
 .qtip-content ul,
-#header ul,
 #element ul,
 ul.no {
   padding: 0;
@@ -71,7 +70,6 @@ ul.no {
 }
 
 .qtip-content ul,
-#header ul li,
 #element ul li,
 ul.no {
   list-style-type: none;
@@ -681,13 +679,6 @@ input.name {
 }
 
 /* auto complete */
-#header.autocomplete {
-  -webkit-border-bottom-right-radius: 0;
-      -moz-border-radius-bottomright: 0;
-          border-bottom-right-radius: 0;
-}
-
-
 .ui-autocomplete {
   padding: 0 1px;
   margin: 0;

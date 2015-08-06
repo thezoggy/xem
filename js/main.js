@@ -168,12 +168,6 @@ function mainInit(){
             $('#search').val(ui.item.value);
             $('#searchForm').submit();
         },
-        open: function (event, ui) {
-            $('#header').addClass('autocomplete');
-        },
-        close: function (event, ui) {
-            $('#header').removeClass('autocomplete');
-        },
         position: {my: "right top", at: "right bottom"},
         minLength: 2
     })

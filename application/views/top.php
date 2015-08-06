@@ -175,11 +175,6 @@ made at http://patorjk.com/software/taag/ with font Georgia11
         </div><!-- /navbar-inner -->
     </div><!-- /navbar -->
 
-        <div id="header" style="display: none;">
-            <div id="logo">
-            </div>
-        </div>
-
     <div class="alert alert-error hide">
         <button class="close" data-dismiss="alert">&times;</button>
         <strong>Warning!</strong> Development : This site could break at any moment, be aware!
