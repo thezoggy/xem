@@ -846,7 +846,7 @@ input[type="image"] {
   padding: 10px 0 30px;
   border-top: 1px solid #ddd;
 }
-.footer img.social {
+input.social, img.social {
   opacity: .5;
   filter: alpha(opacity=50);
   -webkit-transition: opacity .5s ease-in-out;
@@ -855,7 +855,7 @@ input[type="image"] {
        -o-transition: opacity .5s ease-in-out;
           transition: opacity .5s ease-in-out;
 }
-.footer img.social:hover {
+input.social:hover, img.social:hover {
   opacity: 1;
   filter: alpha(opacity=100);
 }
