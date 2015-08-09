@@ -1,7 +1,2 @@
-# www.robotstxt.org/
-
-# Allow crawling of all content - exclude sensitive and temp data
 User-agent: *
-Disallow: /xem/changelog/
-Disallow: /xem/draft/
-Disallow: /user/
+Disallow: /
