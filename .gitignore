@@ -4,6 +4,10 @@ application/config/database.php
 application/config/email.php
 application/config/recaptcha.php
 application/logs/*.php
+!application/logs/index.html
+application/cache/*
+!application/cache/index.html
+!application/cache/.htaccess
 
 #  IDE specific      #
 ######################
