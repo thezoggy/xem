@@ -400,7 +400,7 @@ class Api extends CI_Controller {
 
 	}
 	function sceneExcpetions(){
-		$locations = $this->db->get('location');
+		$locations = $this->db->get('locations');
 		$tvdb_id = 0;
 		foreach($locations->result() as $loc){
 			if($loc->name == "tvdb"){

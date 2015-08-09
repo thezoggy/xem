@@ -40,7 +40,7 @@
 
 $route['default_controller'] = "index";
 $route['404_override'] = '';
-$route['^(?!xem|api|user|proxy|map).*'] = "index/$0";
+$route['^(?!xem|api|user|map).*'] = "index/$0";
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
