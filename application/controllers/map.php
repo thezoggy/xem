@@ -65,9 +65,11 @@ class Map extends CI_Controller {
         if(!$data){
             $this->_fullOut('failure', array(), 'no single connection');
         }else{
+            header('Cache-Control: max-age=600, public'); // 10min cache
+            $this->output->cache(10); // let CI cache results for 10mins
             $this->_fullOut('success', $data, 'full mapping for '.$identifier.' on '.$origin.'. '.$cachedMsg);
         }
-        
+
     }
 
     function single() {
@@ -130,6 +132,8 @@ class Map extends CI_Controller {
             return false;
         }
 
+        header('Cache-Control: max-age=600, public'); // 10min cache
+        $this->output->cache(10); // let CI cache results for 10mins
         $this->_fullOut('success', $names);
         return false;
     }
@@ -282,6 +286,8 @@ class Map extends CI_Controller {
 		    $out[$cur_identifier] = $namesStrings;
 		}
 
+        header('Cache-Control: max-age=600, public'); // 10min cache
+        $this->output->cache(10); // let CI cache results for 10mins
         $this->_fullOut('success', $out);
         return false;
     }
@@ -329,9 +335,10 @@ class Map extends CI_Controller {
 		    $fullString .= $curTvdb_identifier.": ";
 			$fullString .= "'".implode("','", $namesStrings)."',\r\n";
 		}
-		//$this->output->set_content_type('text/plain');
 
 		$this->output->set_header("Content-type: text/html; charset=utf-8\r\n");
+        header('Cache-Control: max-age=3600, public'); // 1hr cache
+        $this->output->cache(60); // let CI cache results for 1hr
 		$this->output->set_output($fullString);
     }
     function havemap(){
@@ -359,6 +366,8 @@ class Map extends CI_Controller {
             }
         }
         sort($ids); // sort output so it is easier to find bad data
+        header('Cache-Control: max-age=3600, public'); // 1hr cache
+        $this->output->cache(60); // let CI cache results for 1hr
         $this->_fullOut('success', $ids, 'These shows have some kind of mapping');
     }
     /*
