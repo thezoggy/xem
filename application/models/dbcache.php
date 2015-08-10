@@ -13,7 +13,7 @@ class DBCache{
 
 		if(is_numeric($bestBefore)){ // time offset in seconds
 		    $data['best_before'] = date("c", time()+$bestBefore);
-		}else{ // we asume a datetime string in something the datetime field in the database will understand (2012-02-29 14:24:52)
+		}else{ // we assume a datetime string in something the datetime field in the database will understand (2012-02-29 14:24:52)
 		    $data['best_before'] = $bestBefore;
 		}
 
@@ -55,6 +55,7 @@ class DBCache{
 	}
 
 	function clearNamespace($namespace) {
+        $this->clear_all_cache(); // purge external cache
 		return $this->db->delete('cache',array("namespace"=>$namespace));
 	}
 
@@ -63,5 +64,36 @@ class DBCache{
 		$result = $this->db->get_where('cache');
 		return rows($result);
 	}
+
+    /**
+     * Clears all cache files from the cache directory
+     */
+    public function clear_all_cache() {
+        $CI =& get_instance();
+        $path = $CI->config->item('cache_path');
+
+        $cache_path = ($path == '') ? APPPATH.'cache/' : $path;
+
+        if ( ! is_dir($cache_path) OR ! is_really_writable($cache_path))
+        {
+            log_message('error', "Unable to access cache path: ".$cache_path);
+            return;
+        }
+
+        $handle = opendir($cache_path);
+
+        while (($file = readdir($handle))!== FALSE)
+        {
+            //Leave the directory protection alone
+            if ($file != '.htaccess' && $file != 'index.html')
+            {
+                @unlink($cache_path.'/'.$file);
+            }
+        }
+
+        closedir($handle);
+        log_message('debug', "Cache cleared.");
+    }// clear_all_cache
+
 }
 ?>
