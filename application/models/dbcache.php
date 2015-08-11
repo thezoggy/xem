@@ -55,7 +55,6 @@ class DBCache{
 	}
 
 	function clearNamespace($namespace) {
-        $this->clear_all_cache(); // purge external cache
 		return $this->db->delete('cache',array("namespace"=>$namespace));
 	}
 

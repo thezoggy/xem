@@ -249,10 +249,11 @@ class Xem extends SuperController {
     		$name->save();
 		}
         $e = new Element($this->oh, $_POST['element_id']);
-        if($e->isDraft())
-    		redirect('xem/draft/'.$e->parent);
-        else
-    		redirect('xem/show/'.$_POST['element_id']);
+        if($e->isDraft()) {
+            redirect('xem/draft/' . $e->parent);
+        } else {
+            redirect('xem/show/' . $_POST['element_id']);
+        }
 	}
 
     public function newSeason() {
@@ -343,6 +344,7 @@ class Xem extends SuperController {
                 $season->delete();
             }
         }
+
         // print_o($season);
         $e = new Element($this->oh, $_POST['element_id']);
         if($e->isDraft()) {
@@ -369,6 +371,7 @@ class Xem extends SuperController {
                 return true;
             }else{
                 log_message('debug', 'Deleted show '.$id);
+                $this->oh->dbcache->clear_all_cache(); // purge external cache
                 redirect('xem/show/'.$id);
                 return true;
             }
@@ -385,7 +388,7 @@ class Xem extends SuperController {
     		$element = new Element($this->oh, $id);
     		$element->status = 1;
     		$element->save();
-
+            $this->oh->dbcache->clear_all_cache(); // purge external cache
     		redirect('xem/show/'.$id);
         }else
             redirect('');
@@ -411,6 +414,7 @@ class Xem extends SuperController {
 		}
         if($id = $this->uri->segment(3)){
     		$this->oh->dbcache->clearNamespace($id);
+            $this->oh->dbcache->clear_all_cache(); // purge external cache
     		redirect('xem/show/'.$id);
         }else
             redirect('');
