@@ -20,8 +20,14 @@ class Map extends CI_Controller {
 	}
 
     function all() {
+        // check for required params
+        if(!isset($_REQUEST['id']) || !isset($_REQUEST['origin'])) {
+            $this->_fullOut('failure', 'missing required parameter(s)');
+            return;
+        }
         $identifier = $_REQUEST['id'];
         $origin = $_REQUEST['origin'];
+
         $destination = false;
         if(isset($_REQUEST['destination']))
             $destination = $_REQUEST['destination'];
@@ -40,7 +46,7 @@ class Map extends CI_Controller {
             $seasons = $p->getSeasons();
             foreach ($seasons as $season) {
                 if($season->absolute_start > 0)
-        			$absolute = $season->absolute_start;
+                    $absolute = $season->absolute_start;
 
                 for ($i = 0; $i < $season->season_size; $i++) {
                     $curEpNumber = $i + $season->episode_start;
@@ -60,19 +66,25 @@ class Map extends CI_Controller {
             $data = $cacheData;
             $cachedMsg = 'this was a cached version';
         }
-        
+
         $this->oh->dbcache->save('map_out', $p->element->id, $origin.'_'.$destination, 259200, $data); // save into db cache for 3 days (259200s)
         if(!$data){
             $this->_fullOut('failure', array(), 'no single connection');
         }else{
-            $this->output->set_header('Cache-Control: max-age=600, public'); // 10min cache
-            $this->output->cache(10); // let CI cache results for 10mins
+            // header('X-NotExtCached: this was not served up from the ext cache');
+            $this->output->set_header('Cache-Control: max-age=3600, public'); // 1hr cache
+            $this->output->cache(60); // let CI cache results for 1hr
             $this->_fullOut('success', $data, 'full mapping for '.$identifier.' on '.$origin.'. '.$cachedMsg);
         }
 
     }
 
     function single() {
+        // check for required params
+        if(!isset($_REQUEST['id']) || !isset($_REQUEST['origin'])) {
+            $this->_fullOut('failure', 'missing required parameter(s)');
+            return;
+        }
         $identifier = $_REQUEST['id'];
         $origin = $_REQUEST['origin'];
 
@@ -96,6 +108,11 @@ class Map extends CI_Controller {
 
 
     function names() {
+        // check for required params
+        if(!isset($_REQUEST['id']) || !isset($_REQUEST['origin'])) {
+            $this->_fullOut('failure', 'missing required parameter(s)');
+            return;
+        }
         $identifier = $_REQUEST['id'];
         $origin = $_REQUEST['origin'];
         $destination = false;
@@ -132,8 +149,8 @@ class Map extends CI_Controller {
             return false;
         }
 
-        $this->output->set_header('Cache-Control: max-age=600, public'); // 10min cache
-        $this->output->cache(10); // let CI cache results for 10mins
+        $this->output->set_header('Cache-Control: max-age=3600, public'); // 1hr cache
+        $this->output->cache(60); // let CI cache results for 1hr
         $this->_fullOut('success', $names);
         return false;
     }
@@ -286,8 +303,8 @@ class Map extends CI_Controller {
 		    $out[$cur_identifier] = $namesStrings;
 		}
 
-        $this->output->set_header('Cache-Control: max-age=600, public'); // 10min cache
-        $this->output->cache(10); // let CI cache results for 10mins
+        $this->output->set_header('Cache-Control: max-age=3600, public'); // 1hr cache
+        $this->output->cache(60); // let CI cache results for 1hr
         $this->_fullOut('success', $out);
         return false;
     }
@@ -342,7 +359,13 @@ class Map extends CI_Controller {
 		$this->output->set_output($fullString);
     }
     function havemap(){
+        // check for required params
+        if(!isset($_REQUEST['origin'])) {
+            $this->_fullOut('failure', 'missing required parameter(s)');
+            return;
+        }
         $origin = $_REQUEST['origin'];
+
         $curLocationID = 0;
         $locations = $this->db->get('locations');
 		foreach($locations->result() as $loc){
@@ -366,8 +389,8 @@ class Map extends CI_Controller {
             }
         }
         sort($ids); // sort output so it is easier to find bad data
-        $this->output->set_header('Cache-Control: max-age=3600, public'); // 1hr cache
-        $this->output->cache(60); // let CI cache results for 1hr
+        $this->output->set_header('Cache-Control: max-age=10800, public'); // 3hr cache
+        $this->output->cache(180); // let CI cache results for 3hr
         $this->_fullOut('success', $ids, 'These shows have some kind of mapping');
     }
     /*
