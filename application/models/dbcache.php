@@ -74,25 +74,22 @@ class DBCache{
 
         $cache_path = ($path == '') ? APPPATH.'cache/' : $path;
 
-        if ( ! is_dir($cache_path) OR ! is_really_writable($cache_path))
-        {
+        if ( ! is_dir($cache_path) OR ! is_really_writable($cache_path)) {
             log_message('error', "Unable to access cache path: ".$cache_path);
             return;
         }
 
         $handle = opendir($cache_path);
 
-        while (($file = readdir($handle))!== FALSE)
-        {
+        while (($file = readdir($handle)) !== FALSE) {
             //Leave the directory protection alone
-            if ($file != '.htaccess' && $file != 'index.html')
-            {
+            if ($file != '.htaccess' && $file != 'index.html' && $file != '.' && $file != '..') {
                 @unlink($cache_path.'/'.$file);
             }
         }
 
         closedir($handle);
-        log_message('debug', "Cache cleared.");
+        log_message('info', "Cache cleared.");
     }// clear_all_cache
 
 }
