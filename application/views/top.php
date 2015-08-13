@@ -147,7 +147,9 @@ made at http://patorjk.com/software/taag/ with font Georgia11
                                     <?endif?>
                                     <option value="choose" <?if(!isset($fullelement)){echo 'selected="selected"';} ?>>Choose a Show</option>
                                     <?foreach($shows as $row):?>
-                                        <option value="<?=$row->id?>"  <?if(isset($fullelement)){if($fullelement->id==$row->id) echo 'selected="selected"';} ?>><?=$row->main_name?></option>
+                                        <option value="<?=$row->id?>"  <?if(isset($fullelement)){if($fullelement->id==$row->id) echo 'selected="selected"';} ?>>
+                                            <?php echo strlen($row->main_name) > 40 ? substr($row->main_name,0,40)."..." : $row->main_name; ?>
+                                        </option>
                                     <?endforeach?>
                                 </select>
                                 <div id="newStuff" class="hide form-inline">
