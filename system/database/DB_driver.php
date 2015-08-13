@@ -71,7 +71,7 @@ class CI_DB_driver {
 	var $curs_id;
 	var $limit_used;
 
-
+    error_reporting(E_ALL ^ E_DEPRECATED);
 
 	/**
 	 * Constructor.  Accepts one parameter containing the database
