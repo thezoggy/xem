@@ -401,9 +401,10 @@ class Map extends CI_Controller {
         RESULT_DENIED:"denied"
     }*/
 	function _fullOut($status, $data ,$message=''){
-		if(!$data)
-			$data=array();
-		$this->output->set_content_type('application/json')->set_output(json_encode(array('result'=>$status,'data'=>$data,'message'=>$message)));
+        if(!$data) {
+            $data = array();
+        }
+        $this->output->set_content_type('application/json')->set_output(json_encode(array('result'=>$status,'data'=>$data,'message'=>$message)));
 	}
 }
 

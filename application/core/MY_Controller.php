@@ -4,6 +4,10 @@ class SuperController extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
+        // show report at end of page
+        //$this->output->enable_profiler(TRUE);
+        // disable saving sql queries in array for last_query
+        //$this->db->save_queries = FALSE;
 
 		// create a new user alpha beta testers
 		//$this->simpleloginsecure->create('user_nick','email', 'pw');
