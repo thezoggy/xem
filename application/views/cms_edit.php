@@ -1,17 +1,21 @@
 <script>
 $(document).ready(function() {
+    currentPage = <?=json_encode($page) ?>;
+    originalContent = '';
+
     // initialize button states
     resetControls();
-
-    var currentPage = <?=json_encode($page) ?>;
-    var originalContent = '';
 });
 
 function resetControls() {
     $('#cmsEdit').prop('disabled', false);
     $('#cmsPreview').prop('disabled', true);
-    $('#cmsRestore').prop('disabled', true);
-    $('#savePage').prop('disabled', true);
+    if(originalContent == '') {
+        $('#cmsRestore').prop('disabled', true);
+    }
+    if(originalContent != '') {
+        $('#savePage').prop('disabled', true);
+    }
 }
 
 function editPage(){
@@ -45,6 +49,7 @@ function restore(){
     if(originalContent) {
         setNewContent(originalContent);
     }
+    originalContent = '';
     resetControls();
 }
 
