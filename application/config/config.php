@@ -368,10 +368,6 @@ function __autoload($class) {
 			//print " ...1";
 			include_once(APPPATH."models/".strtolower($class).EXT);
 			//print " ok<br>";
-		}elseif (file_exists(APPPATH."models/proxy/".strtolower($class).EXT)) {
-			//print " ...2";
-			include_once(APPPATH."models/proxy/".strtolower($class).EXT);
-			//print " ok<br>";
 		}
 	}
 }
