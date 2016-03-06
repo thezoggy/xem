@@ -169,7 +169,7 @@ function mainInit(){
             $('#searchForm').submit();
         },
         position: {my: "right top", at: "right bottom"},
-        minLength: 2
+        minLength: 4
     })
         .data("ui-autocomplete")._renderItem = function (ul, item) {
         //highlight the matched search term from the item -- note that this is global and will match anywhere

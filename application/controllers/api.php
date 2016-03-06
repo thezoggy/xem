@@ -252,12 +252,12 @@ class Api extends CI_Controller {
 		// like
 		$out = array();
 
-		$tmp = $this->db->query('SELECT main_name FROM `elements` WHERE (`main_name` LIKE "%'.$term.'%") AND `status` > 0  AND `parent` = 0 ORDER BY `main_name`');
+		$tmp = $this->db->query('SELECT `main_name` FROM `elements` WHERE (`main_name` LIKE "%'.$term.'%") AND `status` > 0  AND `parent` = 0 ORDER BY `main_name`');
 		if(rows($tmp))
 			foreach($tmp->result() as $curRow){
 				array_push($out,$curRow->main_name);
 			}
-		$tmp = $this->db->query('SELECT name FROM `names` WHERE (`name` LIKE "%'.$term.'%") AND `status` > 0 AND `parent` = 0 ORDER BY `name`');
+		$tmp = $this->db->query('SELECT `name` FROM `names` JOIN `elements` AS p ON names.element_id=p.id AND p.status > 0 AND p.parent = 0 WHERE name LIKE "%'.$term.'%" ORDER BY `name`');
 		if(rows($tmp))
 			foreach($tmp->result() as $curRow){
 				array_push($out,$curRow->name);
