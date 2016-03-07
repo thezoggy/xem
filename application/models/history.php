@@ -38,7 +38,7 @@ class History{
 
 	private function getNewRevisionNumber($obj_id,$obj_type){
 		$rev = 1;
-		$result = $this->db->query("SELECT `revision` FROM `history` WHERE `obj_id` = '".$obj_id."' AND `obj_type` =  '".$obj_type."' ORDER BY `revision` DESC");
+		$result = $this->db->query("SELECT `revision` FROM `history` WHERE `obj_id` = '".$obj_id."' AND `obj_type` =  '".$obj_type."' ORDER BY `revision` DESC LIMIT 1");
 		if(rows($result)){
 			$row = getFirst($result);
 			$rev = (int)$row['revision'] + 1;
