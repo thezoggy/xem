@@ -53,7 +53,7 @@ class History{
 	function copyHistoryFromTo($from, $to){
 
         log_message('debug', "Copying history from ".$from." to ".$to);
-	    $old_history = $this->db->query("SELECT * FROM `history` WHERE `element_id` = '".$from."' ORDER BY `time` DESC");
+	    $old_history = $this->db->query("SELECT * FROM `history` WHERE `element_id` = '".$from."'");
 	    if(rows($old_history)){
 
             log_message('debug', "Found ".rows($old_history)." history entries for ".$from);

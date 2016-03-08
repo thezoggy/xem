@@ -282,21 +282,25 @@ class FullElement{
 	}
 
     function draftChangesCount() {
-        if(!$this->isDraft)
+        if(!$this->isDraft) {
             $draft_id = $this->getDraft();
-         else
-             $draft_id = $this->id;
-        $count = 0;
-        $query = "SELECT `action` FROM `history` WHERE `element_id` = '".$draft_id."' ORDER BY `time` DESC";
-        $history_entries = $this->db->query($query);
-        if(rows($history_entries)){
-            foreach ($history_entries->result_array() as $cur_entry) {
-                if($cur_entry['action'] == 'create_draft')
-                    break;
-                $count++;
-            }
+        } else {
+            $draft_id = $this->id;
+        }
+
+        # get id latest create_draft
+        $query = $this->db->query("SELECT `id` FROM `history` WHERE `element_id` = '".$draft_id."' AND `action` = 'create_draft' ORDER BY `time` DESC LIMIT 1");
+        $data = $query->result_array();
+        if ($query->num_rows() == 1) {
+            # query for entries since create_draft id
+            $query = "SELECT * FROM `history` WHERE `element_id` = '".$draft_id."' AND `id` > ".$data[0]['id'];
+            $history_entries = $this->db->query($query);
+            $count = $history_entries->num_rows();
+        } else {
+            $count = 0;
         }
         return $count;
     }
+
 }
 ?>
