@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 15, 2015 at 05:05 PM
+-- Generation Time: Mar 09, 2016 at 06:22 PM
 -- Server version: 5.6.21
--- PHP Version: 5.6.3
+-- PHP Version: 5.5.19
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -25,12 +25,10 @@ SET time_zone = "+00:00";
 --
 -- Table structure for table `cache`
 --
--- Creation: May 02, 2015 at 07:48 PM
---
 
 CREATE TABLE IF NOT EXISTS `cache` (
   `type` varchar(48) COLLATE utf8_unicode_ci NOT NULL,
-  `namespace` varchar(48) COLLATE utf8_unicode_ci NOT NULL,
+  `namespace` int(11) NOT NULL,
   `name` varchar(48) COLLATE utf8_unicode_ci NOT NULL,
   `data` longtext COLLATE utf8_unicode_ci NOT NULL,
   `creation_date` datetime NOT NULL,
@@ -42,8 +40,6 @@ CREATE TABLE IF NOT EXISTS `cache` (
 
 --
 -- Table structure for table `contents`
---
--- Creation: May 02, 2015 at 07:48 PM
 --
 
 CREATE TABLE IF NOT EXISTS `contents` (
@@ -64,8 +60,6 @@ INSERT INTO `contents` (`id`, `content`) VALUES
 
 --
 -- Table structure for table `directrules`
---
--- Creation: May 02, 2015 at 07:48 PM
 --
 
 CREATE TABLE IF NOT EXISTS `directrules` (
@@ -97,14 +91,12 @@ CREATE TABLE IF NOT EXISTS `directrules` (
 --
 -- Table structure for table `elements`
 --
--- Creation: May 02, 2015 at 07:48 PM
---
 
 CREATE TABLE IF NOT EXISTS `elements` (
 `id` int(11) NOT NULL,
   `type` enum('show','movie','episode') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'show',
-  `main_name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-  `entity_order` varchar(90) COLLATE utf8_unicode_ci NOT NULL,
+  `main_name` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
+  `entity_order` varchar(24) COLLATE utf8_unicode_ci NOT NULL,
   `status` int(11) NOT NULL DEFAULT '1',
   `parent` int(11) NOT NULL DEFAULT '0',
   `last_modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -115,8 +107,6 @@ CREATE TABLE IF NOT EXISTS `elements` (
 
 --
 -- Table structure for table `history`
---
--- Creation: May 02, 2015 at 07:48 PM
 --
 
 CREATE TABLE IF NOT EXISTS `history` (
@@ -147,8 +137,6 @@ CREATE TABLE IF NOT EXISTS `history` (
 --
 -- Table structure for table `languages`
 --
--- Creation: May 02, 2015 at 07:48 PM
---
 
 CREATE TABLE IF NOT EXISTS `languages` (
   `id` varchar(2) COLLATE utf8_unicode_ci NOT NULL COMMENT 'the iso ISO3166-1 alpha-2 name',
@@ -169,8 +157,6 @@ INSERT INTO `languages` (`id`, `name`) VALUES
 
 --
 -- Table structure for table `locations`
---
--- Creation: May 02, 2015 at 07:48 PM
 --
 
 CREATE TABLE IF NOT EXISTS `locations` (
@@ -200,8 +186,6 @@ INSERT INTO `locations` (`id`, `name`, `description`, `url`, `show_url`, `movie_
 --
 -- Table structure for table `names`
 --
--- Creation: May 02, 2015 at 07:48 PM
---
 
 CREATE TABLE IF NOT EXISTS `names` (
 `id` int(11) NOT NULL,
@@ -223,8 +207,6 @@ CREATE TABLE IF NOT EXISTS `names` (
 
 --
 -- Table structure for table `passthrus`
---
--- Creation: May 02, 2015 at 07:48 PM
 --
 
 CREATE TABLE IF NOT EXISTS `passthrus` (
@@ -250,8 +232,6 @@ CREATE TABLE IF NOT EXISTS `passthrus` (
 --
 -- Table structure for table `seasons`
 --
--- Creation: May 02, 2015 at 07:48 PM
---
 
 CREATE TABLE IF NOT EXISTS `seasons` (
 `id` int(11) NOT NULL,
@@ -276,8 +256,6 @@ CREATE TABLE IF NOT EXISTS `seasons` (
 
 --
 -- Table structure for table `users`
---
--- Creation: May 02, 2015 at 07:48 PM
 --
 
 CREATE TABLE IF NOT EXISTS `users` (
@@ -321,7 +299,7 @@ ALTER TABLE `elements`
 -- Indexes for table `history`
 --
 ALTER TABLE `history`
- ADD PRIMARY KEY (`id`), ADD KEY `fk_history_users1` (`user_id`), ADD KEY `fk_history_elements1` (`element_id`);
+ ADD PRIMARY KEY (`id`), ADD KEY `fk_history_users1` (`user_id`), ADD KEY `fk_history_elements1` (`element_id`), ADD KEY `history_obj_type` (`obj_type`,`obj_id`(255));
 
 --
 -- Indexes for table `languages`
