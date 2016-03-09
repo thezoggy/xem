@@ -65,7 +65,7 @@ class DBCache{
 	}
 
     /**
-     * Clears all cache files from the cache directory
+     * Clears all cache files from the cache directory + cache table
      */
     public function clear_all_cache() {
         $CI =& get_instance();
@@ -89,6 +89,8 @@ class DBCache{
 
         closedir($handle);
         log_message('info', "Cache cleared.");
+        $this->db->truncate('cache');
+        log_message('info', "Cache table cleared.");
     }// clear_all_cache
 
 }
