@@ -12,6 +12,8 @@
         <div><?=anchor('https://github.com/thezoggy/xem', img( array('src'=>'images/social-github.png', 'title'=>'GitHub', 'class'=>'social') ));?></div>
         <div><?=anchor('imprint', img( array('src'=>'images/social-imprint.png', 'title'=>'Imprint', 'class'=>'social') ));?></div>
         <div><?=anchor('http://validator.w3.org/check?uri='.curPageURL(), img( array('src'=>'images/html5_bw_badge22.png', 'title'=>'Powered by HTML5', 'class'=>'social') ));?></div>
+        <div><?=anchor('https://www.paypal.me/zoggy/3', img( array('src'=>'images/btn_donate_SM.gif', 'title'=>'Donate a beer/redbull to the cause?', 'class'=>'social') ));?></div>
+        <!-- olddonate
         <div>
             <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
                 <input type="hidden" name="cmd" value="_donations">
@@ -24,18 +26,11 @@
                 <input type="image" src="<?php echo base_url();?>images/btn_donate_SM.gif" name="submit" alt="PayPal - The safer, easier way to pay online!" class="social">
             </form>
         </div>
+        <!-- /olddonate -->
     </footer>
 
 </div><!-- /page -->
 
 <div id="overlay"></div>
-<script>
-    (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-        function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-        e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-        e.src='https://www.google-analytics.com/analytics.js';
-        r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-    ga('create','UA-22409438-2','auto');ga('send','pageview');
-</script>
 </body>
 </html>
