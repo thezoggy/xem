@@ -286,8 +286,9 @@ class Api extends CI_Controller {
 			redirect('user/login');
 		}
         $name = new Name($this->oh, $_POST['name_id']);
-        if(isset($_POST['name']))
+        if(isset($_POST['name']) && $_POST['name'] != '') {
             $name->name = $_POST['name'];
+        }
         if(isset($_POST['language']))
             $name->language = $_POST['language'];
         $name->save();
@@ -465,7 +466,6 @@ class Api extends CI_Controller {
 		return $score;
 
 	}
-
 
 
 }

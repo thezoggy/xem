@@ -241,7 +241,7 @@ class Xem extends SuperController {
             $_POST = array_map("trim", $_POST);
         }
 
-        if(isset($_POST['name'])) {
+        if(isset($_POST['name']) && $_POST['name'] != '') {
             $name = new Name($this->oh);
             $name->name = $_POST['name'];
             $name->language = $_POST['language'];
