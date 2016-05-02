@@ -38,10 +38,10 @@ $curElementLocation = null;
 					<?=form_hidden("delete")?>
 					<ul>
 						<li>
-							<label>Season</label><input class="season" name="season" autocomplete="off" value="<?if($curElementLocation->season == -1)echo 'all';else echo $curElementLocation->season?>" <?=$disabled?>/>
+							<label>Season</label><input class="season" name="season" autocomplete="off" value="<?if($curElementLocation->season == -1)echo '*';else echo $curElementLocation->season?>" <?=$disabled?>/>
 						</li>
 						<li>
-							<label>Size</label><input class="season" name="size" autocomplete="off" value="<?if($curElementLocation->season_size == -1)echo 'infinite';else echo $curElementLocation->season_size?>" <?=$disabled?>/>
+							<label>Size</label><input class="season" name="size" autocomplete="off" value="<?if($curElementLocation->season_size == -1)echo '0';else echo $curElementLocation->season_size?>" <?=$disabled?>/>
 						</li>
                         <?if(!($curLocation->name == 'master' || $curLocation->name == 'scene')):?>
 						<li>

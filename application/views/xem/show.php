@@ -125,64 +125,64 @@
             </div>
         </div>
 
-		<br class="clear"/>
-		<div id="alternativeNamesContainer">
-    		<?if($fullelement->groupedNames()):?>
-    		<div id="alternativeNames">
-    			<!--<h2>Alternative Names</h2>-->
-    			<table>
-    				<?foreach($fullelement->groupedNames() as $season=>$names):?>
-    				<tr>
-    					<td>
-    						<?if($season!=-1):?>
-    						<div>Season <?=$season?></div>
-    						<?else:?>
-    						<div>Alias</div>
-    						<?endif?>
-    					</td>
-    					<td>
-    						<div>
-    							<ul class="names">
-    								<?foreach($names as $curName):?>
-    								<li class="name">
+        <br class="clear"/>
+        <div id="alternativeNamesContainer">
+            <?if($fullelement->groupedNames()):?>
+            <div id="alternativeNames">
+                <!--<h2>Alternative Names</h2>-->
+                <table>
+                    <?foreach($fullelement->groupedNames() as $season=>$names):?>
+                    <tr>
+                        <td>
+                            <?if($season!=-1):?>
+                            <div>Season <?=$season?></div>
+                            <?else:?>
+                            <div>Alias</div>
+                            <?endif?>
+                        </td>
+                        <td>
+                            <div>
+                                <ul class="names">
+                                    <?foreach($names as $curName):?>
+                                    <li class="name">
                                         <?=img(array('src'=>'images/flags/'.$curName->language.'.png','data-id'=>$curName->id,'data-lang'=>$curName->language,'id'=>'flag_'.$curName->id,'width'=>17,'alt'=>$curName->language))?>
                                         <span class="name" data-id="<?=$curName->id?>"><?=$curName->name?></span>
                                         <div class="clear"></div>
                                     </li>
-    								<?endforeach?>
-    							</ul>
-    						</div>
-    					</td>
-    				</tr>
-    				<?endforeach?>
-    			</table>
-    		</div>
-    		<?endif?>
+                                    <?endforeach?>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <?endforeach?>
+                </table>
+            </div>
+            <?endif?>
 
-    		<?if($editRight):?>
-    		<div id="newAlternativeName">
-    			<?=form_open("xem/newAlternativeName",array('class'=>'form-inline'))?>
-    					<?=form_hidden("element_id",$fullelement->id)?>
+            <?if($editRight):?>
+            <div id="newAlternativeName">
+                <?=form_open("xem/newAlternativeName",array('class'=>'form-inline'))?>
+                        <?=form_hidden("element_id",$fullelement->id)?>
                         <div class="input-prepend">
-                            <span class="add-on">Season</span><input type="text" placeholder="All" id="newNameSeason" name="season" class="input-mini">
+                            <span class="add-on">Season</span><input type="text" placeholder="*" id="newNameSeason" name="season" class="input-mini">
                         </div>
                         <select name="language">
                             <?foreach($languages->result() as $curLang):?>
                             <option value="<?=$curLang->id?>" <?if($curLang->id == 'us'){ echo 'selected="selected"';} ?>><?=$curLang->name?></option>
                             <?endforeach?>
                         </select>
-    					<input id="newNameName" type="text" name="name" placeholder="Name"/>
-    					<input type="submit" value="Add New Name" class="btn" />
-    			</form>
-    		</div>
+                        <input id="newNameName" type="text" name="name" placeholder="Name"/>
+                        <input type="submit" value="Add New Name" class="btn" />
+                </form>
+            </div>
             <br/>
-    		<?endif?>
-		</div>
+            <?endif?>
+        </div>
 
-		<?if($editRight || grantAccess(1)):?>
-		<div id="toolbox" style="display: none;">
-		  <strong>Toolbox</strong>
-		  <ul>
+        <?if($editRight || grantAccess(1)):?>
+        <div id="toolbox" style="display: none;">
+          <strong>Toolbox</strong>
+          <ul>
                 <?if(!$fullelement->isDraft):?>
                 <li><label>Draft (<?=$fullelement->draftChangesCount()?> ahead)</label><input type="button" value="Go To Draft" onclick="window.location = '/xem/draft/<?=$fullelement->id?>'" class="btn btn-mini" /></li>
                 <?else:?>
@@ -240,27 +240,27 @@
               <?endif?>
 
               <?if(!$fullelement->isDraft):?>
-    		  <li><label>This <strong>show</strong> has a lvl of <strong><?=$fullelement->status?></strong></label></li>
+              <li><label>This <strong>show</strong> has a lvl of <strong><?=$fullelement->status?></strong></label></li>
               <?else:?>
               <li><label>This <strong>draft</strong> has a lvl of <strong><?=$fullelement->status?></strong></label></li>
               <?endif?>
               <li><label><?=anchor('xem/changelog/'.$fullelement->id,'Changelog')?></label></li>
-		  </ul>
-		</div>
-		<?endif;?>
+          </ul>
+        </div>
+        <?endif;?>
         <br class="clear-keep-height"/>
-		<!-- this is a fix for the windows firefox svg 1px top offset problem. a div,p, h3(wtf?) or any other block stuff didnt work -->
-		<!-- ok is not a fix .... this can create and remove the effect -->
-		<!--<h2 style="height: 45px;">&nbsp;</h2>-->
-		<div class="clear-keep-height">
-			<ul id="sortable">
-				<?foreach($fullelement->sortedEntitys() as $curLocation):$absolute_number = 1;?>
-				<? include('editShow_singleEntity.php');?>
-				<?endforeach?>
-				<li class="clear"></li>
-			</ul>
-			<div class="clear"></div>
-		</div>
+        <!-- this is a fix for the windows firefox svg 1px top offset problem. a div,p, h3(wtf?) or any other block stuff didnt work -->
+        <!-- ok is not a fix .... this can create and remove the effect -->
+        <!--<h2 style="height: 45px;">&nbsp;</h2>-->
+        <div class="clear-keep-height">
+            <ul id="sortable">
+                <?foreach($fullelement->sortedEntitys() as $curLocation):$absolute_number = 1;?>
+                <? include('editShow_singleEntity.php');?>
+                <?endforeach?>
+                <li class="clear"></li>
+            </ul>
+            <div class="clear"></div>
+        </div>
         <br>
         <div class="well well-small text-info">
             <span title="created"><i class="icon-ok-circle"></i> <?=$fullelement->created?> UTC</span>
