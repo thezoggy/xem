@@ -64,7 +64,7 @@ class Map extends CI_Controller {
             }
         }else{
             $data = $cacheData;
-            $cachedMsg = 'this was a cached version';
+            $cachedMsg = ' this was a cached version';
         }
 
         $this->oh->dbcache->save('map_out', $p->element->id, $origin.'_'.$destination, 259200, $data); // save into db cache for 3 days (259200s)
@@ -74,7 +74,7 @@ class Map extends CI_Controller {
             // header('X-NotExtCached: this was not served up from the ext cache');
             $this->output->set_header('Cache-Control: max-age=3600, public'); // 1hr cache
             $this->output->cache(60); // let CI cache results for 1hr
-            $this->_fullOut('success', $data, 'full mapping for '.$identifier.' on '.$origin.'. '.$cachedMsg);
+            $this->_fullOut('success', $data, 'full mapping for '.$identifier.' on '.$origin.'.'.$cachedMsg);
         }
 
     }

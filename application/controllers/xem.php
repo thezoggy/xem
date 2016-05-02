@@ -232,29 +232,36 @@ class Xem extends SuperController {
 		$this->_loadView('adminShowList');
 	}
 
-	function newAlternativeName(){
-		if(!$this->session->userdata('logged_in')) {
-			redirect('user/login');
-		}
-        if(isset($_POST['name'])) {
-    		$name = new Name($this->oh);
-    		$name->name = trim($_POST['name']);
-    		$name->language = $_POST['language'];
-    		$name->element_id = $_POST['element_id'];
+    function newAlternativeName(){
+        if(!$this->session->userdata('logged_in')) {
+            redirect('user/login');
+        }
+        // trim all post data
+        if(!empty($_POST)) {
+            $_POST = array_map("trim", $_POST);
+        }
 
-    		$season = $_POST['season'];
-    		if($season == "all" || $season == "All" || $season == "*" || $season == '')
-    			$season = -1;
-    		$name->season = $season;
-    		$name->save();
-		}
+        if(isset($_POST['name'])) {
+            $name = new Name($this->oh);
+            $name->name = $_POST['name'];
+            $name->language = $_POST['language'];
+            $name->element_id = $_POST['element_id'];
+
+            $season = $_POST['season'];
+            if(strtolower($season) == "all" || $season == "*" || $season == '') {
+                $season = -1;
+            }
+            $name->season = $season;
+            $name->save();
+        }
+
         $e = new Element($this->oh, $_POST['element_id']);
         if($e->isDraft()) {
             redirect('xem/draft/' . $e->parent);
         } else {
             redirect('xem/show/' . $_POST['element_id']);
         }
-	}
+    }
 
     public function newSeason() {
         if(!$this->session->userdata('logged_in')) {
@@ -269,11 +276,13 @@ class Xem extends SuperController {
         $newSeason = new Season($this->oh);
         $newSeason->element_id = $_POST['element_id'];
         $newSeason->location_id = $_POST['location_id'];
+
         $season = $_POST['season'];
-        if($season == "all") {
+        if(strtolower($season) == "all" || $season == "*" || $season == '') {
             $season = -1;
         }
         $newSeason->season = $season;
+
         $newSeason->season_size = $_POST['season_size'];
         if(!preg_match('/^\d+$/', $_POST['season_size'])) {
             // if value is not a number, just set to 0
@@ -313,10 +322,11 @@ class Xem extends SuperController {
 
         if($_POST['delete'] != true) {
             $seasonNumber = $_POST['season'];
-            if($seasonNumber == "all" || $seasonNumber == "*") {
+            if(strtolower($seasonNumber) == "all" || $seasonNumber == "*" || $seasonNumber == '') {
                 $seasonNumber = -1;
             }
             $season->season = $seasonNumber;
+
             $season->season_size = $_POST['size'];
             if(!preg_match('/^\d+$/', $_POST['size'])) {
                 $valid = false;
