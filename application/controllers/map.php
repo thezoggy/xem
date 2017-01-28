@@ -101,7 +101,13 @@ class Map extends CI_Controller {
         $destination = false;
         if(isset($_REQUEST['destination']))
             $destination = $_REQUEST['destination'];
+
         $p = new Postman($this->oh, $identifier, $origin, $destination);
+        if(!$p->element){
+            $this->_fullOut('failure', array(), 'no show with the '.$origin.'_id '.$identifier.' found');
+            return false;
+        }
+
         $data = $p->resolveAddress($season, $episode, $absolute);
         $this->_fullOut('success', $data, 'single mapping for '.$identifier.' on '.$origin.'.');
     }
@@ -127,7 +133,6 @@ class Map extends CI_Controller {
         // i dont need the postman but its an easy way wo get the element id... one might want to refactor that one day
         $p = new Postman($this->oh, $identifier, $origin, $destination);
         if(!$p->element){
-
             $this->_fullOut('failure', array(), 'no show with the '.$origin.'_id '.$identifier.' found');
             return false;
         }
