@@ -60,20 +60,28 @@ class Postman{
 	            }
 	        }
 	    }
+        // handle when origin is not found or inactive (ex: tvrage)
+        if(!$this->origin){
+            log_message('debug', "Origin not found or inactive.. skipping");
+            return;
+        }
 	    if($tmpDestinationNames)
 	        $this->destinationNames = $tmpDestinationNames;
         if(!startswith($this->identifier, 'xem_')){
     	    $seasons = $this->db->get_where('seasons',array('location_id'=>$this->origin->id,'identifier'=>$this->identifier));
-	        foreach($seasons->result_array() as $curSeason) {
-	            $cur_element = $this->db->get_where('elements',array('id'=>$curSeason['element_id'], 'parent'=>0));
-	            if(rows($cur_element)){
-	                $cur_element = getFirst($cur_element);
-	                if($cur_element['status'] > 0){
-            	        $e = new Element($this->oh, $cur_element['id']);
-            	        $this->element = $e;
-	                }
-	            }
-	        }
+            if($seasons) {
+                foreach ($seasons->result_array() as $curSeason) {
+                    $cur_element = $this->db->get_where('elements',
+                        array('id' => $curSeason['element_id'], 'parent' => 0));
+                    if(rows($cur_element)) {
+                        $cur_element = getFirst($cur_element);
+                        if($cur_element['status'] > 0) {
+                            $e = new Element($this->oh, $cur_element['id']);
+                            $this->element = $e;
+                        }
+                    }
+                }
+            }
 
         }else{
             $i = explode('_', $this->identifier);
@@ -212,7 +220,7 @@ class Postman{
 	    log_message('debug','searching for seasons');
 	    $s = $this->dbSeason($this->origin);
 	    if($s){
-            log_message('debug', 'useing seasons from '.$this->originName);
+            log_message('debug', 'using seasons from '.$this->originName);
 	        return $s;
 	    }
 	    $cons = $this->getAllConTypesFor($this->origin);
@@ -221,7 +229,7 @@ class Postman{
                 $curLocation = $this->locations[$destinationKey];
                 $s = $this->dbSeason($curLocation);
                 if($s){
-                    log_message('debug', 'useing seasons from '.$curLocation->name);
+                    log_message('debug', 'using seasons from '.$curLocation->name);
                     return $s;
                 }
             }
@@ -262,7 +270,7 @@ class Postman{
         $directConnections = $this->db->get_where('directrules',$params);
         //log_message('debug', 'direct con sql: '.$this->db->last_query());
 	    if(rows($directConnections)){
-	        //$directConnection = getFirst($directConnections); //TODO: handle multiple adresses
+	        //$directConnection = getFirst($directConnections); //TODO: handle multiple addresses
 	        $directConnections = $directConnections->result_array();
 	        return $directConnections;
 	    }else{
@@ -280,7 +288,10 @@ class Postman{
 
     private function isThereInfoForSeason($season){
         $seasons = $this->db->get_where('seasons',array('location_id'=>$this->origin->id, 'element_id'=>$this->element->id, 'season'=>$season));
-        return rows($seasons) > 0;
+        if(rows($seasons) > 0) {
+            return true;
+        }
+        return false;
     }
 
     private function getSeasonAndEpisode($location,$absolute) {
