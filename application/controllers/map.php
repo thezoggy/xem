@@ -162,7 +162,8 @@ class Map extends CI_Controller {
 
 
     function allNames() {
-        $locations = $this->db->get('locations');
+        //$locations = $this->db->get('locations');
+        $locations = $this->db->get_where('locations',array('status'=>1));
         $origin = false;
         if(isset($_REQUEST['origin']))
             $origin = $_REQUEST['origin'];
@@ -313,6 +314,7 @@ class Map extends CI_Controller {
         $this->_fullOut('success', $out);
         return false;
     }
+
     function _allNames_helper_name_season($nameObj, $includeSeasonNumbers){
         if($includeSeasonNumbers){
             return array($nameObj->name=>(int)$nameObj->season);
@@ -321,48 +323,8 @@ class Map extends CI_Controller {
         }
 
     }
-    function sbLegacy() {
-        $locations = $this->db->get('locations');
-		$tvdb_id = 0;
-		foreach($locations->result() as $loc){
-			if($loc->name == "tvdb"){
-				$tvdb_id = $loc->id;
-				break;
-			}
-		}
 
-        $fullString = '';
-		$elements = $this->db->get_where('elements');
-		foreach($elements->result() as $curElement){
-		    $names = $this->db->get_where('names', array('element_id'=>$curElement->id));
-			$namesStrings = array();
-			$namesStrings[] = $curElement->main_name;
-			if(rows($names)){
-				foreach($names->result() as $name){
-					if($name->season == -1 && $name->language == 'us')
-						$namesStrings[] = str_replace("'", "\'",$name->name);
-				}
-			}
-			if(count($namesStrings) == 0)
-				continue;
 
-		    $seasons = $this->db->get_where('seasons', array('element_id'=>$curElement->id,'location_id'=>$tvdb_id));
-		    $curTvdb_identifier = null;
-		    if(rows($seasons)){
-		        $curTvdb_identifier = getFirst($seasons);
-		        $curTvdb_identifier = $curTvdb_identifier['identifier'];
-		    }
-            if(!$curTvdb_identifier)
-                continue;
-		    $fullString .= $curTvdb_identifier.": ";
-			$fullString .= "'".implode("','", $namesStrings)."',\r\n";
-		}
-
-		$this->output->set_header("Content-type: text/html; charset=utf-8\r\n");
-        $this->output->set_header('Cache-Control: max-age=3600, public'); // 1hr cache
-        $this->output->cache(60); // let CI cache results for 1hr
-		$this->output->set_output($fullString);
-    }
     function havemap(){
         // check for required params
         if(!isset($_REQUEST['origin'])) {
