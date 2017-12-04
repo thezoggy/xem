@@ -7,6 +7,7 @@ define('PHPASS_HASH_PORTABLE', false);
 
 /**
  * SimpleLoginSecure Class
+ * includes hacks/mods - caution on upgrading
  *
  * Makes authentication simple and secure.
  *
@@ -26,7 +27,7 @@ define('PHPASS_HASH_PORTABLE', false);
  *   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
  *
  * @package   SimpleLoginSecure
- * @version   2.1.1
+ * @version   2.1.2
  * @author    Stéphane Bourzeix, Pixelmio <stephane[at]bourzeix.com>
  * @copyright Copyright (c) 2012-2013, Stéphane Bourzeix
  * @license   http://www.gnu.org/licenses/gpl-3.0.txt
