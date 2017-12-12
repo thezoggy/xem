@@ -752,7 +752,7 @@ input.editable::-ms-clear {
   color: #333;
 }
 .dropdown-menu li > a:hover > [class^="icon-"], .dropdown-menu li > a:hover > [class*=" icon-"] {
-  background-image: url("../images/glyphicons-halflings-white.png");
+  background-image: url("https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/img/glyphicons-halflings-white.png");
 }
 img {
   max-width: none;
@@ -829,7 +829,7 @@ input[type="image"] {
   vertical-align: text-top;
   cursor: pointer;
   background-color: transparent;
-  background-image: url("../images/glyphicons-halflings.png");
+  background-image: url("https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/img/glyphicons-halflings.png");
   background-position: -48px 0;
   background-repeat: no-repeat;
   border: 0 none;

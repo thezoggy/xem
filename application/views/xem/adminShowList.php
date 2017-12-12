@@ -169,7 +169,7 @@
                     <span title="<?=$curPublicShow->created?> UTC"><? $data = explode(' ', $curPublicShow->created); echo $data[0] ?></span>
                 </td>
                 <td>
-                    <?=$curPublicShow->last_modified?> UTC
+                    <?echo $curPublicShow->last_modified == "0000-00-00 00:00:00" ? '' : $curPublicShow->last_modified .' UTC'?>
                 </td>
                 <td>
                     <?=$curPublicShow->status?>
@@ -255,7 +255,7 @@
 </div>
 <?endif;?>
 
-<script src="<?php echo base_url();?>js/jquery.tablesorter.combined-2.22.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.28.15/js/jquery.tablesorter.combined.min.js"></script>
 <script>
     $(function() {
         // override init to remove table-striped
@@ -279,6 +279,7 @@
             theme : "bootstrap",
             headerTemplate : '{content} {icon}',
             sortLocaleCompare : true,
+            emptyTo: 'bottom',
             widgets : [ "uitheme", "filter", "zebra" ],
             sortList: [[1,0],[4,1]], // sort by name then status
             widgetOptions : {

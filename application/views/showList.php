@@ -26,7 +26,7 @@
                         <span title="<?=$show->created?> UTC"><? $data = explode(' ', $show->created); echo $data[0] ?></span>
                     </td>
                     <td>
-                        <?=$show->last_modified?> UTC
+                        <?echo $show->last_modified == "0000-00-00 00:00:00" ? '' : $show->last_modified .' UTC'?>
                     </td>
                 </tr>
             <?endforeach?>
@@ -49,7 +49,7 @@
     <?endif;?>
 </div>
 
-<script src="<?php echo base_url();?>js/jquery.tablesorter.combined-2.22.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.28.15/js/jquery.tablesorter.combined.min.js"></script>
 <script>
     $(function() {
         $.tablesorter.filter.types.start = function( config, data ) {
@@ -72,6 +72,7 @@
             theme : "bootstrap",
             headerTemplate : '{content} {icon}',
             sortLocaleCompare : true,
+            emptyTo: 'bottom',
             widgets : [ "uitheme", "filter", "zebra" ],
             widgetOptions : {
                 zebra : ["even", "odd"],

@@ -30,9 +30,9 @@ made at http://patorjk.com/software/taag/ with font Georgia11
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         <title><?=$title?> | Xem</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <!--[if lt IE 9]>
-            <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
         <![endif]-->
 
 <!--
@@ -42,20 +42,21 @@ made at http://patorjk.com/software/taag/ with font Georgia11
         <link rel="apple-touch-icon-precomposed" href="./images/apple-touch-icon-57x57-precomposed.png">
 -->
 
-        <? echo link_tag('css/bootstrap-2.3.2.css', 'stylesheet', 'text/css'); ?>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <? echo link_tag('css/smoothness/jquery-ui-1.11.4.custom.css', 'stylesheet', 'text/css'); ?>
-        <? echo link_tag('css/jquery.qtip.min.css', 'stylesheet', 'text/css'); ?>
-        <? echo link_tag('css/theme.bootstrap_2.css', 'stylesheet', 'text/css'); ?>
+
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/jquery.qtip.min.css" rel="stylesheet" type="text/css" />
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.28.15/css/theme.bootstrap_2.min.css" rel="stylesheet" type="text/css" />
         <? echo link_tag('css/main.css', 'stylesheet', 'text/css'); ?>
 
-        <script src="<?php echo base_url();?>js/jquery-1.7.2.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
         <script src="<?php echo base_url();?>js/html5boilerplate.consolewrapper.js"></script>
-        <script src="<?php echo base_url();?>js/jquery-ui-1.11.4.custom.min.js"></script>
-        <script src="<?php echo base_url();?>js/bootstrap-2.3.2.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
         <script src="<?php echo base_url();?>js/jquery.dataset.js"></script>
         <script src="<?php echo base_url();?>js/jquery.jeditable-1.7.3-custom.js"></script>
-        <script src="<?php echo base_url();?>js/jquery.qtip-2.0.1.min.js"></script>
-        <script src="<?php echo base_url();?>js/raphael-2.1.4-min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/jquery.qtip.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.7/raphael.min.js"></script>
 
         <!-- own stuff -->
         <script src="<?php echo base_url();?>js/main.js"></script>
@@ -63,8 +64,8 @@ made at http://patorjk.com/software/taag/ with font Georgia11
 
     </head>
 <body class="<?if(isset($fullelement)){if($fullelement->isDraft) echo 'draft';} ?>">
-    <!--[if lt IE 8]>
-    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <!--[if lte IE 9]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
     <![endif]-->
 <div id="page">
     <!-- <a href="http://github.com/you"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/c641758e06304bc53ae7f633269018169e7e5851/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f77686974655f6666666666662e706e67" alt="Fork me on GitHub"></a> -->
