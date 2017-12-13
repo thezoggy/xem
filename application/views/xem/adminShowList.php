@@ -211,7 +211,7 @@
                             <span title="<?=$draft->created?> UTC"><? $data = explode(' ', $draft->created); echo $data[0] ?></span>
                         </td>
                         <td>
-                            <?=$draft->last_modified?> UTC
+                            <?echo $draft->last_modified == "0000-00-00 00:00:00" ? '' : $draft->last_modified .' UTC'?>
                         </td>
                         <td>
                             <?=$draft->status?>
@@ -232,7 +232,7 @@
                                     <span title="<?=$draft->created?> UTC"><? $data = explode(' ', $draft->created); echo $data[0] ?></span>
                                 </td>
                                 <td>
-                                    <?=$draft->last_modified?> UTC
+                                    <?echo $draft->last_modified == "0000-00-00 00:00:00" ? '' : $draft->last_modified .' UTC'?>
                                 </td>
                                 <td>
                                     <?=$draft->status?>
