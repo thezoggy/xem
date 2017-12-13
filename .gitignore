@@ -25,3 +25,7 @@ ehthumbs.db
 Thumbs.db
 .directory
 *~
+
+# dev files #
+######################
+/info.php
