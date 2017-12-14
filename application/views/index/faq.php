@@ -12,7 +12,7 @@
         To edit the show you will still need to create a draft.<br />
     </p><br />
 
-    <h3>Why can't I edit a show?</h3>
+    <h3>Why can I not edit a show?</h3>
     <p>
         In general, you make changes to a draft and submit it for approval. The draft then replaces the current show data.<br />
         To create a draft you need to be logged in, then click the "Draft (#) ahead" button in the toolbox of the show in question.<br />
@@ -101,7 +101,7 @@
         To delete a direct connection go into the direct connection mode for the direct connection you want to delete and simply click the curve that represents the connection, a popup with a Delete button will appear.<br />
     </p><br />
 
-    <h3>I have a problem and I feel lost, can i talk to somebody?</h3>
+    <h3>I have a problem and I feel lost, can I talk to somebody?</h3>
     <p>
         Sure! Join <b>#xem</b> on <b>irc.freenode.net</b>.
     </p><br />
