@@ -3,7 +3,7 @@
 class Content extends DBObject {
 
     private $CI = null;
-    private $editablePages = array('index/faq', 'index/doc', 'index/imprint');
+    private $editablePages = array('index/doc');
 
     function __construct($oh, $id=0) {
         $dataFields = array("content");
