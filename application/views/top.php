@@ -49,7 +49,7 @@ made at http://patorjk.com/software/taag/ with font Georgia11
         <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.28.15/css/theme.bootstrap_2.min.css" rel="stylesheet" type="text/css" />
         <? echo link_tag('css/main.css', 'stylesheet', 'text/css'); ?>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
         <script src="<?php echo base_url();?>js/html5boilerplate.consolewrapper.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
