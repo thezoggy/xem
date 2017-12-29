@@ -89,7 +89,7 @@ $curElementLocation = null;
 					</ul>
 				</form>
 
-				<div style="heigth:20px;"></div>
+				<div style="height:1px;"></div>
 			</div>
 			<?else:?>
 			<?if(count($fullelement->seasonForLocationId($curLocation->id))==0):?>

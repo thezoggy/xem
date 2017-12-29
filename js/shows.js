@@ -1225,7 +1225,7 @@ function showInit() {
     });
 
 
-    $('.entity li.episode').on('hover', function () {
+    $('.entity li.episode').on('mouseenter mouseleave', function () {
         var li = $(this).attr('id');
         markHover(li, true);
     });
