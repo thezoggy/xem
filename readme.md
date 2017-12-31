@@ -24,3 +24,14 @@ In action here http://thexem.de/
 > short_open_tag in php.ini is now default to Off, which breaks xem. Change this back to On to fix.
 
 **FIX:** `short_open_tag = On`
+
+* mysql 5.7+ -- https://dev.mysql.com/doc/refman/5.7/en/sql-mode.html#sqlmode_strict_trans_tables
+
+> If you see that creating a draft does not work, it's most likely due to the fact the backend isnt able to create a draft due to invalid sql.
+
+**FIX:** `SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'STRICT_TRANS_TABLES',''));`
+
+---
+
+* mysql 5.7+ -- just define sql_mode in the my.ini file as:  `sql_mode="NO_ENGINE_SUBSTITUTION"`
+
