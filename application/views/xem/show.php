@@ -171,11 +171,10 @@
                             <option value="<?=$curLang->id?>" <?if($curLang->id == 'us'){ echo 'selected="selected"';} ?>><?=$curLang->name?></option>
                             <?endforeach?>
                         </select>
-                        <input id="newNameName" type="text" name="name" placeholder="Name"/>
+                        <input class="input-large" id="newNameName" type="text" name="name" placeholder="Name"/>
                         <input type="submit" value="Add New Name" class="btn" />
                 </form>
             </div>
-            <br/>
             <?endif?>
         </div>
 
