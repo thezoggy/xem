@@ -296,7 +296,8 @@ class Map extends CI_Controller {
 			if(count($namesStrings) == 0)
 				continue;
 
-		    $seasons = $this->db->get_where('seasons', array('element_id'=>$curElement->id,'location_id'=>$origin_id));
+		    // exclude out seasons with no identifier (db sets null but gui sets empty string)
+            $seasons = $this->db->get_where('seasons', array('element_id'=>$curElement->id,'location_id'=>$origin_id,'`identifier` != '=>''));
             // $hasAnime = $this->db->get_where('seasons', array('element_id'=>$curElement->id,'location_id'=>'3'));
             // if(rows($hasAnime)) { continue; }
 		    $cur_identifier = null;
