@@ -56,7 +56,7 @@ made at http://patorjk.com/software/taag/ with font Georgia11
         <script src="<?php echo base_url();?>js/jquery.dataset.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jeditable.js/2.0.11/jquery.jeditable.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/jquery.qtip.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.7/raphael.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.8/raphael.min.js"></script>
 
         <!-- own stuff -->
         <script src="<?php echo base_url();?>js/main.js"></script>
