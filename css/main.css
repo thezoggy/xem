@@ -90,6 +90,7 @@ ul.no {
 .mainNameInlineEdit input {
   font-size: 32px;
   font-weight: bold;
+  margin-bottom: 4px;
 }
 .mainNameInlineEdit button {
   margin-left: 5px;
@@ -136,7 +137,7 @@ ul.no {
 }
 
 #alternativeNames li.name img {
-  margin-top: 3px;
+  margin-top: 5px;
   margin-right: 3px;
 }
 #alternativeNames li.name span {

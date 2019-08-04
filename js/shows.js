@@ -1354,27 +1354,20 @@ function showInit() {
                 return (value);
             }
         }, {
-            submit: '<button type="submit" class="btn btn-primary">Modify</button>',
-            cancel: '<button type="cancel" class="btn btn-danger">Cancel</button>',
-            style: "display: inline;",
+            submit: 'Modify',
+            submitcssclass: 'btn btn-primary',
+            cancel: 'Cancel',
+            cancelcssclass: 'btn btn-danger',
+            cssclass: 'form-inline mainNameInlineEdit',
+            style: 'display: inline',
             type: 'text',
-            height: 24,
-            maxlength: 64,
-            inputcssclass: 'editable',
+            maxlength: 128, // match db limit
+            inputcssclass: 'input-xlarge',
+            tooltip: "Double click to edit",
+            // onblur: function() { return true; },
             event: "dblclick"
         });
-        // main name qtip
-        $("#element h1").qtip({
-            content: {
-                text: 'Doubleclick to Edit'
-            },
-            hide: {
-                event: 'click mouseleave'
-            },
-            show: {
-                delay: 500
-            }
-        });
+
 
         $('.names li span.name').editable(function (nvalue, settings) {
             var nameID = $(this).dataset('id');
@@ -1393,12 +1386,16 @@ function showInit() {
             }
             return (value);
         }, {
-            submit  : '<button type="submit" class="btn btn-primary btn-small">Modify</button>',
-            cancel: '<button type="cancel" class="btn btn-danger btn-small">Cancel</button>',
-            style: "display: inline;",
-            maxlength: 128,
-            inputcssclass: 'editable',
-            cssclass: "alternativeNamesInlineEdit"
+            submit: 'Modify',
+            submitcssclass: 'btn btn-primary btn-small',
+            cancel: 'Cancel',
+            cancelcssclass: 'btn btn-danger btn-small',
+            cssclass: 'form-inline alternativeNamesInlineEdit',
+            inputcssclass: 'input-xlarge',
+            height: '18',
+            width: 'none',
+            maxlength: 128, // match db limit
+            // onblur: function() { return true; }
         });
 
         $('.names li img').qtip({
@@ -1407,7 +1404,7 @@ function showInit() {
                 var nameID = curImg.dataset('id');
                 var con = $('<ul>');
                 jQuery.each(languages, function (langID, human) {
-                    var li = $('<li style="cursor: pointer;"><img width=17 src="/images/flags/' + langID + '.png" style="margin-top:2px;" title="' + langID + '" /> ' + human + '</li>');
+                    var li = $('<li style="cursor: pointer; line-height: 20px;"><img width=16 src="/images/flags/' + langID + '.png" style="margin-bottom: 2px; margin-right: 3px;" title="' + langID + '" /> ' + human + '</li>');
                     li.click(function () {
                         var params = new Params();
                         params.name_id = nameID;
