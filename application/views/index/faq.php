@@ -103,6 +103,6 @@
 
     <h3>I have a problem and I feel lost, can I talk to somebody?</h3>
     <p>
-        Sure! Join <b>#xem</b> on <b>irc.freenode.net</b>.
+        Sure! Join <b>#xem</b> on <b>irc.libera.chat</b>.
     </p><br />
 </div>

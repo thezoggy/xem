@@ -4,7 +4,7 @@
 <?if(!REGISTRATION_OPEN):?>
     <div class="alert alert-block alert-error">
         <h4>Registration closed!!</h4>
-        Sorry we have registrations closed at the moment, join #xem on irc.freenode.net for further help.
+        Sorry we have registrations closed at the moment, join #xem on irc.libera.chat for further help.
     </div>
 <?else:?>
 <?=form_open("user/register/", array('class' => 'form-horizontal'))?>
