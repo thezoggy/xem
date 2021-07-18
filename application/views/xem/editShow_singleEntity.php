@@ -41,11 +41,11 @@ $curElementLocation = null;
 							<label>Season</label><input class="season" name="season" autocomplete="off" maxlength="5" value="<?if($curElementLocation->season == -1)echo '*';else echo $curElementLocation->season?>" <?=$disabled?>/>
 						</li>
 						<li>
-							<label>Size</label><input class="season" name="size" autocomplete="off" maxlength="3" value="<?if($curElementLocation->season_size == -1)echo '0';else echo $curElementLocation->season_size?>" <?=$disabled?>/>
+							<label>Size</label><input class="season" name="size" autocomplete="off" maxlength="4" value="<?if($curElementLocation->season_size == -1)echo '0';else echo $curElementLocation->season_size?>" <?=$disabled?>/>
 						</li>
                         <?if(!($curLocation->name == 'master' || $curLocation->name == 'scene')):?>
 						<li>
-							<label>Identifier</label><input class="season" maxlength="20" autocomplete="off" name="identifier" value="<?=$curElementLocation->identifier?>" <?=$disabled?>/>
+							<label>Identifier</label><input class="season" maxlength="11" autocomplete="off" name="identifier" value="<?=$curElementLocation->identifier?>" <?=$disabled?>/>
 						</li>
                         <?endif?>
 						<li>
@@ -83,8 +83,8 @@ $curElementLocation = null;
 					<?=form_hidden("location_id",$curLocation->id)?>
 					<ul>
 						<li><label>Season</label><input class="season" name="season" autocomplete="off" maxlength="5" value="<? if(isset($curElementLocation->season)) echo $curElementLocation->season+1?>" <?=$disabled?>/></li>
-						<li><label>Size</label><input class="season" name="season_size" autocomplete="off" maxlength="3" value="" <?=$disabled?>/></li>
-						<li><label>Identifier</label><input class="season disabled" name="identifier" autocomplete="off" <?if($curLocation->name == 'master' || $curLocation->name == 'scene'):?>disabled=""<?endif?> <?if(isset($lastIdentifier)):?>placeholder="<?=$lastIdentifier?>"<?endif;?>/></li>
+						<li><label>Size</label><input class="season" name="season_size" autocomplete="off" maxlength="4" value="" <?=$disabled?>/></li>
+						<li><label>Identifier</label><input class="season disabled" name="identifier" autocomplete="off" maxlength="11" <?if($curLocation->name == 'master' || $curLocation->name == 'scene'):?>disabled=""<?endif?> <?if(isset($lastIdentifier)):?>placeholder="<?=$lastIdentifier?>"<?endif;?>/></li>
 						<li style="margin: 3px 0;"><input class="btn btn-primary btn-block" type="submit" value="Add New Season" <?=$disabled?>/></li>
 					</ul>
 				</form>
