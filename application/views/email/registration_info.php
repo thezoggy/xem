@@ -6,7 +6,7 @@
 
 <hr/>
 <p style="font-size: 90%;">
-To deactivate these email notifications go to <?=anchor('http://thexem.de/user/', 'User Config')?>
+To deactivate these email notifications go to <?=anchor('http://thexem.info/user/', 'User Config')?>
 </p>
 </body>
 </html>

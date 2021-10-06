@@ -6,7 +6,7 @@ XEM is a open and crowd sourced method of providing mapping of different tv scra
 Many websites use different numberings, names and season titles for the same show.
 XEM lets you create a map for an easy overview of all the different counting and naming systems.
 
-In action here http://thexem.de/
+In action here http://thexem.info/
 
 
 ## Resolving Dependencies

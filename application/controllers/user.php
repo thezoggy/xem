@@ -18,7 +18,7 @@ class User extends SuperController {
 	    //email stuff
         $this->load->helper('email'); // only needed to validate the email address
 	    $this->load->library('email');
-        $this->email->from('info@thexem.de', 'XEM');
+        $this->email->from('info@thexem.info', 'XEM');
 	}
 
 	public function index(){

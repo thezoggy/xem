@@ -6,7 +6,7 @@
 
 <h3>click the link</h3>
 <p>
-this &rarr; <?=anchor('http://thexem.de/user/activate/'.$user_activationcode,$user_activationcode)?>
+this &rarr; <?=anchor('http://thexem.info/user/activate/'.$user_activationcode,$user_activationcode)?>
 </p>
 
 </body>

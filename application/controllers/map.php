@@ -16,7 +16,7 @@ class Map extends CI_Controller {
 	}
 
 	public function index(){
-        $this->_fullOut('success', array(), 'You reached the guiding service of xem. you can find help at http://thexem.de/doc');
+        $this->_fullOut('success', array(), 'You reached the guiding service of xem. you can find help at http://thexem.info/doc');
 	}
 
     function all() {

@@ -12,7 +12,7 @@ class Xem extends SuperController {
 
 		//email stuff
 	    $this->load->library('email');
-        $this->email->from('info@thexem.de', 'XEM');
+        $this->email->from('info@thexem.info', 'XEM');
 	}
 
 	public function index(){
