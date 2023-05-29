@@ -359,15 +359,15 @@ class Postman{
 
     private function getAllConTypesFor($origin) {
 
-        $conections = array();
+        $connections = array();
         foreach ($this->locations as $key=>$curDestination) {
-            $conections[$key] = array();
+            $connections[$key] = array();
             $passthru = $this->getPassthruType($origin, $curDestination);
-            $conections[$key]['passthru'] = $passthru;
+            $connections[$key]['passthru'] = $passthru;
             $directConCount = $this->getDirectConCount($origin);
-            $conections[$key]['direct'] = $directConCount;
+            $connections[$key]['direct'] = $directConCount;
         }
-        return $conections;
+        return $connections;
     }
 
     private function areConnected($origin, $destination){

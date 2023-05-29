@@ -86,16 +86,16 @@ class Api extends CI_Controller {
 			$this->_fullOut('failure',array(),"not enough rights");
 			return false;
 		}
-		$orign = new Location($this->oh);
-		$orign->name = $_POST['origin'];
-		$orign->load();
+		$origin = new Location($this->oh);
+		$origin->name = $_POST['origin'];
+		$origin->load();
 		$destination = new Location($this->oh);
 		$destination->name = $_POST['destination'];
 		$destination->load();
-		if($orign->id && $destination->id){
+		if($origin->id && $destination->id){
 
 			$newPass = new Passthru($this->oh, (int)$_POST['id']);
-			$newPass->origin_id = $orign->id;
+			$newPass->origin_id = $origin->id;
 			$newPass->destination_id = $destination->id;
 			$newPass->element_id = $_POST['element_id'];
 			$newPass->load();
@@ -121,17 +121,17 @@ class Api extends CI_Controller {
 			return false;
 		}
 
-		$orign = new Location($this->oh);
-		$orign->name = $_POST['origin'];
-		$orign->load();
+		$origin = new Location($this->oh);
+		$origin->name = $_POST['origin'];
+		$origin->load();
 		$destination = new Location($this->oh);
 		$destination->name = $_POST['destination'];
 		$destination->load();
 
-		if($orign->id && $destination->id){
+		if($origin->id && $destination->id){
 			$newPass = new Passthru($this->oh);
 
-			$newPass->origin_id = $orign->id;
+			$newPass->origin_id = $origin->id;
 			$newPass->destination_id = $destination->id;
 			$newPass->element_id = $_POST['element_id'];
 
@@ -276,7 +276,7 @@ class Api extends CI_Controller {
 
 	function getLanguages(){
 	    $langs = $this->db->get('languages');
-	    // i will let this crash when no languages are set a check does not make sence in running env
+	    // i will let this crash when no languages are set a check does not make sense in running env
 	    $out = $langs->result_array();
 		$this->_fullOut('success',$out);
     }
@@ -375,7 +375,7 @@ class Api extends CI_Controller {
 			$rule_map = $this->db->get_where("rule-map",array("origin"=>$origin,"destination"=>$destination,"element"=>$elementID));
 			$rule_map = $rule_map->result();
 			if(!isset($rule_map[0]))
-				throw new Exception("no rule for origin destination combination for thsi show");
+				throw new Exception("no rule for origin destination combination for this show");
 			$rule_mapID = $rule_map[0]->id;
 
 			$rules = $this->db->get_where("offset-rule",array("rule_map"=>$rule_mapID));
@@ -457,7 +457,7 @@ class Api extends CI_Controller {
 
 	private function _getScore($from,$to,$pivot){
 		$score = 0;
-		if($from = $pivot && $pivot = $to) // excat match
+		if($from = $pivot && $pivot = $to) // exact match
 			$score += 1;
 		if(($from == $pivot)||($pivot == $to)) // equal to one side
 			$score += 1;

@@ -684,8 +684,8 @@ function updatePassthruIcons() {
             a.attr('fill', '#fff');
         }
 
-        var absoluteText = '<span class="absolute">Absolute</span> passthru:<br>The two entities have their episodes linked by the absolute numbers. Season and Episode are calculated individualy.';
-        var sxxexxText = '<span class="sxxexx">SxxExx</span> passthru:<br>The two entities have their episodes linked by the season-episode numbers. Absolute numbers are calculated individualy.';
+        var absoluteText = '<span class="absolute">Absolute</span> passthru:<br>The two entities have their episodes linked by the absolute numbers. Season and Episode are calculated individually.';
+        var sxxexxText = '<span class="sxxexx">SxxExx</span> passthru:<br>The two entities have their episodes linked by the season-episode numbers. Absolute numbers are calculated individually.';
         var fullText = '<span class="full">Full</span> passthru:<br>The two entities share the season, episode and absolute numbers.';
 
 

@@ -25,7 +25,7 @@ class DBCache{
         }
 		$this->db->set('creation_date', 'NOW()', FALSE); // the special "NOW()" value has to be set like this blame codeignigter
 		$success = $this->db->insert('cache', $data);
-		if(!$success){ // if insert didnt work delete old record and insert "again"
+		if(!$success){ // if insert did not work delete old record and insert "again"
             $this->delete($type, $namespace, $name);
             $this->db->set('creation_date', 'NOW()', FALSE); // the special "NOW()" value has to be set like this blame codeignigter
 		    $this->db->insert('cache', $data);
@@ -58,8 +58,8 @@ class DBCache{
 		return $this->db->delete('cache',array("namespace"=>$namespace));
 	}
 
-	function getNamspaceSize($namspace) {
-		$this->db->where('namespace', $namspace);
+	function getNamspaceSize($namespace) {
+		$this->db->where('namespace', $namespace);
 		$result = $this->db->get_where('cache');
 		return rows($result);
 	}
