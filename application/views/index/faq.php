@@ -81,11 +81,11 @@
         <li>
         <label>
             <span class="absolute shadow">Absolute</span>
-        </label> The two entities have there episodes linked by the absolute numbers. Season and Episode are calculated individualy.</li>
+        </label> The two entities have there episodes linked by the absolute numbers. Season and Episode are calculated individually.</li>
         <li>
         <label>
             <span class="sxxexx shadow">SxxExx</span>
-        </label> The two entities have there episodes linked by the season-episode numbers. Absolute numbers are calculated individualy.</li>
+        </label> The two entities have there episodes linked by the season-episode numbers. Absolute numbers are calculated individually.</li>
         <li>
         <label>
             <span class="full shadow">Full</span>
