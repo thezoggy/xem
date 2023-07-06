@@ -73,7 +73,7 @@ class Map extends CI_Controller {
         }else{
             // header('X-NotExtCached: this was not served up from the ext cache');
             $this->output->set_header('Cache-Control: max-age=3600, public'); // 1hr cache
-            $this->output->cache(60); // let CI cache results for 1hr
+            $this->output->cache(30); // let CI cache results for 30min
             $this->_fullOut('success', $data, 'full mapping for '.$identifier.' on '.$origin.'.'.$cachedMsg);
         }
 
@@ -155,7 +155,7 @@ class Map extends CI_Controller {
         }
 
         $this->output->set_header('Cache-Control: max-age=3600, public'); // 1hr cache
-        $this->output->cache(60); // let CI cache results for 1hr
+        $this->output->cache(30); // let CI cache results for 30min
         $this->_fullOut('success', $names);
         return false;
     }
@@ -311,7 +311,7 @@ class Map extends CI_Controller {
 		}
 
         $this->output->set_header('Cache-Control: max-age=3600, public'); // 1hr cache
-        $this->output->cache(60); // let CI cache results for 1hr
+        $this->output->cache(30); // let CI cache results for 30min
         $this->_fullOut('success', $out);
         return false;
     }
@@ -357,8 +357,8 @@ class Map extends CI_Controller {
             }
         }
         sort($ids); // sort output so it is easier to find bad data
-        $this->output->set_header('Cache-Control: max-age=10800, public'); // 3hr cache
-        $this->output->cache(180); // let CI cache results for 3hr
+        $this->output->set_header('Cache-Control: max-age=3600, public'); // 1hr cache
+        $this->output->cache(30); // let CI cache results for 30min
         $this->_fullOut('success', $ids, 'These shows have some kind of mapping');
     }
     /*
