@@ -381,7 +381,7 @@ class Xem extends SuperController {
                 return true;
             }else{
                 log_message('debug', 'Deleted show '.$id);
-                $this->oh->dbcache->clear_all_cache(); // purge external cache
+                $this->oh->dbcache->clear_stale_endpoint_cache(); // purge external file cache selectively
                 redirect('xem/show/'.$id);
                 return true;
             }
@@ -398,7 +398,7 @@ class Xem extends SuperController {
     		$element = new Element($this->oh, $id);
     		$element->status = 1;
     		$element->save();
-            $this->oh->dbcache->clear_all_cache(); // purge external cache
+            $this->oh->dbcache->clear_stale_endpoint_cache(); // purge external file cache selectively
     		redirect('xem/show/'.$id);
         }else
             redirect('');
@@ -424,7 +424,7 @@ class Xem extends SuperController {
 		}
         if($id = $this->uri->segment(3)){
     		$this->oh->dbcache->clearNamespace($id);
-            $this->oh->dbcache->clear_all_cache(); // purge external cache
+            $this->oh->dbcache->clear_stale_endpoint_cache(); // purge external file cache selectively
     		redirect('xem/show/'.$id);
         }else
             redirect('');
@@ -450,6 +450,7 @@ class Xem extends SuperController {
                 $element->main_name = $newName;
                 $element->created = date('c');
                 $element->save();
+                $this->oh->dbcache->clear_stale_endpoint_cache(); // purge external file cache selectively
 
                 $emailBody = $this->load->view('email/show_new', array('show' => $element, 'user_nick' => $this->out['user_nick']), true);
                 foreach ($this->simpleloginsecure->getUserBasedOn(4, 'email_new_show') as $cur_user) {
