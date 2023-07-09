@@ -94,7 +94,7 @@ class DBCache{
     }// clear_all_cache
 
     /**
-     * Clears larger cache files from the cache directory for specific scenarios
+     * Clears larger cache files from the cache directory for specific scenarios + invalidate cache table
      */
     public function clear_stale_endpoint_cache() {
         $CI =& get_instance();
@@ -111,14 +111,18 @@ class DBCache{
 
         while (($file = readdir($handle)) !== FALSE) {
             // remove 90kb+ local cache files
-            if ($file != '.htaccess' && $file != 'index.html' && $file != '.' && $file != '..' && filesize($file) > (90000 * 10)) {
+            if ($file != '.htaccess' && $file != 'index.html' && $file != '.' && $file != '..' && filesize($cache_path.'/'.$file) > (90000 * 10)) {
                 @unlink($cache_path.'/'.$file);
             }
         }
 
         closedir($handle);
         log_message('info', "Cache cleared.");
-        // TODO: set cache table date same to invalidate it more aggressively 
+        // invalidate cache in db by setting date to now
+        $this->db->set('best_before', 'NOW()', FALSE);
+        $this->db->update('cache');
+        log_message('info', "DB Cache expired.");
+
     }// clear_stale_endpoint_cache
 
 }
