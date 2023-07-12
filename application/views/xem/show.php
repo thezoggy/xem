@@ -42,12 +42,15 @@
                     <?if(!$fullelement->isDraft):?>
                         <li class="divider"></li>
                         <li>
-                            <li><?=anchor("xem/clearCache/".$fullelement->id,"<i class='icon-remove-sign'></i> Clear Cache (" . $fullelement->cacheSize . ")" )?></li>
+                            <li><?=anchor("xem/clearCache/".$fullelement->id,"<i class='icon-remove-sign'></i> Clear Show Cache (" . $fullelement->cacheSize . ")" )?></li>
                         </li>
                     <?endif?>
                 <?endif?>
 
                 <?if(grantAccess(4)):?>
+                    <li>
+                        <li><?=anchor("xem/pruneCache/".$fullelement->id,"<i class='icon-trash'></i> Prune Cache (global)" )?></li>
+                    </li>
                     <?if($fullelement->status > 0):?>
                         <?if(!$fullelement->isDraft):?>
                             <li class="divider"></li>
