@@ -381,7 +381,6 @@ class Xem extends SuperController {
                 return true;
             }else{
                 log_message('debug', 'Deleted show '.$id);
-                $this->oh->dbcache->clear_stale_endpoint_cache(); // purge external file cache selectively
                 redirect('xem/show/'.$id);
                 return true;
             }
