@@ -28,13 +28,8 @@ made at http://patorjk.com/software/taag/ with font Georgia11
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
         <title><?=$title?> | Xem</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <!--[if lt IE 9]>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
-        <![endif]-->
-
 <!--
         <link rel="apple-touch-icon-precomposed" sizes="144x144" href="./images/apple-touch-icon-144x144-precomposed.png">
         <link rel="apple-touch-icon-precomposed" sizes="114x114" href="./images/apple-touch-icon-114x114-precomposed.png">
@@ -50,13 +45,12 @@ made at http://patorjk.com/software/taag/ with font Georgia11
         <? echo link_tag('css/main.css', 'stylesheet', 'text/css'); ?>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-        <script src="<?php echo base_url();?>js/html5boilerplate.consolewrapper.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
         <script src="<?php echo base_url();?>js/jquery.dataset.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jeditable.js/2.0.11/jquery.jeditable.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/jquery.qtip.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.8/raphael.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.3.0/raphael.min.js"></script>
 
         <!-- own stuff -->
         <script src="<?php echo base_url();?>js/main.js"></script>
@@ -64,7 +58,7 @@ made at http://patorjk.com/software/taag/ with font Georgia11
 
     </head>
 <body class="<?if(isset($fullelement)){if($fullelement->isDraft) echo 'draft';} ?>">
-    <!--[if lte IE 9]>
+    <!--[if IE]>
         <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
     <![endif]-->
 <div id="page">
