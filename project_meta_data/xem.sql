@@ -93,7 +93,7 @@ CREATE TABLE IF NOT EXISTS `directrules` (
 CREATE TABLE IF NOT EXISTS `elements` (
 `id` int(11) NOT NULL,
   `type` enum('show','movie','episode') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'show',
-  `main_name` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
+  `main_name` varchar(160) COLLATE utf8_unicode_ci NOT NULL,
   `entity_order` varchar(24) COLLATE utf8_unicode_ci NOT NULL,
   `status` int(11) NOT NULL DEFAULT '1',
   `parent` int(11) NOT NULL DEFAULT '0',
@@ -189,7 +189,7 @@ CREATE TABLE IF NOT EXISTS `names` (
 `id` int(11) NOT NULL,
   `element_id` int(11) NOT NULL,
   `season` int(11) NOT NULL DEFAULT '-1' COMMENT '-1 = for all seasons',
-  `name` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
+  `name` varchar(160) COLLATE utf8_unicode_ci NOT NULL,
   `language` varchar(2) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'en'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 

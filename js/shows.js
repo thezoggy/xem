@@ -1361,7 +1361,7 @@ function showInit() {
             cssclass: 'form-inline mainNameInlineEdit',
             style: 'display: inline',
             type: 'text',
-            maxlength: 128, // match db limit
+            maxlength: 160, // match db limit
             inputcssclass: 'input-xlarge',
             tooltip: "Double click to edit",
             // onblur: function() { return true; },
@@ -1394,7 +1394,7 @@ function showInit() {
             inputcssclass: 'input-xlarge',
             height: '18',
             width: 'none',
-            maxlength: 128, // match db limit
+            maxlength: 160, // match db limit
             // onblur: function() { return true; }
         });
 
