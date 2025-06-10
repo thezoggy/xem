@@ -248,7 +248,8 @@ class Api extends CI_Controller {
 			$this->_fullOut('failure',array(),'no search term');
 			return false;
 		}
-		$term = $_POST['term'];
+		$term = $this->security->xss_clean($_POST['term']);
+		$term = $this->db->escape_like_str($term);
 		// like
 		$out = array();
 
